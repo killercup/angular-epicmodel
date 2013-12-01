@@ -2,6 +2,7 @@
   "name": "angular-epicmodel",
   "version": "0.1.0",
   "description": "A model/collection service for Angular.js",
+  "homepage": "https://github.com/killercup/angular-epicmodel",
   "scripts": {
     "docs": "groc"
   },
@@ -10,8 +11,23 @@
     "storage",
     "frontend"
   ],
-  "author": "Pascal Hertleif",
-  "license": "MIT",
+  "author": {
+    "name": "Pascal Hertleif",
+    "url": "https://github.com/killercup"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/killercup/angular-epicmodel/blob/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/killercup/angular-epicmodel"
+  },
+  "bugs": {
+    "url": "https://github.com/killercup/angular-epicmodel/issues"
+  },
   "dependecies": {},
   "devDependencies": {
     "groc": "killercup/groc#caa2f2062e6f29a1826e3560a6f16f1ca3bd2118"

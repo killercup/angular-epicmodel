@@ -1,0 +1,24 @@
+{
+  "name": "angular-epicmodel",
+  "version": "0.1.0",
+  "homepage": "https://github.com/killercup/angular-epicmodel",
+  "authors": [
+    "Pascal Hertleif <killercup@gmail.com>"
+  ],
+  "description": "A model/collection service for Angular.js",
+  "main": "src/model.coffee",
+  "keywords": [
+    "angular.js",
+    "storage",
+    "model"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
