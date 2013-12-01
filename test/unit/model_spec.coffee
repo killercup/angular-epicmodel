@@ -51,11 +51,19 @@ describe "EpicModel", ->
         [200, message, {}]
 
       $httpBackend.whenPOST(messageDetailUrl).respond (method, url, data) ->
-        id = messageDetailUrl.exec(url)[1]
+        id = +messageDetailUrl.exec(url)[1]
         log "POST /messages/#{id}"
         message = _.findWhere messages, id: id
         message = data
         [200, message, {}]
+
+      $httpBackend.whenDELETE(messageDetailUrl).respond (method, url, data) ->
+        id = +messageDetailUrl.exec(url)[1]
+        log "DELETE /messages/#{id}"
+        message = _.findWhere messages, id: id
+        recover = _.cloneDeep(message)
+        delete messages[messages.indexOf(message)]
+        [200, recover, {}]
 
     # ### Initialize new Collection each time
     Messages = null
@@ -137,6 +145,34 @@ describe "EpicModel", ->
       .then null, err
 
       tick()
+
+    # ### DELETE /messages/2
+    it 'should delete an entry', (done) ->
+      query = id: 2
+      Messages.destroy(query)
+      .then ->
+        messages = Messages.where query
+        expect(messages).to.be.an('array')
+        expect(messages.length).to.eql 0
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    # ### Query cached data
+    it 'should query cached data', (done) ->
+      Messages.all().$promise
+      .then ->
+        messages = Messages.where subject: 'Hello World'
+        expect(messages).to.be.an('array')
+        expect(messages.length).to.eql 1
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
 
   # ## Singleton Objects
   describe "Singleton Resource", ->
