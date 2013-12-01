@@ -6,7 +6,10 @@
     "src/**/*.js",
     "src/**/*.coffee",
     "src/**/*.scss",
-    "src/**/*.md"
+    "src/**/*.md",
+
+    "test/**/*.coffee",
+    "test/**/*.md"
   ],
   "except": [],
   "index": "README.md",
