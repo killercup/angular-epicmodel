@@ -8,6 +8,10 @@ Inspired by [$resource](http://docs.angularjs.org/api/ngResource.$resource), I w
 
 For now, just make sure the `src/model.coffee` is somewhere in your build process so you can require `EpicModel` in your modules.
 
+### Dependencies
+
+- Underscore/Lodash
+
 ## Usage
 
 You should read the documentation for `src/model.coffee`.
