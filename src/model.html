@@ -269,7 +269,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 
         <span class="keyword">return</span> local</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mixin-extras">Mixin Extras</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">      _.each extras, <span class="function"><span class="params">(val, key)</span> -&gt;</span>
         <span class="keyword">if</span> _.isFunction(val)
-          <span class="built_in">exports</span>[key] = val.bind(config)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NYI: {method: &#39;GET&#39;, url: &#39;/extra&#39;}
+          <span class="built_in">exports</span>[key] = _.bind(val, config)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>NYI: {method: &#39;GET&#39;, url: &#39;/extra&#39;}
 else if _.isObject(val) then ...</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr></div></div><div class="code"><div class="wrapper">      <span class="built_in">exports</span>
 
     <span class="keyword">return</span> <span class="attribute">new</span>: constructor

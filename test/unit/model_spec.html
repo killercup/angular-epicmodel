@@ -7,8 +7,9 @@ describe <span class="string">"EpicModel"</span>,<span class="function"> -&gt;</
 
   beforeEach <span class="built_in">module</span>(<span class="string">'EpicModel'</span>)
   beforeEach inject <span class="function"><span class="params">($rootScope, $httpBackend, _$q_)</span> -&gt;</span>
-    $q = _$q_
-    <span class="function"><span class="title">tick</span> = -&gt;</span>
+    $q = _$q_</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method</span></p>
+<p>Trigger digest cycle to make Angular process <code>$http</code> and promises.
+Also flushes <code>$httpBackend</code> to prevent disaster.</p></div></div><div class="code"><div class="wrapper">    <span class="function"><span class="title">tick</span> = -&gt;</span>
       $rootScope.$digest()
       $httpBackend.flush()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="arrays">Arrays</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  describe <span class="string">"List Resource"</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-messages-">Mock Server on <code>/messages</code></h3></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span></div></div></div><div class="segment"><div class="code folded"><div class="wrapper marker"><span class="c1">      #  dummy values</span></div><div class="wrapper">      <span class="comment">#  dummy values</span>
       id = <span class="number">0</span>
@@ -42,11 +43,19 @@ describe <span class="string">"EpicModel"</span>,<span class="function"> -&gt;</
         [<span class="number">200</span>, message, {}]
 
       $httpBackend.whenPOST<span class="function"><span class="params">(messageDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        id = messageDetailUrl.exec(url)[<span class="number">1</span>]
+        id = +messageDetailUrl.exec(url)[<span class="number">1</span>]
         log <span class="string">"POST /messages/<span class="subst">#{id}</span>"</span>
         message = _.findWhere messages, <span class="attribute">id</span>: id
         message = data
-        [<span class="number">200</span>, message, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    Messages = <span class="literal">null</span>
+        [<span class="number">200</span>, message, {}]
+
+      $httpBackend.whenDELETE<span class="function"><span class="params">(messageDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        id = +messageDetailUrl.exec(url)[<span class="number">1</span>]
+        log <span class="string">"DELETE /messages/<span class="subst">#{id}</span>"</span>
+        message = _.findWhere messages, <span class="attribute">id</span>: id
+        recover = _.cloneDeep(message)
+        <span class="keyword">delete</span> messages[messages.indexOf(message)]
+        [<span class="number">200</span>, recover, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    Messages = <span class="literal">null</span>
     beforeEach inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
       Messages = Collection.<span class="keyword">new</span> <span class="string">"Messages"</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-messages">GET /messages</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="string">"should fetch an array of objects"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
       messages = Messages.all()
@@ -109,6 +118,27 @@ describe <span class="string">"EpicModel"</span>,<span class="function"> -&gt;</
         saved_message.<span class="keyword">then</span> success, err
       .<span class="keyword">then</span> <span class="literal">null</span>, err
 
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="delete-messages2">DELETE /messages/2</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="string">'should delete an entry'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      query = <span class="attribute">id</span>: <span class="number">2</span>
+      Messages.destroy(query)
+      .<span class="keyword">then</span><span class="function"> -&gt;</span>
+        messages = Messages.where query
+        expect(messages).to.be.an(<span class="string">'array'</span>)
+        expect(messages.length).to.eql <span class="number">0</span>
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="query-cached-data">Query cached data</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="string">'should query cached data'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Messages.all().$promise
+      .<span class="keyword">then</span><span class="function"> -&gt;</span>
+        messages = Messages.where <span class="attribute">subject</span>: <span class="string">'Hello World'</span>
+        expect(messages).to.be.an(<span class="string">'array'</span>)
+        expect(messages.length).to.eql <span class="number">1</span>
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
       tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="singleton-objects">Singleton Objects</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  describe <span class="string">"Singleton Resource"</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-me-">Mock Server on <code>/me</code></h3></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
       _data =
         <span class="attribute">name</span>: <span class="string">"Pascal"</span>
@@ -155,4 +185,16 @@ describe <span class="string">"EpicModel"</span>,<span class="function"> -&gt;</
       .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
         done <span class="keyword">new</span> Error JSON.stringify err
 
-      tick()</div></div></div></div></body></html>
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="extras">Extras</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  describe <span class="string">"Additional Methods"</span>,<span class="function"> -&gt;</span>
+    it <span class="string">'should be available as functions'</span>, inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
+      Specials = Collection.<span class="keyword">new</span> <span class="string">"Specials"</span>, {},
+        <span class="attribute">calculateStuff</span>: <span class="function"><span class="params">(data)</span> -&gt;</span>
+          <span class="keyword">if</span> _.isArray(data)
+            _.reduce data, <span class="function"><span class="params">((memo, val) -&gt; memo + +val.count)</span>, 0
+          <span class="title">else</span> 42
+
+      <span class="title">sum</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> [{<span class="title">count</span>: 3}, {<span class="title">count</span>: 2}]
+      <span class="title">expect</span><span class="params">(sum)</span>.<span class="title">to</span>.<span class="title">eql</span> 5
+      <span class="title">num</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> "<span class="title">hi</span>"
+      <span class="title">expect</span><span class="params">(num)</span>.<span class="title">to</span>.<span class="title">eql</span> 42
+</span></div></div></div></div></body></html>

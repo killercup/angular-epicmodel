@@ -456,6 +456,22 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "slug": "post-messages1"
                       },
                       "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "DELETE /messages/2",
+                        "slug": "delete-messages2"
+                      },
+                      "depth": 3
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 3,
+                        "title": "Query cached data",
+                        "slug": "query-cached-data"
+                      },
+                      "depth": 3
                     }
                   ]
                 }, {
@@ -477,6 +493,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "depth": 3
                     }
                   ]
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Extras",
+                    "slug": "extras"
+                  },
+                  "depth": 2
                 }
               ]
             }
