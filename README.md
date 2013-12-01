@@ -4,6 +4,8 @@ A model/collection service for Angular.js
 
 Inspired by [$resource](http://docs.angularjs.org/api/ngResource.$resource), I wanted to create a service that can manage the data retrieved from an API and always return the same objects, so Angular will automatically update all your views.
 
+[![Build Status](https://travis-ci.org/killercup/angular-epicmodel.png?branch=master)](https://travis-ci.org/killercup/angular-epicmodel)
+
 ## Install
 
 For now, just make sure the `src/model.coffee` is somewhere in your build process so you can require `EpicModel` in your modules.
