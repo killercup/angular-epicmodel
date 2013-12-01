@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/README.md">README.md</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="epicmodel">EpicModel</h1>
+<p>A model/collection service for Angular.js</p>
+<p>Inspired by <a href="http://docs.angularjs.org/api/ngResource.$resource">$resource</a>, I wanted to create a service that can manage the data retrieved from an API and always return the same objects, so Angular will automatically update all your views.</p>
+<h2 id="install">Install</h2>
+<p>For now, just make sure the <code>src/model.coffee</code> is somewhere in your build process so you can require <code>EpicModel</code> in your modules.</p>
+<h2 id="usage">Usage</h2>
+<p>You should read the documentation for <code>src/model.coffee</code>.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>[x] Retrieve single object resource (e.g. <code>/users/me</code>)</li>
+<li>[x] Retrieve list resources and manage them in an array structure</li>
+<li>[x] Update list resources after retrieving matching single resource</li>
+<li><p>[ ] Add custom sub-resources (e.g. <code>/users/$id/follow</code> as <code>User.follow(id)</code>)</p>
+</li>
+<li><p>[ ] Transform requests</p>
+</li>
+<li>[x] Transform response</li>
+<li><p>[ ] Customizable URL patterns (always uses <code>$url/$id</code> for now)</p>
+</li>
+<li><p>[x] Persistent storage wrapper (save to storage, retrieve when initializing)</p>
+</li>
+<li>[x] Implemented <code>localStorage</code> wrapper</li>
+</ul></div></div></div></div></body></html>
