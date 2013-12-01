@@ -176,7 +176,7 @@ angular.module('EpicModel', [
         Data.replace = (data) ->
           _data.data = _.extend(_data.data, data)
           store.setItem("#{name}.data", _data.data)
-          return _data
+          return _data.data
 
       else # is Model[]
         _data =
@@ -199,7 +199,7 @@ angular.module('EpicModel', [
         #
         # @param {Object} data New data
         # @param {Object} criteria Used to find entry
-        # @return {Object} The complete data representation
+        # @return {Object} The updated entry
         ###
         Data.updateEntry = (data, criteria) ->
           hit = _.findWhere(_data.all, criteria)
@@ -207,11 +207,12 @@ angular.module('EpicModel', [
             # update existing entry
             hit = _.extend(hit, data)
           else
-            # add existing entry (on top of list)
+            # add new entry (on top of list)
             _data.all.unshift(data)
 
           store.setItem("#{name}.all", _data.all)
-          return _data
+
+          return if hit? then hit else data
 
         ###
         # @method Remove Single Entry from Collection
@@ -288,7 +289,7 @@ angular.module('EpicModel', [
           data = config.transformResponse(data, 'one')
 
           Data.updateEntry data, config.matchingCriteria(data)
-          return data
+          return $q.when(data)
 
       # #### Destroy some Entry
       ###
@@ -321,9 +322,7 @@ angular.module('EpicModel', [
         _url = "#{config.baseUrl}#{config.url}"
         _url += "/#{entry.id}" unless IS_SINGLETON
 
-        console.log 'saving', config.baseUrl, config.url, entry.id
-
-        $http.post(_url, JSON.stringify(entry))
+        return $http.post(_url, JSON.stringify(entry))
         .then ({status, data}) ->
           data = config.transformResponse(data, 'save')
 
