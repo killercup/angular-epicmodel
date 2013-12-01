@@ -244,3 +244,5 @@ describe "EpicModel", ->
 
       sum = Specials.calculateStuff [{count: 3}, {count: 2}]
       expect(sum).to.eql 5
+      num = Specials.calculateStuff "hi"
+      expect(num).to.eql 42

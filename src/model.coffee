@@ -379,7 +379,7 @@ angular.module('EpicModel', [
       # ### Mixin Extras
       _.each extras, (val, key) ->
         if _.isFunction(val)
-          exports[key] = val.bind(config)
+          exports[key] = _.bind(val, config)
         # NYI: {method: 'GET', url: '/extra'}
         # else if _.isObject(val) then ...
 
