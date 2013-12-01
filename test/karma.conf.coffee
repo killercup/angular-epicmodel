@@ -14,10 +14,8 @@ module.exports = (config) ->
       'bower_components/lodash/dist/lodash.js'
       'bower_components/angular/angular.js'
       'bower_components/angular-mocks/angular-mocks.js'
-      'src/**/*.js'
       'src/**/*.coffee'
-      'test/unit/**/*.js'
-      'test/unit/**/*.coffee'
+      'test/**/*.coffee'
     ]
 
     # list of files to exclude
@@ -25,7 +23,7 @@ module.exports = (config) ->
 
     # test results reporter to use
     # possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress']
+    reporters: ['story']
 
     # web server port
     port: 9876
