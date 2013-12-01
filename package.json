@@ -5,7 +5,7 @@
   "homepage": "https://github.com/killercup/angular-epicmodel",
   "scripts": {
     "bower": "bower install",
-    "test": "karma start test/karma.conf.coffee --single-run --browsers PhantomJS",
+    "test": "karma start test/karma.conf.coffee --single-run --browsers PhantomJS --reporters story",
     "testing": "karma start test/karma.conf.coffee",
     "docs": "groc",
     "publish_docs": "groc --github"
