@@ -1,0 +1,19 @@
+{
+  "name": "angular-epicmodel",
+  "version": "0.1.0",
+  "description": "A model/collection service for Angular.js",
+  "scripts": {
+    "docs": "groc"
+  },
+  "keywords": [
+    "angular.js",
+    "storage",
+    "frontend"
+  ],
+  "author": "Pascal Hertleif",
+  "license": "MIT",
+  "dependecies": {},
+  "devDependencies": {
+    "groc": "killercup/groc#caa2f2062e6f29a1826e3560a6f16f1ca3bd2118"
+  }
+}
