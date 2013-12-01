@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="en"><head><title>test/unit/model_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/model_spec"><meta name="groc-project-path" content="test/unit/model_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/model_spec.coffee">test/unit/model_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">DEBUG = <span class="literal">false</span>
+log = <span class="keyword">if</span> DEBUG <span class="keyword">then</span> console.log <span class="keyword">else</span><span class="function"> -&gt;</span>
+
+describe <span class="string">"EpicModel"</span>,<span class="function"> -&gt;</span>
+  $q = <span class="literal">null</span>
+  <span class="function"><span class="title">tick</span> = -&gt;</span>
+
+  beforeEach <span class="built_in">module</span>(<span class="string">'EpicModel'</span>)
+  beforeEach inject <span class="function"><span class="params">($rootScope, $httpBackend, _$q_)</span> -&gt;</span>
+    $q = _$q_
+    <span class="function"><span class="title">tick</span> = -&gt;</span>
+      $rootScope.$digest()
+      $httpBackend.flush()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="arrays">Arrays</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  describe <span class="string">"List Resource"</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-messages-">Mock Server on <code>/messages</code></h3></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span></div></div></div><div class="segment"><div class="code folded"><div class="wrapper marker"><span class="c1">      #  dummy values</span></div><div class="wrapper">      <span class="comment">#  dummy values</span>
+      id = <span class="number">0</span>
+      messages = [
+        {
+          <span class="attribute">id</span>: ++id
+          <span class="attribute">subject</span>: <span class="string">'Hello World'</span>
+          <span class="attribute">body</span>: <span class="string">'Lorem Ipsum'</span>
+        }
+        {
+          <span class="attribute">id</span>: ++id
+          <span class="attribute">subject</span>: <span class="string">'Hi There'</span>
+          <span class="attribute">body</span>: <span class="string">'Dolor sit amet'</span>
+        }
+      ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/messages/:id</code></p></div></div><div class="code"><div class="wrapper">      messageDetailUrl = <span class="regexp">/^\/messages\/(\d+)$/</span>
+
+      $httpBackend.whenGET(<span class="string">'/messages'</span>).respond<span class="function"> -&gt;</span>
+        log <span class="string">"GET /messages"</span>
+        [<span class="number">200</span>, messages, {}]
+
+      $httpBackend.whenGET<span class="function"><span class="params">(messageDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers)</span> -&gt;</span>
+        id = +messageDetailUrl.exec(url)[<span class="number">1</span>]
+        log <span class="string">"GET /messages/<span class="subst">#{id}</span>"</span>
+        [<span class="number">200</span>, _.findWhere(messages, <span class="attribute">id</span>: id), {}]
+
+      $httpBackend.whenPOST<span class="function"><span class="params">(<span class="string">'/messages'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"POST /messages"</span>
+        message = angular.fromJson(data)
+        message.id = ++id
+        messages.push message
+        [<span class="number">200</span>, message, {}]
+
+      $httpBackend.whenPOST<span class="function"><span class="params">(messageDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        id = messageDetailUrl.exec(url)[<span class="number">1</span>]
+        log <span class="string">"POST /messages/<span class="subst">#{id}</span>"</span>
+        message = _.findWhere messages, <span class="attribute">id</span>: id
+        message = data
+        [<span class="number">200</span>, message, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    Messages = <span class="literal">null</span>
+    beforeEach inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
+      Messages = Collection.<span class="keyword">new</span> <span class="string">"Messages"</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-messages">GET /messages</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="string">"should fetch an array of objects"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      messages = Messages.all()
+
+      messages.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+        expect(messages.all.length).to.eql(<span class="number">2</span>)
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-messages2">GET /messages/2</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="string">'should fetch single item'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      query = <span class="attribute">id</span>: <span class="number">2</span>
+
+      messages = Messages.all()
+      message = Messages.get(query)
+
+      $q.all([messages.$promise, message.$promise]).<span class="keyword">then</span><span class="function"> -&gt;</span>
+        expect(messages.all).to.exist
+
+        expect(message.data).to.exist
+
+        expect(_.findWhere(messages.all, query)).to.eql(message.data)
+
+        expect(message.data.subject).to.eql(<span class="string">'Hi There'</span>)
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="post-messages">POST /messages</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    xit <span class="string">'should create a new entry'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      new_message =
+        <span class="attribute">subject</span>: <span class="string">"Fresh Start"</span>
+        <span class="attribute">body</span>: <span class="string">"Brand new message"</span>
+
+      message = Messages.create(new_message)
+      message.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+        expect(message.data.id).toBeDefined()
+        done()
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="post-messages1">POST /messages/1</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="string">'should update an entry'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      query = <span class="attribute">id</span>: <span class="number">1</span>
+      message = Messages.get(query)
+
+      <span class="function"><span class="title">err</span> = <span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      message.$promise.<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span>
+        expect(message.data.subject).to.exist
+
+        old_subject = message.data.subject
+        new_subject = <span class="string">'Shiny Message'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Clone message and edit the clone so it is a new reference</p></div></div><div class="code"><div class="wrapper">        updated_message = _.cloneDeep(message.data)
+        updated_message.subject = new_subject
+
+        saved_message = Messages.save(updated_message)
+
+        <span class="function"><span class="title">success</span> = <span class="params">(data)</span> -&gt;</span>
+          expect(data.subject).to.eql new_subject
+          expect(data.subject).to.eql message.data.subject
+          expect(data.body).to.eql message.data.body
+          done(<span class="literal">null</span>)
+
+        saved_message.<span class="keyword">then</span> success, err
+      .<span class="keyword">then</span> <span class="literal">null</span>, err
+
+      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="singleton-objects">Singleton Objects</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  describe <span class="string">"Singleton Resource"</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-me-">Mock Server on <code>/me</code></h3></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+      _data =
+        <span class="attribute">name</span>: <span class="string">"Pascal"</span>
+        <span class="attribute">awesomeness</span>: <span class="number">42</span>
+
+      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/me'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"GET /me"</span>
+        [<span class="number">200</span>, _data, {}]
+
+      $httpBackend.whenPOST<span class="function"><span class="params">(<span class="string">'/me'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"POST /me"</span>, data
+        _data = _.extend(data, _data)
+        log <span class="string">"new data"</span>, _data
+        [<span class="number">200</span>, _data, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    Me = <span class="literal">null</span>
+    beforeEach inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
+      Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, <span class="attribute">is_singleton</span>: <span class="literal">true</span>
+
+    it <span class="string">'should fetch an object'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      me = Me.all()
+
+      me.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+        expect(me.data).to.be.an(<span class="string">'object'</span>)
+        expect(me.data).to.contain.keys(<span class="string">'name'</span>, <span class="string">'awesomeness'</span>)
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+    it <span class="string">'should update an object'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      oldMe = me = Me.all()
+
+      me.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+        oldMe = _.cloneDeep(me)
+        log <span class="string">"awesomeness"</span>, me.data.awesomeness
+        me.data.awesomeness += <span class="number">1</span>
+        log <span class="string">"awesomeness"</span>, me.data.awesomeness
+        Me.save(me.data)
+      .<span class="keyword">then</span> <span class="function"><span class="params">(newMe)</span> -&gt;</span>
+        expect(newMe.awesomeness).to.be.above oldMe.data.awesomeness
+        expect(newMe.name).to.eql oldMe.data.name
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()</div></div></div></div></body></html>

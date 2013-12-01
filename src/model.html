@@ -127,7 +127,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <p><strong>Returns an Object</strong><br/>(The complete data representation)</p></div></div><div class="code"><div class="wrapper">        Data.<span class="function"><span class="title">replace</span> = <span class="params">(data)</span> -&gt;</span>
           _data.data = _.extend(_data.data, data)
           store.setItem(<span class="string">"<span class="subst">#{name}</span>.data"</span>, _data.data)
-          <span class="keyword">return</span> _data
+          <span class="keyword">return</span> _data.data
 
       <span class="keyword">else</span> <span class="comment"># is Model[]</span>
         _data =
@@ -148,13 +148,14 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <li><p><strong>criteria must be an Object.</strong><br/>(Used to find entry)</p>
 </li>
 </ul>
-<p><strong>Returns an Object</strong><br/>(The complete data representation)</p></div></div><div class="code"><div class="wrapper">        Data.<span class="function"><span class="title">updateEntry</span> = <span class="params">(data, criteria)</span> -&gt;</span>
+<p><strong>Returns an Object</strong><br/>(The updated entry)</p></div></div><div class="code"><div class="wrapper">        Data.<span class="function"><span class="title">updateEntry</span> = <span class="params">(data, criteria)</span> -&gt;</span>
           hit = _.findWhere(_data.all, criteria)
           <span class="keyword">if</span> hit?</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>update existing entry</p></div></div><div class="code"><div class="wrapper">            hit = _.extend(hit, data)
-          <span class="keyword">else</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>add existing entry (on top of list)</p></div></div><div class="code"><div class="wrapper">            _data.all.unshift(data)
+          <span class="keyword">else</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>add new entry (on top of list)</p></div></div><div class="code"><div class="wrapper">            _data.all.unshift(data)
 
           store.setItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>, _data.all)
-          <span class="keyword">return</span> _data</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Remove Single Entry from Collection</span></p>
+
+          <span class="keyword">return</span> <span class="keyword">if</span> hit? <span class="keyword">then</span> hit <span class="keyword">else</span> data</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Remove Single Entry from Collection</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong>criteria must be an Object.</strong><br/>(Used to find entry)</li>
@@ -204,7 +205,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
           data = config.transformResponse(data, <span class="string">'one'</span>)
 
           Data.updateEntry data, config.matchingCriteria(data)
-          <span class="keyword">return</span> data</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h4 id="destroy-some-entry">Destroy some Entry</h4>
+          <span class="keyword">return</span> $q.<span class="keyword">when</span>(data)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h4 id="destroy-some-entry">Destroy some Entry</h4>
 <p>Untested. (Really.)</p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
@@ -229,9 +230,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
         _url = <span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>
         _url += <span class="string">"/<span class="subst">#{entry.id}</span>"</span> <span class="keyword">unless</span> IS_SINGLETON
 
-        console.log <span class="string">'saving'</span>, config.baseUrl, config.url, entry.id
-
-        $http.post(_url, JSON.stringify(entry))
+        <span class="keyword">return</span> $http.post(_url, JSON.stringify(entry))
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="string">'save'</span>)
 
