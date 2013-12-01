@@ -8,6 +8,11 @@ describe "EpicModel", ->
   beforeEach module('EpicModel')
   beforeEach inject ($rootScope, $httpBackend, _$q_) ->
     $q = _$q_
+
+    # @method
+    # @description
+    # Trigger digest cycle to make Angular process `$http` and promises.
+    # Also flushes `$httpBackend` to prevent disaster.
     tick = ->
       $rootScope.$digest()
       $httpBackend.flush()
