@@ -1,3 +1,6 @@
+DEBUG = false
+log = if DEBUG then console.log else ->
+
 describe "EpicModel", ->
   $q = null
   tick = ->
@@ -8,11 +11,10 @@ describe "EpicModel", ->
     tick = ->
       $rootScope.$digest()
       $httpBackend.flush()
-      $rootScope.$digest()
 
   # ## Arrays
   describe "List Resource", ->
-    # ### Mock Server
+    # ### Mock Server on `/messages`
     beforeEach inject ($httpBackend) ->
       # ^ dummy values
       id = 0
@@ -29,20 +31,20 @@ describe "EpicModel", ->
         }
       ]
 
-      # URL schema: /messages/:id
+      # URL schema: `/messages/:id`
       messageDetailUrl = /^\/messages\/(\d+)$/
 
       $httpBackend.whenGET('/messages').respond ->
-        console.log "GET /messages"
+        log "GET /messages"
         [200, messages, {}]
 
       $httpBackend.whenGET(messageDetailUrl).respond (method, url, data, headers) ->
         id = +messageDetailUrl.exec(url)[1]
-        console.log "GET /messages/#{id}"
+        log "GET /messages/#{id}"
         [200, _.findWhere(messages, id: id), {}]
 
       $httpBackend.whenPOST('/messages').respond (method, url, data) ->
-        console.log "POST /messages"
+        log "POST /messages"
         message = angular.fromJson(data)
         message.id = ++id
         messages.push message
@@ -50,7 +52,7 @@ describe "EpicModel", ->
 
       $httpBackend.whenPOST(messageDetailUrl).respond (method, url, data) ->
         id = messageDetailUrl.exec(url)[1]
-        console.log "POST /messages/#{id}"
+        log "POST /messages/#{id}"
         message = _.findWhere messages, id: id
         message = data
         [200, message, {}]
@@ -120,7 +122,7 @@ describe "EpicModel", ->
         new_subject = 'Shiny Message'
 
         # Clone message and edit the clone so it is a new reference
-        updated_message = _.clone(message.data)
+        updated_message = _.cloneDeep(message.data)
         updated_message.subject = new_subject
 
         saved_message = Messages.save(updated_message)
@@ -135,3 +137,58 @@ describe "EpicModel", ->
       .then null, err
 
       tick()
+
+  # ## Singleton Objects
+  describe "Singleton Resource", ->
+    # ### Mock Server on `/me`
+    beforeEach inject ($httpBackend) ->
+      _data =
+        name: "Pascal"
+        awesomeness: 42
+
+      $httpBackend.whenGET('/me').respond (method, url, data) ->
+        log "GET /me"
+        [200, _data, {}]
+
+      $httpBackend.whenPOST('/me').respond (method, url, data) ->
+        log "POST /me", data
+        _data = _.extend(data, _data)
+        log "new data", _data
+        [200, _data, {}]
+
+    # ### Initialize new Collection each time
+    Me = null
+    beforeEach inject (Collection) ->
+      Me = Collection.new "Me", is_singleton: true
+
+    it 'should fetch an object', (done) ->
+      me = Me.all()
+
+      me.$promise.then ->
+        expect(me.data).to.be.an('object')
+        expect(me.data).to.contain.keys('name', 'awesomeness')
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    it 'should update an object', (done) ->
+      oldMe = me = Me.all()
+
+      me.$promise.then ->
+        oldMe = _.cloneDeep(me)
+        log "awesomeness", me.data.awesomeness
+        me.data.awesomeness += 1
+        log "awesomeness", me.data.awesomeness
+        Me.save(me.data)
+      .then (newMe) ->
+        expect(newMe.awesomeness).to.be.above oldMe.data.awesomeness
+        expect(newMe.name).to.eql oldMe.data.name
+
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
