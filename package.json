@@ -4,7 +4,8 @@
   "description": "A model/collection service for Angular.js",
   "homepage": "https://github.com/killercup/angular-epicmodel",
   "scripts": {
-    "docs": "groc"
+    "docs": "groc",
+    "publish_docs": "groc --github"
   },
   "keywords": [
     "angular.js",
