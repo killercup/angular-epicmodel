@@ -4,6 +4,16 @@ A model/collection service for Angular.js
 
 Inspired by [$resource](http://docs.angularjs.org/api/ngResource.$resource), I wanted to create a service that can manage the data retrieved from an API and always return the same objects, so Angular will automatically update all your views.
 
+```coffeescript
+Messages = Collection.new "Messages", url: "/messages"
+
+Messages.all()
+# => {all: Array(), $promise: {then, finally, catch}}
+
+Messages.get(id: 42)
+# => {data: Object(), $promise: {then, finally, catch}}
+```
+
 [![Build Status](https://travis-ci.org/killercup/angular-epicmodel.png?branch=master)](https://travis-ci.org/killercup/angular-epicmodel)
 
 ## Install
@@ -16,7 +26,7 @@ For now, just make sure the `src/model.coffee` is somewhere in your build proces
 
 ## Usage
 
-You should read the documentation for `src/model.coffee`.
+You should read the documentation for `src/model.coffee`. It's quite comprehensive and full of examples.
 
 ## Features
 
