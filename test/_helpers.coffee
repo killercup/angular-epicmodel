@@ -11,13 +11,14 @@ log = if DEBUG then console.log else ->
 $q = null
 tick = ->
 
-addHelpers = inject ($rootScope, $httpBackend, _$q_) ->
-  $q = _$q_
+addHelpers = ->
+  inject ($rootScope, $httpBackend, _$q_) ->
+    $q = _$q_
 
-  # @method
-  # @description
-  # Trigger digest cycle to make Angular process `$http` and promises.
-  # Also flushes `$httpBackend` to prevent disaster.
-  tick = (flush=true) ->
-    $rootScope.$digest()
-    $httpBackend.flush() if flush
+    # @method
+    # @description
+    # Trigger digest cycle to make Angular process `$http` and promises.
+    # Also flushes `$httpBackend` to prevent disaster.
+    tick = (flush=true) ->
+      $rootScope.$digest()
+      $httpBackend.flush() if flush

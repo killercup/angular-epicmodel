@@ -1,6 +1,7 @@
 describe "Extras", ->
-  beforeEach module('EpicModel')
-  beforeEach addHelpers
+  angular.module 'Stuff', ['EpicModel']
+  beforeEach module('Stuff')
+  beforeEach addHelpers()
 
   Collection = null
   beforeEach inject (_Collection_) ->
@@ -20,11 +21,11 @@ describe "Extras", ->
       expect(num).to.eql 42
 
   describe 'as HTTP calls', ->
-    # Mock Server on `/friends`
+    # Mock Server on `/me/friends`
     beforeEach inject ($httpBackend) ->
       _data = [
         {name: "Jim"}
-        {name: "Dude"}
+        {name: "Some Dude"}
       ]
 
       $httpBackend.whenGET('/me/friends').respond (method, url, data) ->

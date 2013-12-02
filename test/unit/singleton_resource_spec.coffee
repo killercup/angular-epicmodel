@@ -1,6 +1,7 @@
 describe "Singleton Resource", ->
-  beforeEach module('EpicModel')
-  beforeEach addHelpers
+  angular.module 'Stuff', ['EpicModel']
+    beforeEach module('Stuff')
+  beforeEach addHelpers()
 
   # ### Mock Server on `/me`
   beforeEach inject ($httpBackend) ->
