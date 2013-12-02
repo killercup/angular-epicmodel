@@ -1,6 +1,7 @@
 describe "List Resource", ->
-  beforeEach module('EpicModel')
-  beforeEach addHelpers
+  angular.module 'Stuff', ['EpicModel']
+  beforeEach module('Stuff')
+  beforeEach addHelpers()
 
   # ### Mock Server on `/messages`
   beforeEach inject ($httpBackend) ->
@@ -92,15 +93,19 @@ describe "List Resource", ->
     tick()
 
   # ### POST /messages
-  xit 'should create a new entry', (done) ->
+  it 'should create a new entry', (done) ->
     new_message =
-      subject: "Fresh Start"
-      body: "Brand new message"
+      subject: subject = "Fresh Start"
+      body: body = "Brand new message"
 
-    message = Messages.create(new_message)
-    message.$promise.then ->
-      expect(message.data.id).toBeDefined()
+    Messages.create(new_message)
+    .then (message) ->
+      expect(message.id).to.exist
+      expect(message.subject).to.eql subject
+      expect(message.body).to.eql body
       done()
+    .then null, (err) ->
+      done new Error JSON.stringify err
     tick()
 
   # ### POST /messages/1

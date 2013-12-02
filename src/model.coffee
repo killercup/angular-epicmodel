@@ -112,6 +112,16 @@ angular.module('EpicModel', [
       # ### Options
       throw new Error "No name given!" unless name?
 
+      ###
+      # @method Config Getter
+      #
+      # @description Retrieve config value from instance
+      # @param {String} key
+      # @return {Any} Config value
+      ###
+      exports.config = (key) ->
+        config[key]
+
       config.url ||= '/' + name.toLowerCase()
       config.baseUrl ||= globalConfig.baseUrl
 
@@ -148,15 +158,15 @@ angular.module('EpicModel', [
       # ```
       ###
       store = do ->
-        exports = {}
+        _store = {}
         impl = config.storage or {}
 
         _.each ['setItem', 'getItem', 'removeItem'], (method) ->
-          exports[method] = if _.isFunction impl[method]
+          _store[method] = if _.isFunction impl[method]
             impl[method]
           else angular.noop
 
-        exports
+        _store
 
       # ### In Memory Data
       ###
@@ -200,6 +210,9 @@ angular.module('EpicModel', [
         ###
         # @method Update Single Entry from Collection
         #
+        # @description This will also add an entry if no existing one matches
+        #   the criteria
+        #
         # @param {Object} data New data
         # @param {Object} criteria Used to find entry
         # @return {Object} The updated entry
@@ -236,46 +249,49 @@ angular.module('EpicModel', [
 
       # ### HTTP Requests and Stuff
 
-      # #### Retrieve List
       ###
-      # Gotta catch 'em all!
+      # @method Retrieve List
+      #
+      # @description Gotta catch 'em all!
       #
       # @return {Object} Promise of HTTP data
       ###
       exports.fetchAll = ->
         $http.get("#{config.baseUrl}#{config.url}")
-        .then ({status, data}) ->
-          unless _.isArray(data)
-            console.warn "#{name} Model", "API Respsonse was", data
-            throw new Error "#{name} Model: Expected array, got #{typeof data}"
+        .then (response) ->
+          unless _.isArray(response.data)
+            console.warn "#{name} Model", "API Respsonse was", response.data
+            throw new Error "#{name} Model: Expected array, got #{typeof response.data}"
 
-          data = config.transformResponse(data, 'array')
+          response.data = config.transformResponse(response.data, 'array')
 
           # replace array items with new data
-          Data.replace(data)
+          Data.replace(response.data)
 
-          return $q.when(arguments[0])
+          return $q.when(response)
 
-      # #### Retrieve Singleton
       ###
+      # @method Retrieve Singleton
+      #
       # @return {Object} Promise of HTTP data
       ###
       exports.fetch = ->
         $http.get("#{config.baseUrl}#{config.url}")
-        .then ({status, data}) ->
-          unless _.isObject(data)
-            console.warn "#{name} Model", "API Respsonse was", data
-            throw new Error "#{name} Model: Expected object, got #{typeof data}"
+        .then (response) ->
+          unless _.isObject(response.data)
+            console.warn "#{name} Model", "API Respsonse was", response.data
+            throw new Error "#{name} Model: Expected object, got #{typeof response.data}"
 
-          data = config.transformResponse(data, 'one')
+          response.data = config.transformResponse(response.data, 'one')
 
-          Data.replace(data)
+          Data.replace(response.data)
 
-          return $q.when(arguments[0])
+          return $q.when(response)
 
-      # #### Retrieve One
       ###
-      # This also updates the internal data collection, of course.
+      # @method Retrieve One
+      #
+      # @description This also updates the internal data collection, of course.
       #
       # @param {String} id The ID of the element to fetch.
       # @return {Object} Promise of HTTP data
@@ -284,19 +300,18 @@ angular.module('EpicModel', [
       ###
       exports.fetchOne = (query) ->
         $http.get("#{config.baseUrl}#{config.url}/#{query.id}")
-        .then ({status, data}) ->
-          unless _.isObject(data)
-            console.warn "#{name} Model", "API Respsonse was", data
-            throw new Error "Expected object, got #{typeof data}"
+        .then (res) ->
+          unless _.isObject(res.data)
+            console.warn "#{name} Model", "API Respsonse was", res.data
+            throw new Error "Expected object, got #{typeof res.data}"
 
-          data = config.transformResponse(data, 'one')
+          res.data = config.transformResponse(res.data, 'one')
 
-          Data.updateEntry data, config.matchingCriteria(data)
-          return $q.when(data)
+          Data.updateEntry res.data, config.matchingCriteria(res.data)
+          return $q.when(res.data)
 
-      # #### Destroy some Entry
       ###
-      # Untested. (Really.)
+      # @method Destroy some Entry
       #
       # @param {String} id The ID of the element to fetch.
       # @return {Promise} Whether destruction was successful
@@ -312,9 +327,8 @@ angular.module('EpicModel', [
           data = config.transformResponse(data, 'destroy')
           return $q.when Data.removeEntry data, config.matchingCriteria(data)
 
-      # #### Save an Entry
       ###
-      # Untested. (Really.)
+      # @method Save an Entry
       #
       # @param {Object} entry The entry to be saved.
       # @return {Promise} Resolved with new entry or rejected with HTTP error
@@ -337,12 +351,30 @@ angular.module('EpicModel', [
           else
             return $q.when Data.updateEntry data, config.matchingCriteria(data)
 
+      ###
+      # @method Create an Entry
+      #
+      # @description Similar to save, but has no ID initially.
+      #
+      # @param {Object} entry Entry data
+      # @return {Promise} Resolves with new entry data or rejects with HTTP error
+      # @throws {Error} When Collection is singleton
+      ###
+      exports.create = (entry) ->
+        if IS_SINGLETON
+          throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
+
+        return $http.post("#{config.baseUrl}#{config.url}", entry)
+        .then ({status, data}) ->
+          return $q.when Data.updateEntry data, config.matchingCriteria(data)
+
       # - - -
 
       # ### Generic Getters
 
-      # #### Get Collection
       ###
+      # @method Get Collection
+      #
       # @return {Object} With keys `all` and `$promise`
       ###
       exports.all = ->
@@ -357,16 +389,18 @@ angular.module('EpicModel', [
 
         return local
 
-      # #### Query Collection
       ###
+      # @method Query Collection
+      #
       # @param {Object} query Query the collection á la `{name: "Jim"}`
       # @return {Array} Objects matching the query.
       ###
       exports.where = (query) ->
         _.where(_data.all, query)
 
-      # #### Get Single Collection Entry
       ###
+      # @method Get Single Collection Entry
+      #
       # @param {Object} query The query that will be used in `matchingCriteria`
       # @return {Object} With keys `data` and `$promise`
       # @throws {Error} When Collection is singleton
