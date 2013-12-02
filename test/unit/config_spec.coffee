@@ -3,11 +3,17 @@ describe "Config", ->
   beforeEach module('Stuff')
   beforeEach addHelpers()
 
-  describe "response transformation", ->
-    Collection = null
-    beforeEach inject (_Collection_) ->
-      Collection = _Collection_
+  Collection = null
+  beforeEach inject (_Collection_) ->
+    Collection = _Collection_
 
+  it "can set specific URL", ->
+    customUrl = "/api/v2/stuff"
+    Things = Collection.new "Things", url: customUrl
+
+    expect(Things.config("url")).to.eql customUrl
+
+  describe "response transformation", ->
     jim = {name: "Jim"}
     arch_enemy = {name: "Arch Enemy"}
 

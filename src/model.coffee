@@ -48,11 +48,13 @@ angular.module('EpicModel', [
   globalConfig =
     baseUrl: ''
 
-  # ### Set Base URL
+  ###
+  # @method Set Base URL
   #
   # @param {String} url The new base URL
   # @return {String} The new base URL
   # @throws {Error} When no URL is given
+  ###
   @setBaseUrl = (url='') ->
     throw new Error "No URL given." unless url?
     globalConfig.baseUrl = url

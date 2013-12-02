@@ -54,9 +54,10 @@ describe "Singleton Resource", ->
     tick()
 
   it 'should not be able to retrieve a detail resource', ->
-    expect(->
-      Me.get id: 1
-    ).to.throw(Error)
+    expect(-> Me.get id: 1).to.throw(Error)
 
   it 'should not be able to destroy resource', ->
     expect(Me.destroy).to.throw(Error)
+
+  it 'should not be able to create entry', ->
+    expect(Me.create).to.throw(Error)
