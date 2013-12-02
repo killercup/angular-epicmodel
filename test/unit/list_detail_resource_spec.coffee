@@ -3,6 +3,10 @@ describe "List Resource", ->
   beforeEach module('Stuff')
   beforeEach addHelpers()
 
+  # static values, DRY
+  subject2 = 'Hi There'
+  messagesCount = 0
+
   # ### Mock Server on `/messages`
   beforeEach inject ($httpBackend) ->
     # ^ dummy values
@@ -15,10 +19,11 @@ describe "List Resource", ->
       }
       {
         id: ++id
-        subject: 'Hi There'
+        subject: subject2
         body: 'Dolor sit amet'
       }
     ]
+    messagesCount = messages.length
 
     # URL schema: `/messages/:id`
     messageDetailUrl = /^\/messages\/(\d+)$/
@@ -64,7 +69,7 @@ describe "List Resource", ->
     messages = Messages.all()
 
     messages.$promise.then ->
-      expect(messages.all.length).to.eql(2)
+      expect(messages.all.length).to.eql messagesCount
       done(null)
     .then null, (err) ->
       done new Error JSON.stringify err
@@ -85,10 +90,20 @@ describe "List Resource", ->
 
       expect(_.findWhere(messages.all, query)).to.eql(message.data)
 
-      expect(message.data.subject).to.eql('Hi There')
+      expect(message.data.subject).to.eql subject2
       done(null)
     .then null, (err) ->
       done new Error JSON.stringify err
+
+    tick()
+
+  it 'should not fetch a single item without an ID', (done) ->
+    Messages.get({}).$promise
+    .then (data) ->
+      done new Error "Incorrect message was saved."
+    .then null, (err) ->
+      expect(err).to.exist
+      done(null)
 
     tick()
 
@@ -110,36 +125,51 @@ describe "List Resource", ->
 
   # ### POST /messages/1
   it 'should update an entry', (done) ->
-    query = id: 1
-    message = Messages.get(query)
+    query = {}
+    messages = []
+    message = {}
 
-    message.$promise.then (data) ->
+    new_subject = 'Shiny Message'
+
+    # Fetch all messages for reference
+    messages = Messages.all()
+    messages.$promise.then ->
+      # Load random message
+      query = id: _.sample(messages.all).id
+      message = Messages.get(query)
+      message.$promise
+    .then ->
       expect(message.data.subject).to.exist
-
-      old_subject = message.data.subject
-      new_subject = 'Shiny Message'
 
       # Clone message and edit the clone so it is a new reference
       updated_message = _.cloneDeep(message.data)
       updated_message.subject = new_subject
 
       # Save correctly
-      saved_message = Messages.save(updated_message)
+      Messages.save(updated_message)
+    .then (data) ->
+      # message object updated
+      expect(data.subject).to.eql new_subject
+      expect(data.subject).to.eql message.data.subject
+      expect(data.body).to.eql message.data.body
 
-      saved_message.then (data) ->
-        expect(data.subject).to.eql new_subject
-        expect(data.subject).to.eql message.data.subject
-        expect(data.body).to.eql message.data.body
-        $q.when data
+      # messages list item updated
+      expect(_.findWhere(messages.all, query)).to.deep.equal(data)
+
+      $q.when data
     .then ->
-      # Save invalid data
-      Messages.save({}).then (data) ->
-        done new Error "Incorrect message was saved."
-      .then null, (err) ->
-        expect(err).to.exist
-        done(null)
+      done(null)
     .then null, (err) ->
       done new Error JSON.stringify err
+
+    tick()
+
+  it "should not update an entry without an ID", (done) ->
+    Messages.save({}).then (data) ->
+      done new Error "Incorrect message was saved."
+    .then null, (err) ->
+      expect(err).to.exist
+      done(null)
 
     tick()
 
@@ -154,6 +184,15 @@ describe "List Resource", ->
       done(null)
     .then null, (err) ->
       done new Error JSON.stringify err
+
+    tick()
+
+  it 'should not delete an entry without an ID', (done) ->
+    Messages.destroy({}).then (data) ->
+      done new Error "Incorrect message was saved."
+    .then null, (err) ->
+      expect(err).to.exist
+      done(null)
 
     tick()
 

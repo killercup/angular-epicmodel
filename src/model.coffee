@@ -301,6 +301,9 @@ angular.module('EpicModel', [
       # @todo Customize ID query
       ###
       exports.fetchOne = (query) ->
+        unless query?.id?
+          return $q.reject "#{name} Model: Need ID to retrieve entry."
+
         $http.get("#{config.baseUrl}#{config.url}/#{query.id}")
         .then (res) ->
           unless _.isObject(res.data)
@@ -317,13 +320,17 @@ angular.module('EpicModel', [
       #
       # @param {String} id The ID of the element to fetch.
       # @return {Promise} Whether destruction was successful
-      # @throws {Error} When Collection is singleton
+      # @throws {Error} When Collection is singleton or no ID is given
       #
       # @todo Customize ID query
       ###
       exports.destroy = (query) ->
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
+
+        unless query?.id?
+          return $q.reject "#{name} Model: Need ID to destroy entry."
+
         $http.delete("#{config.baseUrl}#{config.url}/#{query.id}")
         .then ({status, data}) ->
           data = config.transformResponse(data, 'destroy')
