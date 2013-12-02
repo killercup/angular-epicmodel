@@ -20,6 +20,20 @@ describe "Extras", ->
       num = Specials.calculateStuff "hi"
       expect(num).to.eql 42
 
+    it 'should have Collection config as scope', ->
+      specialBaseUrl = 'https://example.com/api/v42'
+      specialUrl = '/1337'
+
+      Thingy = Collection.new "Thingy", {
+        baseUrl: specialBaseUrl
+        url: specialUrl
+      },
+        allYourBases: -> @baseUrl
+        whatsThisUrl: -> @url
+
+      expect(Thingy.allYourBases()).to.eql specialBaseUrl
+      expect(Thingy.whatsThisUrl()).to.eql specialUrl
+
   describe 'as HTTP calls', ->
     # Mock Server on `/me/friends`
     beforeEach inject ($httpBackend) ->
