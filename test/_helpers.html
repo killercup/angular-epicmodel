@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="en"><head><title>test/_helpers</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="test/_helpers"><meta name="groc-project-path" content="test/_helpers.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/_helpers.coffee">test/_helpers.coffee</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="helpers">Helpers</h1>
+<p>Add some global methods do make life easier.</p>
+<p>Also: Globals are bad (troll)</p></div></div><div class="code"><div class="wrapper">DEBUG = <span class="literal">false</span>
+log = <span class="keyword">if</span> DEBUG <span class="keyword">then</span> console.log <span class="keyword">else</span><span class="function"> -&gt;</span>
+
+$q = <span class="literal">null</span>
+<span class="function"><span class="title">tick</span> = -&gt;</span>
+
+<span class="function"><span class="title">addHelpers</span> = -&gt;</span>
+  inject <span class="function"><span class="params">($rootScope, $httpBackend, _$q_)</span> -&gt;</span>
+    $q = _$q_</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method</span></p>
+<p>Trigger digest cycle to make Angular process <code>$http</code> and promises.
+Also flushes <code>$httpBackend</code> to prevent disaster.</p></div></div><div class="code"><div class="wrapper">    <span class="function"><span class="title">tick</span> = <span class="params">(flush=<span class="literal">true</span>)</span> -&gt;</span>
+      $rootScope.$digest()
+      $httpBackend.flush() <span class="keyword">if</span> flush</div></div></div></div></body></html>

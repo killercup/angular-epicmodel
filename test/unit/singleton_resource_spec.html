@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="en"><head><title>test/unit/singleton_resource_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/singleton_resource_spec"><meta name="groc-project-path" content="test/unit/singleton_resource_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/singleton_resource_spec.coffee">test/unit/singleton_resource_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Singleton Resource"</span>,<span class="function"> -&gt;</span>
+  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
+    beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+  beforeEach addHelpers()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-me-">Mock Server on <code>/me</code></h3></div></div><div class="code"><div class="wrapper">  beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+    _data =
+      <span class="attribute">name</span>: <span class="string">"Pascal"</span>
+      <span class="attribute">awesomeness</span>: <span class="number">42</span>
+
+    $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/me'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+      log <span class="string">"GET /me"</span>
+      [<span class="number">200</span>, _data, {}]
+
+    $httpBackend.whenPOST<span class="function"><span class="params">(<span class="string">'/me'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+      log <span class="string">"POST /me"</span>, data
+      _data = _.extend(data, _data)
+      log <span class="string">"new data"</span>, _data
+      [<span class="number">200</span>, _data, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  Me = <span class="literal">null</span>
+  beforeEach inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
+    Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, <span class="attribute">is_singleton</span>: <span class="literal">true</span>
+
+  it <span class="string">'should fetch an object'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    me = Me.all()
+
+    me.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+      expect(me.data).to.be.an(<span class="string">'object'</span>)
+      expect(me.data).to.contain.keys(<span class="string">'name'</span>, <span class="string">'awesomeness'</span>)
+      done(<span class="literal">null</span>)
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">'should update an object'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    oldMe = me = Me.all()
+
+    me.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+      oldMe = _.cloneDeep(me)
+      me.data.awesomeness += <span class="number">1</span>
+      Me.save(me.data)
+    .<span class="keyword">then</span> <span class="function"><span class="params">(newMe)</span> -&gt;</span>
+      expect(newMe.awesomeness).to.be.above oldMe.data.awesomeness
+      expect(newMe.name).to.eql oldMe.data.name
+
+      done(<span class="literal">null</span>)
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">'should not be able to retrieve a detail resource'</span>,<span class="function"> -&gt;</span>
+    expect(<span class="function">-&gt;</span>
+      Me.get <span class="attribute">id</span>: <span class="number">1</span>
+    ).to.<span class="keyword">throw</span>(Error)
+
+  it <span class="string">'should not be able to destroy resource'</span>,<span class="function"> -&gt;</span>
+    expect(Me.destroy).to.<span class="keyword">throw</span>(Error)</div></div></div></div></body></html>

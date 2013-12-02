@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><title>test/unit/extras_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/extras_spec"><meta name="groc-project-path" content="test/unit/extras_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/extras_spec.coffee">test/unit/extras_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Extras"</span>,<span class="function"> -&gt;</span>
+  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
+  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+  beforeEach addHelpers()
+
+  Collection = <span class="literal">null</span>
+  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+    Collection = _Collection_
+
+  describe <span class="string">'as functions'</span>,<span class="function"> -&gt;</span>
+    it <span class="string">'should be available'</span>,<span class="function"> -&gt;</span>
+      Specials = Collection.<span class="keyword">new</span> <span class="string">"Specials"</span>, {},
+        <span class="attribute">calculateStuff</span>: <span class="function"><span class="params">(data)</span> -&gt;</span>
+          <span class="keyword">if</span> _.isArray(data)
+            _.reduce data, <span class="function"><span class="params">((memo, val) -&gt; memo + +val.count)</span>, 0
+          <span class="title">else</span> 42
+
+      <span class="title">sum</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> [{<span class="title">count</span>: 3}, {<span class="title">count</span>: 2}]
+      <span class="title">expect</span><span class="params">(sum)</span>.<span class="title">to</span>.<span class="title">eql</span> 5
+      <span class="title">num</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> "<span class="title">hi</span>"
+      <span class="title">expect</span><span class="params">(num)</span>.<span class="title">to</span>.<span class="title">eql</span> 42
+
+  <span class="title">describe</span> '<span class="title">as</span> <span class="title">HTTP</span> <span class="title">calls</span>', -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+      _data = [
+        {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
+        {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>}
+      ]
+
+      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/me/friends'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"GET /me/friends"</span>
+        [<span class="number">200</span>, _data, {}]
+
+    it <span class="string">'should work'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
+        <span class="attribute">friends</span>:
+          <span class="attribute">method</span>: <span class="string">'GET'</span>
+          <span class="attribute">url</span>: <span class="string">'/me/friends'</span>
+
+      expect(Me.friends).to.be.a(<span class="string">'function'</span>)
+
+      friends = Me.friends()
+      expect(friends).to.respondTo(<span class="string">'then'</span>)
+
+      friends.<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
+        expect(response.data).to.exist
+        expect(response.data).to.have.deep.property(<span class="string">'[1].name'</span>)
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()</div></div></div></div></body></html>

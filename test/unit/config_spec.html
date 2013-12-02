@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><title>test/unit/config_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/config_spec"><meta name="groc-project-path" content="test/unit/config_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/config_spec.coffee">test/unit/config_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Config"</span>,<span class="function"> -&gt;</span>
+  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
+  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+  beforeEach addHelpers()
+
+  describe <span class="string">"response transformation"</span>,<span class="function"> -&gt;</span>
+    Collection = <span class="literal">null</span>
+    beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+      Collection = _Collection_
+
+    jim = {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
+    arch_enemy = {<span class="attribute">name</span>: <span class="string">"Arch Enemy"</span>}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/winners</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+      _data = [
+        jim
+        arch_enemy
+        {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>}
+      ]
+
+      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/winners'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"GET /winners"</span>
+        [<span class="number">200</span>, _data, {}]
+
+    it <span class="string">"works"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Winners = Collection.<span class="keyword">new</span> <span class="string">"Winners"</span>,
+        <span class="attribute">transformResponse</span>: <span class="function"><span class="params">(data)</span> -&gt;</span>
+          <span class="keyword">if</span> _.isArray(data)
+            _.filter data, <span class="function"><span class="params">(item)</span> -&gt;</span>
+              item.name <span class="keyword">isnt</span> <span class="string">"Arch Enemy"</span>
+          <span class="keyword">else</span> data
+
+      winners = Winners.all()
+      winners.$promise.<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
+        expect(winners.all).to.have.length.above <span class="number">0</span>
+        expect(winners.all).to.contain jim
+        expect(winners.all).to.not.contain arch_enemy
+
+        expect(response.data).to.have.length.above <span class="number">0</span>
+        expect(response.data).to.contain jim
+        expect(response.data).to.not.contain arch_enemy
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()</div></div></div></div></body></html>

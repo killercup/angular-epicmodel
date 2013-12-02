@@ -217,50 +217,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "HTTP Requests and Stuff",
                         "slug": "http-requests-and-stuff"
                       },
-                      "depth": 3,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Retrieve List",
-                            "slug": "retrieve-list"
-                          },
-                          "depth": 4
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Retrieve Singleton",
-                            "slug": "retrieve-singleton"
-                          },
-                          "depth": 4
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Retrieve One",
-                            "slug": "retrieve-one"
-                          },
-                          "depth": 4
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Destroy some Entry",
-                            "slug": "destroy-some-entry"
-                          },
-                          "depth": 4
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Save an Entry",
-                            "slug": "save-an-entry"
-                          },
-                          "depth": 4
-                        }
-                      ]
+                      "depth": 3
                     }, {
                       "type": "heading",
                       "data": {
@@ -268,34 +225,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                         "title": "Generic Getters",
                         "slug": "generic-getters"
                       },
-                      "depth": 3,
-                      "children": [
-                        {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Get Collection",
-                            "slug": "get-collection"
-                          },
-                          "depth": 4
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Query Collection",
-                            "slug": "query-collection"
-                          },
-                          "depth": 4
-                        }, {
-                          "type": "heading",
-                          "data": {
-                            "level": 4,
-                            "title": "Get Single Collection Entry",
-                            "slug": "get-single-collection-entry"
-                          },
-                          "depth": 4
-                        }
-                      ]
+                      "depth": 3
                     }, {
                       "type": "heading",
                       "data": {
@@ -369,6 +299,38 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "CoffeeScript"
             },
+            "sourcePath": "/Users/pascal/Projekte/epicmodel/test/_helpers.coffee",
+            "projectPath": "test/_helpers.coffee",
+            "targetPath": "test/_helpers",
+            "pageTitle": "test/_helpers",
+            "firstHeader": {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Helpers",
+                "slug": "helpers",
+                "isFileHeader": true
+              },
+              "depth": 1
+            },
+            "title": "Helpers"
+          },
+          "depth": 2,
+          "outline": []
+        }, {
+          "type": "file",
+          "data": {
+            "language": {
+              "nameMatchers": [".coffee", "Cakefile"],
+              "pygmentsLexer": "coffee-script",
+              "highlightJS": "coffeescript",
+              "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+              "strictMultiLineEnd": false,
+              "singleLineComment": ["#"],
+              "ignorePrefix": "}",
+              "foldPrefix": "^",
+              "name": "CoffeeScript"
+            },
             "sourcePath": "/Users/pascal/Projekte/epicmodel/test/karma.conf.coffee",
             "projectPath": "test/karma.conf.coffee",
             "targetPath": "test/karma.conf",
@@ -399,108 +361,190 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "CoffeeScript"
                 },
-                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/model_spec.coffee",
-                "projectPath": "test/unit/model_spec.coffee",
-                "targetPath": "test/unit/model_spec",
-                "pageTitle": "test/unit/model_spec",
-                "title": "model_spec"
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/basic_spec.coffee",
+                "projectPath": "test/unit/basic_spec.coffee",
+                "targetPath": "test/unit/basic_spec",
+                "pageTitle": "test/unit/basic_spec",
+                "title": "basic_spec"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/config_spec.coffee",
+                "projectPath": "test/unit/config_spec.coffee",
+                "targetPath": "test/unit/config_spec",
+                "pageTitle": "test/unit/config_spec",
+                "title": "config_spec"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/extras_spec.coffee",
+                "projectPath": "test/unit/extras_spec.coffee",
+                "targetPath": "test/unit/extras_spec",
+                "pageTitle": "test/unit/extras_spec",
+                "title": "extras_spec"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/global_config_spec.coffee",
+                "projectPath": "test/unit/global_config_spec.coffee",
+                "targetPath": "test/unit/global_config_spec",
+                "pageTitle": "test/unit/global_config_spec",
+                "title": "global_config_spec"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/list_detail_resource_spec.coffee",
+                "projectPath": "test/unit/list_detail_resource_spec.coffee",
+                "targetPath": "test/unit/list_detail_resource_spec",
+                "pageTitle": "test/unit/list_detail_resource_spec",
+                "title": "list_detail_resource_spec"
               },
               "depth": 3,
               "outline": [
                 {
                   "type": "heading",
                   "data": {
-                    "level": 2,
-                    "title": "Arrays",
-                    "slug": "arrays"
+                    "level": 3,
+                    "title": "Initialize new Collection each time",
+                    "slug": "initialize-new-collection-each-time"
                   },
-                  "depth": 2,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "Initialize new Collection each time",
-                        "slug": "initialize-new-collection-each-time"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "GET /messages",
-                        "slug": "get-messages"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "GET /messages/2",
-                        "slug": "get-messages2"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "POST /messages",
-                        "slug": "post-messages"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "POST /messages/1",
-                        "slug": "post-messages1"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "DELETE /messages/2",
-                        "slug": "delete-messages2"
-                      },
-                      "depth": 3
-                    }, {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "Query cached data",
-                        "slug": "query-cached-data"
-                      },
-                      "depth": 3
-                    }
-                  ]
+                  "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
-                    "level": 2,
-                    "title": "Singleton Objects",
-                    "slug": "singleton-objects"
+                    "level": 3,
+                    "title": "GET /messages",
+                    "slug": "get-messages"
                   },
-                  "depth": 2,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "data": {
-                        "level": 3,
-                        "title": "Initialize new Collection each time",
-                        "slug": "initialize-new-collection-each-time"
-                      },
-                      "depth": 3
-                    }
-                  ]
+                  "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
-                    "level": 2,
-                    "title": "Extras",
-                    "slug": "extras"
+                    "level": 3,
+                    "title": "GET /messages/2",
+                    "slug": "get-messages2"
                   },
-                  "depth": 2
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "POST /messages",
+                    "slug": "post-messages"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "POST /messages/1",
+                    "slug": "post-messages1"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "DELETE /messages/2",
+                    "slug": "delete-messages2"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Query cached data",
+                    "slug": "query-cached-data"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/singleton_resource_spec.coffee",
+                "projectPath": "test/unit/singleton_resource_spec.coffee",
+                "targetPath": "test/unit/singleton_resource_spec",
+                "pageTitle": "test/unit/singleton_resource_spec",
+                "title": "singleton_resource_spec"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Initialize new Collection each time",
+                    "slug": "initialize-new-collection-each-time"
+                  },
+                  "depth": 3
                 }
               ]
             }
