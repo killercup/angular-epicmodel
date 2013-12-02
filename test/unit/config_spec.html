@@ -3,11 +3,17 @@
   beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
   beforeEach addHelpers()
 
-  describe <span class="string">"response transformation"</span>,<span class="function"> -&gt;</span>
-    Collection = <span class="literal">null</span>
-    beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
-      Collection = _Collection_
+  Collection = <span class="literal">null</span>
+  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+    Collection = _Collection_
 
+  it <span class="string">"can set specific URL"</span>,<span class="function"> -&gt;</span>
+    customUrl = <span class="string">"/api/v2/stuff"</span>
+    Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">url</span>: customUrl
+
+    expect(Things.config(<span class="string">"url"</span>)).to.eql customUrl
+
+  describe <span class="string">"response transformation"</span>,<span class="function"> -&gt;</span>
     jim = {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
     arch_enemy = {<span class="attribute">name</span>: <span class="string">"Arch Enemy"</span>}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/winners</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
       _data = [

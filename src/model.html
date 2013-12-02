@@ -24,7 +24,7 @@ like your life depended on it.</p>
 <pre><code class="lang-coffeescript">angular.<span class="built_in">module</span>(<span class="string">'app'</span>, [<span class="string">'EpicModel'</span>])
 .config <span class="function"><span class="params">(CollectionProvider)</span> -&gt;</span>
     CollectionProvider.setBaseUrl(<span class="string">'http://example.com/api/v1'</span>)</code></pre></div></div><div class="code"><div class="wrapper">  globalConfig =
-    <span class="attribute">baseUrl</span>: <span class="string">''</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><h3 id="set-base-url">Set Base URL</h3>
+    <span class="attribute">baseUrl</span>: <span class="string">''</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Set Base URL</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong>url must be a String.</strong><br/>(The new base URL)</li>
@@ -206,6 +206,9 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <li><strong>id must be a String.</strong><br/>(The ID of the element to fetch.)</li>
 </ul>
 <p><strong>Returns an Object</strong><br/>(Promise of HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetchOne</span> = <span class="params">(query)</span> -&gt;</span>
+        <span class="keyword">unless</span> query?.id?
+          <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to retrieve entry."</span>
+
         $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>)
         .<span class="keyword">then</span> <span class="function"><span class="params">(res)</span> -&gt;</span>
           <span class="keyword">unless</span> _.isObject(res.data)
@@ -221,9 +224,13 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <ul>
 <li><strong>id must be a String.</strong><br/>(The ID of the element to fetch.)</li>
 </ul>
-<p><strong>Returns a Promise</strong><br/>(Whether destruction was successful)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">destroy</span> = <span class="params">(query)</span> -&gt;</span>
+<p><strong>Returns a Promise</strong><br/>(Whether destruction was successful)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton or no ID is given)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">destroy</span> = <span class="params">(query)</span> -&gt;</span>
         <span class="keyword">if</span> IS_SINGLETON
           <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Singleton collection doesn't have `destroy` method."</span>
+
+        <span class="keyword">unless</span> query?.id?
+          <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to destroy entry."</span>
+
         $http.<span class="keyword">delete</span>(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="string">'destroy'</span>)

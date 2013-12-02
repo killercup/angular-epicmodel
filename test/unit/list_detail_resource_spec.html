@@ -1,7 +1,8 @@
 <!DOCTYPE html><html lang="en"><head><title>test/unit/list_detail_resource_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/list_detail_resource_spec"><meta name="groc-project-path" content="test/unit/list_detail_resource_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/list_detail_resource_spec.coffee">test/unit/list_detail_resource_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"List Resource"</span>,<span class="function"> -&gt;</span>
   angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
   beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
-  beforeEach addHelpers()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-messages-">Mock Server on <code>/messages</code></h3></div></div><div class="code"><div class="wrapper">  beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span></div></div></div><div class="segment"><div class="code folded"><div class="wrapper marker"><span class="c1">    #  dummy values</span></div><div class="wrapper">    <span class="comment">#  dummy values</span>
+  beforeEach addHelpers()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>static values, DRY</p></div></div><div class="code"><div class="wrapper">  subject2 = <span class="string">'Hi There'</span>
+  messagesCount = <span class="number">0</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-messages-">Mock Server on <code>/messages</code></h3></div></div><div class="code"><div class="wrapper">  beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span></div></div></div><div class="segment"><div class="code folded"><div class="wrapper marker"><span class="c1">    #  dummy values</span></div><div class="wrapper">    <span class="comment">#  dummy values</span>
     id = <span class="number">0</span>
     messages = [
       {
@@ -11,10 +12,11 @@
       }
       {
         <span class="attribute">id</span>: ++id
-        <span class="attribute">subject</span>: <span class="string">'Hi There'</span>
+        <span class="attribute">subject</span>: subject2
         <span class="attribute">body</span>: <span class="string">'Dolor sit amet'</span>
       }
-    ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/messages/:id</code></p></div></div><div class="code"><div class="wrapper">    messageDetailUrl = <span class="regexp">/^\/messages\/(\d+)$/</span>
+    ]
+    messagesCount = messages.length</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/messages/:id</code></p></div></div><div class="code"><div class="wrapper">    messageDetailUrl = <span class="regexp">/^\/messages\/(\d+)$/</span>
 
     $httpBackend.whenGET(<span class="string">'/messages'</span>).respond<span class="function"> -&gt;</span>
       log <span class="string">"GET /messages"</span>
@@ -51,7 +53,7 @@
     messages = Messages.all()
 
     messages.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
-      expect(messages.all.length).to.eql(<span class="number">2</span>)
+      expect(messages.all.length).to.eql messagesCount
       done(<span class="literal">null</span>)
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
@@ -69,10 +71,20 @@
 
       expect(_.findWhere(messages.all, query)).to.eql(message.data)
 
-      expect(message.data.subject).to.eql(<span class="string">'Hi There'</span>)
+      expect(message.data.subject).to.eql subject2
       done(<span class="literal">null</span>)
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">'should not fetch a single item without an ID'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    Messages.get({}).$promise
+    .<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error <span class="string">"Incorrect message was saved."</span>
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      expect(err).to.exist
+      done(<span class="literal">null</span>)
 
     tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="post-messages">POST /messages</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="string">'should create a new entry'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
     new_message =
@@ -88,28 +100,35 @@
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
     tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="post-messages1">POST /messages/1</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="string">'should update an entry'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-    query = <span class="attribute">id</span>: <span class="number">1</span>
-    message = Messages.get(query)
+    query = {}
+    messages = []
+    message = {}
 
-    message.$promise.<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span>
-      expect(message.data.subject).to.exist
+    new_subject = <span class="string">'Shiny Message'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Fetch all messages for reference</p></div></div><div class="code"><div class="wrapper">    messages = Messages.all()
+    messages.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Load random message</p></div></div><div class="code"><div class="wrapper">      query = <span class="attribute">id</span>: _.sample(messages.all).id
+      message = Messages.get(query)
+      message.$promise
+    .<span class="keyword">then</span><span class="function"> -&gt;</span>
+      expect(message.data.subject).to.exist</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Clone message and edit the clone so it is a new reference</p></div></div><div class="code"><div class="wrapper">      updated_message = _.cloneDeep(message.data)
+      updated_message.subject = new_subject</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Save correctly</p></div></div><div class="code"><div class="wrapper">      Messages.save(updated_message)
+    .<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>message object updated</p></div></div><div class="code"><div class="wrapper">      expect(data.subject).to.eql new_subject
+      expect(data.subject).to.eql message.data.subject
+      expect(data.body).to.eql message.data.body</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>messages list item updated</p></div></div><div class="code"><div class="wrapper">      expect(_.findWhere(messages.all, query)).to.deep.equal(data)
 
-      old_subject = message.data.subject
-      new_subject = <span class="string">'Shiny Message'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Clone message and edit the clone so it is a new reference</p></div></div><div class="code"><div class="wrapper">      updated_message = _.cloneDeep(message.data)
-      updated_message.subject = new_subject</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Save correctly</p></div></div><div class="code"><div class="wrapper">      saved_message = Messages.save(updated_message)
-
-      saved_message.<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span>
-        expect(data.subject).to.eql new_subject
-        expect(data.subject).to.eql message.data.subject
-        expect(data.body).to.eql message.data.body
-        $q.<span class="keyword">when</span> data
-    .<span class="keyword">then</span><span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Save invalid data</p></div></div><div class="code"><div class="wrapper">      Messages.save<span class="function"><span class="params">({})</span>.<span class="title">then</span> <span class="params">(data)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error <span class="string">"Incorrect message was saved."</span>
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        expect(err).to.exist
-        done(<span class="literal">null</span>)
+      $q.<span class="keyword">when</span> data
+    .<span class="keyword">then</span><span class="function"> -&gt;</span>
+      done(<span class="literal">null</span>)
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">"should not update an entry without an ID"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    Messages.save<span class="function"><span class="params">({})</span>.<span class="title">then</span> <span class="params">(data)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error <span class="string">"Incorrect message was saved."</span>
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      expect(err).to.exist
+      done(<span class="literal">null</span>)
 
     tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="delete-messages2">DELETE /messages/2</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="string">'should delete an entry'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
     query = <span class="attribute">id</span>: <span class="number">2</span>
@@ -121,6 +140,15 @@
       done(<span class="literal">null</span>)
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">'should not delete an entry without an ID'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    Messages.destroy<span class="function"><span class="params">({})</span>.<span class="title">then</span> <span class="params">(data)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error <span class="string">"Incorrect message was saved."</span>
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      expect(err).to.exist
+      done(<span class="literal">null</span>)
 
     tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="query-cached-data">Query cached data</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="string">'should query cached data'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
     Messages.all().$promise

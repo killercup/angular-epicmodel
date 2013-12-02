@@ -20,7 +20,21 @@
       <span class="title">num</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> "<span class="title">hi</span>"
       <span class="title">expect</span><span class="params">(num)</span>.<span class="title">to</span>.<span class="title">eql</span> 42
 
-  <span class="title">describe</span> '<span class="title">as</span> <span class="title">HTTP</span> <span class="title">calls</span>', -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+    <span class="title">it</span> '<span class="title">should</span> <span class="title">have</span> <span class="title">Collection</span> <span class="title">config</span> <span class="title">as</span> <span class="title">scope</span>', -&gt;</span>
+      specialBaseUrl = <span class="string">'https://example.com/api/v42'</span>
+      specialUrl = <span class="string">'/1337'</span>
+
+      Thingy = Collection.<span class="keyword">new</span> <span class="string">"Thingy"</span>, {
+        <span class="attribute">baseUrl</span>: specialBaseUrl
+        <span class="attribute">url</span>: specialUrl
+      },
+        <span class="attribute">allYourBases</span>:<span class="function"> -&gt;</span> <span class="property">@baseUrl</span>
+        <span class="attribute">whatsThisUrl</span>:<span class="function"> -&gt;</span> <span class="property">@url</span>
+
+      expect(Thingy.allYourBases()).to.eql specialBaseUrl
+      expect(Thingy.whatsThisUrl()).to.eql specialUrl
+
+  describe <span class="string">'as HTTP calls'</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
       _data = [
         {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
         {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>}
