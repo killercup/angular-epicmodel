@@ -35,6 +35,8 @@ describe "List Resource", ->
     $httpBackend.whenGET(messageDetailUrl).respond (method, url, data, headers) ->
       id = +messageDetailUrl.exec(url)[1]
       log "GET /messages/#{id}"
+      if id is 42
+        return [403, {err: 'Access Denied', msg: 'Classified'}, {}]
       [200, _.findWhere(messages, id: id), {}]
 
     $httpBackend.whenPOST('/messages').respond (method, url, data) ->
@@ -206,5 +208,15 @@ describe "List Resource", ->
       done(null)
     .then null, (err) ->
       done new Error JSON.stringify err
+
+    tick()
+
+  it "should reject promise on HTTP error", (done) ->
+    Messages.get(id: 42).$promise
+    .then (data) ->
+      done new Error "HTTP error did not reject promise."
+    .then null, (err) ->
+      expect(err).to.exist
+      done(null)
 
     tick()
