@@ -297,10 +297,13 @@ angular.module('EpicModel', [
       #
       # @param {String} id The ID of the element to fetch.
       # @return {Promise} Whether destruction was successful
+      # @throws {Error} When Collection is singleton
       #
       # @todo Customize ID query
       ###
       exports.destroy = (query) ->
+        if IS_SINGLETON
+          throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
         $http.delete("#{config.baseUrl}#{config.url}/#{query.id}")
         .then ({status, data}) ->
           data = config.transformResponse(data, 'destroy')
@@ -363,10 +366,14 @@ angular.module('EpicModel', [
       ###
       # @param {Object} query The query that will be used in `matchingCriteria`
       # @return {Object} With keys `data` and `$promise`
+      # @throws {Error} When Collection is singleton
       #
       # @todo Customize ID query
       ###
       exports.get = (query) ->
+        if IS_SINGLETON
+          throw new Error "#{name} Model: Singleton collection doesn't have `get` method."
+
         local = {}
         local.data = _.findWhere _data.all, config.matchingCriteria(query)
         local.$promise = exports.fetchOne(query)

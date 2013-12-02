@@ -13,9 +13,9 @@ describe "EpicModel", ->
     # @description
     # Trigger digest cycle to make Angular process `$http` and promises.
     # Also flushes `$httpBackend` to prevent disaster.
-    tick = ->
+    tick = (flush=true) ->
       $rootScope.$digest()
-      $httpBackend.flush()
+      $httpBackend.flush() if flush
 
   # ## Arrays
   describe "List Resource", ->
@@ -125,9 +125,6 @@ describe "EpicModel", ->
       query = id: 1
       message = Messages.get(query)
 
-      err = (err) ->
-        done new Error JSON.stringify err
-
       message.$promise.then (data) ->
         expect(message.data.subject).to.exist
 
@@ -138,16 +135,23 @@ describe "EpicModel", ->
         updated_message = _.cloneDeep(message.data)
         updated_message.subject = new_subject
 
+        # Save correctly
         saved_message = Messages.save(updated_message)
 
-        success = (data) ->
+        saved_message.then (data) ->
           expect(data.subject).to.eql new_subject
           expect(data.subject).to.eql message.data.subject
           expect(data.body).to.eql message.data.body
+          $q.when data
+      .then ->
+        # Save invalid data
+        Messages.save({}).then (data) ->
+          done new Error "Incorrect message was saved."
+        .then null, (err) ->
+          expect(err).to.exist
           done(null)
-
-        saved_message.then success, err
-      .then null, err
+      .then null, (err) ->
+        done new Error JSON.stringify err
 
       tick()
 
@@ -219,9 +223,7 @@ describe "EpicModel", ->
 
       me.$promise.then ->
         oldMe = _.cloneDeep(me)
-        log "awesomeness", me.data.awesomeness
         me.data.awesomeness += 1
-        log "awesomeness", me.data.awesomeness
         Me.save(me.data)
       .then (newMe) ->
         expect(newMe.awesomeness).to.be.above oldMe.data.awesomeness
@@ -232,6 +234,14 @@ describe "EpicModel", ->
         done new Error JSON.stringify err
 
       tick()
+
+    it 'should not be able to retrieve a detail resource', ->
+      expect(->
+        Me.get id: 1
+      ).to.throw(Error)
+
+    it 'should not be able to destroy resource', ->
+      expect(Me.destroy).to.throw(Error)
 
   # ## Extras
   describe "Additional Methods", ->
