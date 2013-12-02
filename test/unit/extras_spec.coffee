@@ -2,14 +2,52 @@ describe "Extras", ->
   beforeEach module('EpicModel')
   beforeEach addHelpers
 
-  it 'should be available as functions', inject (Collection) ->
-    Specials = Collection.new "Specials", {},
-      calculateStuff: (data) ->
-        if _.isArray(data)
-          _.reduce data, ((memo, val) -> memo + +val.count), 0
-        else 42
+  Collection = null
+  beforeEach inject (_Collection_) ->
+    Collection = _Collection_
 
-    sum = Specials.calculateStuff [{count: 3}, {count: 2}]
-    expect(sum).to.eql 5
-    num = Specials.calculateStuff "hi"
-    expect(num).to.eql 42
+  describe 'as functions', ->
+    it 'should be available', ->
+      Specials = Collection.new "Specials", {},
+        calculateStuff: (data) ->
+          if _.isArray(data)
+            _.reduce data, ((memo, val) -> memo + +val.count), 0
+          else 42
+
+      sum = Specials.calculateStuff [{count: 3}, {count: 2}]
+      expect(sum).to.eql 5
+      num = Specials.calculateStuff "hi"
+      expect(num).to.eql 42
+
+  describe 'as HTTP calls', ->
+    # Mock Server on `/friends`
+    beforeEach inject ($httpBackend) ->
+      _data = [
+        {name: "Jim"}
+        {name: "Dude"}
+      ]
+
+      $httpBackend.whenGET('/me/friends').respond (method, url, data) ->
+        log "GET /me/friends"
+        [200, _data, {}]
+
+    it 'should work', (done) ->
+      Me = Collection.new "Me", {is_singleton: true},
+        friends:
+          method: 'GET'
+          url: '/me/friends'
+
+      expect(Me.friends).to.be.a('function')
+
+      friends = Me.friends()
+      expect(friends).to.respondTo('then')
+
+      friends.then (response) ->
+        expect(response.data).to.exist
+        expect(response.data).to.have.deep.property('[1].name')
+
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()

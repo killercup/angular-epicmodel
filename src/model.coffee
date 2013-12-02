@@ -29,6 +29,7 @@ angular.module('EpicModel', [
   #         url: '/people/:id/befriend'
   # .controller "Ctrl", ($scope, ShittyAPI) ->
   #   $scope.list = API.People.all()
+  #   $scope.befriend = (data) -> API.People data: data
   # ```
   ###
 
@@ -83,7 +84,9 @@ angular.module('EpicModel', [
     #   and returns the transformed `data`.
     # @param {Function} [config.matchingCriteria] Takes data object and returns
     #   matching criteria. Default: `(data) -> id: +data.id`
-    # @param {Object} [extras] Various extras or overwrites
+    # @param {Object} [extras] Add custom methods to instance, functions will
+    #   be have `config` as `this`, objects will used to construct new `$http`
+    #   calls
     # @return {Object} The collection
     # @throws {Error} When no name is given
     #
@@ -385,10 +388,13 @@ angular.module('EpicModel', [
 
       # ### Mixin Extras
       _.each extras, (val, key) ->
+        # Custom methods
         if _.isFunction(val)
           exports[key] = _.bind(val, config)
-        # NYI: {method: 'GET', url: '/extra'}
-        # else if _.isObject(val) then ...
+        # Custom HTTP Call
+        else if _.isObject(val)
+          # @todo Add data storage options
+          exports[key] = (options) -> $http _.extend val, options
 
       # - - -
       exports
