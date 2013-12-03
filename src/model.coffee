@@ -183,6 +183,12 @@ angular.module('EpicModel', [
           data: store.getItem("#{name}.data") || {}
 
         ###
+        # @method Get Data
+        # @return {Object} data
+        ###
+        Data.get = -> _data.data
+
+        ###
         # @method Replace Singleton Data
         #
         # @param {Object} data New data
@@ -196,6 +202,12 @@ angular.module('EpicModel', [
       else # is Model[]
         _data =
           all: store.getItem("#{name}.all") || []
+
+        ###
+        # @method Get Data
+        # @return {Array} data
+        ###
+        Data.get = -> _data.all
 
         ###
         # @method Replace Complete Collection Data
@@ -241,13 +253,11 @@ angular.module('EpicModel', [
         Data.removeEntry = (criteria) ->
           hit = _.findWhere(_data.all, criteria)
           if hit?
-            delete _data.all[_data.all.indexOf(hit)]
+            _data.all.splice _data.all.indexOf(hit), 1
             store.removeItem("#{name}.all", _data.all)
           return hit?
 
-
-      # @debug
-      exports.data = _data
+      exports.Data = Data
 
       # ### HTTP Requests and Stuff
 
