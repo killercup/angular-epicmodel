@@ -256,10 +256,11 @@ angular.module('EpicModel', [
       #
       # @description Gotta catch 'em all!
       #
-      # @return {Object} Promise of HTTP data
+      # @param {Object} [options] HTTP options
+      # @return {Promise} HTTP data
       ###
-      exports.fetchAll = ->
-        $http.get("#{config.baseUrl}#{config.url}")
+      exports.fetchAll = (options={}) ->
+        $http.get("#{config.baseUrl}#{config.url}", options)
         .then (response) ->
           unless _.isArray(response.data)
             console.warn "#{name} Model", "API Respsonse was", response.data
@@ -275,10 +276,11 @@ angular.module('EpicModel', [
       ###
       # @method Retrieve Singleton
       #
-      # @return {Object} Promise of HTTP data
+      # @param {Object} [options] HTTP options
+      # @return {Promise} HTTP data
       ###
-      exports.fetch = ->
-        $http.get("#{config.baseUrl}#{config.url}")
+      exports.fetch = (options={}) ->
+        $http.get("#{config.baseUrl}#{config.url}", options)
         .then (response) ->
           unless _.isObject(response.data)
             console.warn "#{name} Model", "API Respsonse was", response.data
@@ -296,15 +298,16 @@ angular.module('EpicModel', [
       # @description This also updates the internal data collection, of course.
       #
       # @param {String} id The ID of the element to fetch.
-      # @return {Object} Promise of HTTP data
+      # @param {Object} [options] HTTP options
+      # @return {Promise} HTTP data
       #
       # @todo Customize ID query
       ###
-      exports.fetchOne = (query) ->
+      exports.fetchOne = (query, options={}) ->
         unless query?.id?
           return $q.reject "#{name} Model: Need ID to retrieve entry."
 
-        $http.get("#{config.baseUrl}#{config.url}/#{query.id}")
+        $http.get("#{config.baseUrl}#{config.url}/#{query.id}", options)
         .then (res) ->
           unless _.isObject(res.data)
             console.warn "#{name} Model", "API Respsonse was", res.data
@@ -313,25 +316,26 @@ angular.module('EpicModel', [
           res.data = config.transformResponse(res.data, 'one')
 
           Data.updateEntry res.data, config.matchingCriteria(res.data)
-          return $q.when(res.data)
+          return $q.when(res)
 
       ###
       # @method Destroy some Entry
       #
       # @param {String} id The ID of the element to fetch.
+      # @param {Object} [options] HTTP options
       # @return {Promise} Whether destruction was successful
       # @throws {Error} When Collection is singleton or no ID is given
       #
       # @todo Customize ID query
       ###
-      exports.destroy = (query) ->
+      exports.destroy = (query, options={}) ->
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
 
         unless query?.id?
           return $q.reject "#{name} Model: Need ID to destroy entry."
 
-        $http.delete("#{config.baseUrl}#{config.url}/#{query.id}")
+        $http.delete("#{config.baseUrl}#{config.url}/#{query.id}", options)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'destroy')
           return $q.when Data.removeEntry data, config.matchingCriteria(data)
@@ -340,18 +344,19 @@ angular.module('EpicModel', [
       # @method Save an Entry
       #
       # @param {Object} entry The entry to be saved.
+      # @param {Object} [options] HTTP options
       # @return {Promise} Resolved with new entry or rejected with HTTP error
       #
       # @todo Customize ID query
       ###
-      exports.save = (entry) ->
+      exports.save = (entry, options={}) ->
         if !IS_SINGLETON && !entry?.id?
           return $q.reject "#{name} Model: Need ID to save entry."
 
         _url = "#{config.baseUrl}#{config.url}"
         _url += "/#{entry.id}" unless IS_SINGLETON
 
-        return $http.post(_url, JSON.stringify(entry))
+        return $http.post(_url, JSON.stringify(entry), options)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'save')
 
@@ -366,14 +371,15 @@ angular.module('EpicModel', [
       # @description Similar to save, but has no ID initially.
       #
       # @param {Object} entry Entry data
+      # @param {Object} [options] HTTP options
       # @return {Promise} Resolves with new entry data or rejects with HTTP error
       # @throws {Error} When Collection is singleton
       ###
-      exports.create = (entry) ->
+      exports.create = (entry, options={}) ->
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
 
-        return $http.post("#{config.baseUrl}#{config.url}", entry)
+        return $http.post("#{config.baseUrl}#{config.url}", entry, options)
         .then ({status, data}) ->
           return $q.when Data.updateEntry data, config.matchingCriteria(data)
 
@@ -384,16 +390,17 @@ angular.module('EpicModel', [
       ###
       # @method Get Collection
       #
+      # @param {Object} [options] HTTP options
       # @return {Object} With keys `all` and `$promise`
       ###
-      exports.all = ->
+      exports.all = (options) ->
         local = {}
 
         if IS_SINGLETON
-          local.$promise = exports.fetch()
+          local.$promise = exports.fetch(options)
           local.data = _data.data
         else
-          local.$promise = exports.fetchAll()
+          local.$promise = exports.fetchAll(options)
           local.all = _data.all
 
         return local
@@ -411,20 +418,22 @@ angular.module('EpicModel', [
       # @method Get Single Collection Entry
       #
       # @param {Object} query The query that will be used in `matchingCriteria`
+      # @param {Object} [options] HTTP options
       # @return {Object} With keys `data` and `$promise`
       # @throws {Error} When Collection is singleton
       #
       # @todo Customize ID query
       ###
-      exports.get = (query) ->
+      exports.get = (query, options) ->
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton collection doesn't have `get` method."
 
         local = {}
         local.data = _.findWhere _data.all, config.matchingCriteria(query)
-        local.$promise = exports.fetchOne(query)
-        .then (data) ->
-          local.data = data
+        local.$promise = exports.fetchOne(query, options)
+        .then (response) ->
+          local.data = response.data
+          $q.when(response)
 
         return local
 
