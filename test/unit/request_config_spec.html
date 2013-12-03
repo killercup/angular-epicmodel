@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="en"><head><title>test/unit/request_config_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/request_config_spec"><meta name="groc-project-path" content="test/unit/request_config_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/request_config_spec.coffee">test/unit/request_config_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Test Config for Single Requests</p>
+<p>Most methods have an additional argument for HTTP options.</p>
+<p>Example:</p>
+<pre><code class="lang-coffeescript">Items.get {<span class="attribute">id</span>: <span class="number">42</span>}, <span class="attribute">params</span>: {<span class="attribute">include</span>: <span class="string">'comments'</span>}</code></pre></div></div><div class="code"><div class="wrapper">describe <span class="string">"Request Config"</span>,<span class="function"> -&gt;</span>
+  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
+  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+  beforeEach addHelpers()
+
+  Collection = <span class="literal">null</span>
+  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+    Collection = _Collection_
+
+  specialValue = <span class="string">'param'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-items-">Mock Server on <code>/items</code></h3></div></div><div class="code"><div class="wrapper">  beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+    _data = [<span class="number">1</span>, <span class="number">42</span>, <span class="number">13</span>]
+
+    $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/items'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+      log <span class="string">"GET <span class="subst">#{url}</span>"</span>
+      [<span class="number">200</span>, _data, {}]
+
+    $httpBackend.whenGET<span class="function"><span class="params">(<span class="regexp">/\/items\?(\w*)/</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+      log <span class="string">"GET <span class="subst">#{url}</span>"</span>, data
+      [<span class="number">200</span>, [specialValue], {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/items/:id</code></p></div></div><div class="code"><div class="wrapper">    itemsDetailUrl = <span class="regexp">/^\/items\/(\d+)$/</span>
+
+    $httpBackend.whenGET<span class="function"><span class="params">(itemsDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers={})</span> -&gt;</span>
+      <span class="keyword">if</span> headers.Authorization?
+        [<span class="number">200</span>, {<span class="attribute">special</span>: specialValue}, {}]
+      <span class="keyword">else</span>
+        [<span class="number">403</span>, {<span class="attribute">err</span>: <span class="string">'no auth'</span>}, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="list-resource">List Resource</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="string">"can set parameters for all()"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    Items = Collection.<span class="keyword">new</span> <span class="string">"Items"</span>
+
+    things = Items.all <span class="attribute">params</span>: {<span class="attribute">special</span>: <span class="literal">true</span>}
+    things.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+      expect(things.all).to.have.length(<span class="number">1</span>)
+      expect(things.all[<span class="number">0</span>]).to.eql specialValue
+
+      done(<span class="literal">null</span>)
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="detail-resource">Detail Resource</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="string">"can set headers"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    Items = Collection.<span class="keyword">new</span> <span class="string">"Items"</span>
+    auth = <span class="attribute">Authorization</span>: <span class="string">"Token 1337"</span>
+
+    thingy = Items.get {<span class="attribute">id</span>: <span class="number">1</span>}
+    thingy.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+      done <span class="keyword">new</span> Error <span class="string">"Should throw 403 ($httpBackend config)"</span>
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">({status, data})</span> -&gt;</span>
+      expect(status).to.eql <span class="number">403</span>
+      expect(data).to.have.property(<span class="string">'err'</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>now with auth header</p></div></div><div class="code"><div class="wrapper">      thingy = Items.get {<span class="attribute">id</span>: <span class="number">1</span>}, <span class="attribute">headers</span>: auth
+      thingy.$promise
+    .<span class="keyword">then</span> <span class="function"><span class="params">({status})</span> -&gt;</span>
+      expect(status).to.eql <span class="number">200</span>
+      expect(thingy.data.special).to.eql specialValue
+      done(<span class="literal">null</span>)
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()</div></div></div></div></body></html>

@@ -288,10 +288,10 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "CoffeeScript"
             },
-            "sourcePath": "/Users/pascal/Projekte/epicmodel/test/_helpers.coffee",
-            "projectPath": "test/_helpers.coffee",
-            "targetPath": "test/_helpers",
-            "pageTitle": "test/_helpers",
+            "sourcePath": "/Users/pascal/Projekte/epicmodel/test/helpers.coffee",
+            "projectPath": "test/helpers.coffee",
+            "targetPath": "test/helpers",
+            "pageTitle": "test/helpers",
             "firstHeader": {
               "type": "heading",
               "data": {
@@ -502,6 +502,46 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                     "slug": "query-cached-data"
                   },
                   "depth": 3
+                }
+              ]
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/request_config_spec.coffee",
+                "projectPath": "test/unit/request_config_spec.coffee",
+                "targetPath": "test/unit/request_config_spec",
+                "pageTitle": "test/unit/request_config_spec",
+                "title": "request_config_spec"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "List Resource",
+                    "slug": "list-resource"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Detail Resource",
+                    "slug": "detail-resource"
+                  },
+                  "depth": 2
                 }
               ]
             }, {

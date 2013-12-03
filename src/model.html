@@ -177,8 +177,12 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
             store.removeItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>, _data.all)
           <span class="keyword">return</span> hit?</div></div></div><div class="segment"><div class="code"><div class="wrapper">      exports.data = _data</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="http-requests-and-stuff">HTTP Requests and Stuff</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve List</span></p>
 <p>Gotta catch &#39;em all!</p>
-<p><strong>Returns an Object</strong><br/>(Promise of HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetchAll</span> = -&gt;</span>
-        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>)
+<p>Parameters:</p>
+<ul>
+<li><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</li>
+</ul>
+<p><strong>Returns a Promise</strong><br/>(HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetchAll</span> = <span class="params">(options={})</span> -&gt;</span>
+        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
           <span class="keyword">unless</span> _.isArray(response.data)
             console.warn <span class="string">"<span class="subst">#{name}</span> Model"</span>, <span class="string">"API Respsonse was"</span>, response.data
@@ -187,8 +191,12 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
           response.data = config.transformResponse(response.data, <span class="string">'array'</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>replace array items with new data</p></div></div><div class="code"><div class="wrapper">          Data.replace(response.data)
 
           <span class="keyword">return</span> $q.<span class="keyword">when</span>(response)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve Singleton</span></p>
-<p><strong>Returns an Object</strong><br/>(Promise of HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetch</span> = -&gt;</span>
-        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>)
+<p>Parameters:</p>
+<ul>
+<li><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</li>
+</ul>
+<p><strong>Returns a Promise</strong><br/>(HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetch</span> = <span class="params">(options={})</span> -&gt;</span>
+        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
           <span class="keyword">unless</span> _.isObject(response.data)
             console.warn <span class="string">"<span class="subst">#{name}</span> Model"</span>, <span class="string">"API Respsonse was"</span>, response.data
@@ -203,13 +211,16 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
-<li><strong>id must be a String.</strong><br/>(The ID of the element to fetch.)</li>
+<li><p><strong>id must be a String.</strong><br/>(The ID of the element to fetch.)</p>
+</li>
+<li><p><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</p>
+</li>
 </ul>
-<p><strong>Returns an Object</strong><br/>(Promise of HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetchOne</span> = <span class="params">(query)</span> -&gt;</span>
+<p><strong>Returns a Promise</strong><br/>(HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetchOne</span> = <span class="params">(query, options={})</span> -&gt;</span>
         <span class="keyword">unless</span> query?.id?
           <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to retrieve entry."</span>
 
-        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>)
+        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">(res)</span> -&gt;</span>
           <span class="keyword">unless</span> _.isObject(res.data)
             console.warn <span class="string">"<span class="subst">#{name}</span> Model"</span>, <span class="string">"API Respsonse was"</span>, res.data
@@ -218,36 +229,42 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
           res.data = config.transformResponse(res.data, <span class="string">'one'</span>)
 
           Data.updateEntry res.data, config.matchingCriteria(res.data)
-          <span class="keyword">return</span> $q.<span class="keyword">when</span>(res.data)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Destroy some Entry</span></p>
+          <span class="keyword">return</span> $q.<span class="keyword">when</span>(res)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Destroy some Entry</span></p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
-<li><strong>id must be a String.</strong><br/>(The ID of the element to fetch.)</li>
+<li><p><strong>id must be a String.</strong><br/>(The ID of the element to fetch.)</p>
+</li>
+<li><p><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</p>
+</li>
 </ul>
-<p><strong>Returns a Promise</strong><br/>(Whether destruction was successful)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton or no ID is given)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">destroy</span> = <span class="params">(query)</span> -&gt;</span>
+<p><strong>Returns a Promise</strong><br/>(Whether destruction was successful)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton or no ID is given)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">destroy</span> = <span class="params">(query, options={})</span> -&gt;</span>
         <span class="keyword">if</span> IS_SINGLETON
           <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Singleton collection doesn't have `destroy` method."</span>
 
         <span class="keyword">unless</span> query?.id?
           <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to destroy entry."</span>
 
-        $http.<span class="keyword">delete</span>(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>)
+        $http.<span class="keyword">delete</span>(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="string">'destroy'</span>)
           <span class="keyword">return</span> $q.<span class="keyword">when</span> Data.removeEntry data, config.matchingCriteria(data)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Save an Entry</span></p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
-<li><strong>entry must be an Object.</strong><br/>(The entry to be saved.)</li>
+<li><p><strong>entry must be an Object.</strong><br/>(The entry to be saved.)</p>
+</li>
+<li><p><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</p>
+</li>
 </ul>
-<p><strong>Returns a Promise</strong><br/>(Resolved with new entry or rejected with HTTP error)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">save</span> = <span class="params">(entry)</span> -&gt;</span>
+<p><strong>Returns a Promise</strong><br/>(Resolved with new entry or rejected with HTTP error)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">save</span> = <span class="params">(entry, options={})</span> -&gt;</span>
         <span class="keyword">if</span> !IS_SINGLETON &amp;&amp; !entry?.id?
           <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to save entry."</span>
 
         _url = <span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>
         _url += <span class="string">"/<span class="subst">#{entry.id}</span>"</span> <span class="keyword">unless</span> IS_SINGLETON
 
-        <span class="keyword">return</span> $http.post(_url, JSON.stringify(entry))
+        <span class="keyword">return</span> $http.post(_url, JSON.stringify(entry), options)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="string">'save'</span>)
 
@@ -258,23 +275,30 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <p>Similar to save, but has no ID initially.</p>
 <p>Parameters:</p>
 <ul>
-<li><strong>entry must be an Object.</strong><br/>(Entry data)</li>
+<li><p><strong>entry must be an Object.</strong><br/>(Entry data)</p>
+</li>
+<li><p><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</p>
+</li>
 </ul>
-<p><strong>Returns a Promise</strong><br/>(Resolves with new entry data or rejects with HTTP error)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">create</span> = <span class="params">(entry)</span> -&gt;</span>
+<p><strong>Returns a Promise</strong><br/>(Resolves with new entry data or rejects with HTTP error)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">create</span> = <span class="params">(entry, options={})</span> -&gt;</span>
         <span class="keyword">if</span> IS_SINGLETON
           <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Singleton collection doesn't have `destroy` method."</span>
 
-        <span class="keyword">return</span> $http.post(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>, entry)
+        <span class="keyword">return</span> $http.post(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>, entry, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           <span class="keyword">return</span> $q.<span class="keyword">when</span> Data.updateEntry data, config.matchingCriteria(data)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="generic-getters">Generic Getters</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Get Collection</span></p>
-<p><strong>Returns an Object</strong><br/>(With keys <code>all</code> and <code>$promise</code>)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">all</span> = -&gt;</span>
+<p>Parameters:</p>
+<ul>
+<li><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</li>
+</ul>
+<p><strong>Returns an Object</strong><br/>(With keys <code>all</code> and <code>$promise</code>)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">all</span> = <span class="params">(options)</span> -&gt;</span>
         local = {}
 
         <span class="keyword">if</span> IS_SINGLETON
-          local.$promise = exports.fetch()
+          local.$promise = exports.fetch(options)
           local.data = _data.data
         <span class="keyword">else</span>
-          local.$promise = exports.fetchAll()
+          local.$promise = exports.fetchAll(options)
           local.all = _data.all
 
         <span class="keyword">return</span> local</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Query Collection</span></p>
@@ -287,17 +311,21 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
-<li><strong>query must be an Object.</strong><br/>(The query that will be used in <code>matchingCriteria</code>)</li>
+<li><p><strong>query must be an Object.</strong><br/>(The query that will be used in <code>matchingCriteria</code>)</p>
+</li>
+<li><p><strong>options is optional and must be an Object.</strong><br/>(HTTP options)</p>
+</li>
 </ul>
-<p><strong>Returns an Object</strong><br/>(With keys <code>data</code> and <code>$promise</code>)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">get</span> = <span class="params">(query)</span> -&gt;</span>
+<p><strong>Returns an Object</strong><br/>(With keys <code>data</code> and <code>$promise</code>)<br/><strong>and</strong> <strong>Can throw an Error</strong><br/>(When Collection is singleton)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">get</span> = <span class="params">(query, options)</span> -&gt;</span>
         <span class="keyword">if</span> IS_SINGLETON
           <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Singleton collection doesn't have `get` method."</span>
 
         local = {}
         local.data = _.findWhere _data.all, config.matchingCriteria(query)
-        local.$promise = exports.fetchOne(query)
-        .<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span>
-          local.data = data
+        local.$promise = exports.fetchOne(query, options)
+        .<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
+          local.data = response.data
+          $q.<span class="keyword">when</span>(response)
 
         <span class="keyword">return</span> local</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mixin-extras">Mixin Extras</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">      _.each extras, <span class="function"><span class="params">(val, key)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Custom methods</p></div></div><div class="code"><div class="wrapper">        <span class="keyword">if</span> _.isFunction(val)
           <span class="built_in">exports</span>[key] = _.bind(val, config)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Custom HTTP Call</p></div></div><div class="code"><div class="wrapper">        <span class="keyword">else</span> <span class="keyword">if</span> _.isObject(val)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>TODO: Add data storage options</p></div></div><div class="code"><div class="wrapper">          <span class="built_in">exports</span>[key] = <span class="function"><span class="params">(options)</span> -&gt;</span> $http _.extend val, options</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr></div></div><div class="code"><div class="wrapper">      <span class="built_in">exports</span>

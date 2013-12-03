@@ -19,30 +19,64 @@
       _data = [
         jim
         arch_enemy
-        {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>}
-      ]
+        {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>, <span class="attribute">occupation</span>: <span class="string">'Sofa Tester'</span>}
+      ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/winners/:id</code></p></div></div><div class="code"><div class="wrapper">      winnerDetailUrl = <span class="regexp">/^\/winners\/(\d+)$/</span>
 
       $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/winners'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
         log <span class="string">"GET /winners"</span>
         [<span class="number">200</span>, _data, {}]
 
-    it <span class="string">"works"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      $httpBackend.whenGET<span class="function"><span class="params">(winnerDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers)</span> -&gt;</span>
+        id = +winnerDetailUrl.exec(url)[<span class="number">1</span>]
+        log <span class="string">"GET /winner/<span class="subst">#{id}</span>"</span>
+        [<span class="number">200</span>, _data[id], {}]
+
+      $httpBackend.whenPOST<span class="function"><span class="params">(winnerDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers)</span> -&gt;</span>
+        id = +winnerDetailUrl.exec(url)[<span class="number">1</span>]
+        log <span class="string">"POST /winner/<span class="subst">#{id}</span>"</span>
+        [<span class="number">200</span>, _data[id], {}]
+
+    Winners = <span class="literal">null</span>
+    beforeEach inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
       Winners = Collection.<span class="keyword">new</span> <span class="string">"Winners"</span>,
         <span class="attribute">transformResponse</span>: <span class="function"><span class="params">(data)</span> -&gt;</span>
           <span class="keyword">if</span> _.isArray(data)
             _.filter data, <span class="function"><span class="params">(item)</span> -&gt;</span>
-              item.name <span class="keyword">isnt</span> <span class="string">"Arch Enemy"</span>
+              item.name <span class="keyword">isnt</span> arch_enemy.name
+          <span class="keyword">else</span> <span class="keyword">if</span> _.isObject(data)
+            _.extend data, {<span class="attribute">age</span>: <span class="number">42</span>}
           <span class="keyword">else</span> data
 
+    it <span class="string">"works with list resources"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
       winners = Winners.all()
       winners.$promise.<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
         expect(winners.all).to.have.length.above <span class="number">0</span>
         expect(winners.all).to.contain jim
         expect(winners.all).to.not.contain arch_enemy
 
-        expect(response.data).to.have.length.above <span class="number">0</span>
-        expect(response.data).to.contain jim
-        expect(response.data).to.not.contain arch_enemy
+        expect(response.data).to.deep.eql(winners.all)
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+    it <span class="string">'works with detail resource'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      winner = Winners.get(<span class="attribute">id</span>: <span class="number">1</span>)
+      winner.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+        expect(winner.data.age).to.exist
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+    it <span class="string">'works with saved resource'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Winners.save(<span class="attribute">id</span>: <span class="number">1</span>, <span class="attribute">name</span>: <span class="string">"New Friend"</span>)
+      .<span class="keyword">then</span> <span class="function"><span class="params">(winner)</span> -&gt;</span>
+        expect(winner.age).to.exist
 
         done(<span class="literal">null</span>)
       .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>

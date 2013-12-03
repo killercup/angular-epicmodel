@@ -25,6 +25,8 @@
     $httpBackend.whenGET<span class="function"><span class="params">(messageDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers)</span> -&gt;</span>
       id = +messageDetailUrl.exec(url)[<span class="number">1</span>]
       log <span class="string">"GET /messages/<span class="subst">#{id}</span>"</span>
+      <span class="keyword">if</span> id <span class="keyword">is</span> <span class="number">42</span>
+        <span class="keyword">return</span> [<span class="number">403</span>, {<span class="attribute">err</span>: <span class="string">'Access Denied'</span>, <span class="attribute">msg</span>: <span class="string">'Classified'</span>}, {}]
       [<span class="number">200</span>, _.findWhere(messages, <span class="attribute">id</span>: id), {}]
 
     $httpBackend.whenPOST<span class="function"><span class="params">(<span class="string">'/messages'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
@@ -159,5 +161,15 @@
       done(<span class="literal">null</span>)
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">"should reject promise on HTTP error"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    Messages.get(<span class="attribute">id</span>: <span class="number">42</span>).$promise
+    .<span class="keyword">then</span> <span class="function"><span class="params">(data)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error <span class="string">"HTTP error did not reject promise."</span>
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      expect(err).to.exist
+      done(<span class="literal">null</span>)
 
     tick()</div></div></div></div></body></html>
