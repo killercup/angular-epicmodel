@@ -127,7 +127,8 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 
       <span class="keyword">if</span> IS_SINGLETON <span class="comment"># Is single Model</span>
         _data =
-          <span class="attribute">data</span>: store.getItem(<span class="string">"<span class="subst">#{name}</span>.data"</span>) || {}</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Replace Singleton Data</span></p>
+          <span class="attribute">data</span>: store.getItem(<span class="string">"<span class="subst">#{name}</span>.data"</span>) || {}</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Get Data</span></p>
+<p><strong>Returns an Object</strong><br/>(data)</p></div></div><div class="code"><div class="wrapper">        Data.<span class="function"><span class="title">get</span> = -&gt;</span> _data.data</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Replace Singleton Data</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong>data must be an Object.</strong><br/>(New data)</li>
@@ -139,7 +140,8 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 
       <span class="keyword">else</span> <span class="comment"># is Model[]</span>
         _data =
-          <span class="attribute">all</span>: store.getItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>) || []</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Replace Complete Collection Data</span></p>
+          <span class="attribute">all</span>: store.getItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>) || []</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Get Data</span></p>
+<p><strong>Returns an Array</strong><br/>(data)</p></div></div><div class="code"><div class="wrapper">        Data.<span class="function"><span class="title">get</span> = -&gt;</span> _data.all</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Replace Complete Collection Data</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong>data must be an Array.</strong><br/>(New data)</li>
@@ -173,9 +175,11 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 <p><strong>Returns a Bool</strong><br/>(Whether removal was)</p></div></div><div class="code"><div class="wrapper">        Data.<span class="function"><span class="title">removeEntry</span> = <span class="params">(criteria)</span> -&gt;</span>
           hit = _.findWhere(_data.all, criteria)
           <span class="keyword">if</span> hit?
-            <span class="keyword">delete</span> _data.all[_data.all.indexOf(hit)]
+            _data.all.splice _data.all.indexOf(hit), <span class="number">1</span>
             store.removeItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>, _data.all)
-          <span class="keyword">return</span> hit?</div></div></div><div class="segment"><div class="code"><div class="wrapper">      exports.data = _data</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="http-requests-and-stuff">HTTP Requests and Stuff</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve List</span></p>
+          <span class="keyword">return</span> hit?
+
+      exports.Data = Data</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="http-requests-and-stuff">HTTP Requests and Stuff</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve List</span></p>
 <p>Gotta catch &#39;em all!</p>
 <p>Parameters:</p>
 <ul>

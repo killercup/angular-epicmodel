@@ -2,12 +2,13 @@
   angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
   beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
 
-  describe <span class="string">"creation"</span>,<span class="function"> -&gt;</span>
-    beforeEach addHelpers()
+  beforeEach addHelpers()
 
-    Collection = <span class="literal">null</span>
-    beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
-      Collection = _Collection_
+  Collection = <span class="literal">null</span>
+  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+    Collection = _Collection_
+
+  describe <span class="string">"creation"</span>,<span class="function"> -&gt;</span>
 
     it <span class="string">"works with a name"</span>,<span class="function"> -&gt;</span>
       Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
@@ -21,4 +22,48 @@
     it <span class="string">"doesn't work without name"</span>,<span class="function"> -&gt;</span>
       expect(<span class="function">-&gt;</span>
         Collection.<span class="keyword">new</span>()
-      ).to.<span class="keyword">throw</span>(Error)</div></div></div></div></body></html>
+      ).to.<span class="keyword">throw</span>(Error)
+
+  describe <span class="string">"has data methods that"</span>,<span class="function"> -&gt;</span>
+    it <span class="string">"can read data from lists"</span>,<span class="function"> -&gt;</span>
+      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+
+      expect(Things.Data).to.respondTo(<span class="string">"get"</span>)
+      expect(Things.Data.get()).to.be.an(<span class="string">"array"</span>)
+
+    it <span class="string">"can read data from singletons"</span>,<span class="function"> -&gt;</span>
+      Profile = Collection.<span class="keyword">new</span> <span class="string">"Profile"</span>, <span class="attribute">is_singleton</span>: <span class="literal">true</span>
+      expect(Profile.Data.get()).to.be.an(<span class="string">"object"</span>)
+
+    it <span class="string">"can add entries to lists"</span>,<span class="function"> -&gt;</span>
+      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+
+      expect(Things.Data.get()).to.be.length <span class="number">0</span>
+
+      Things.Data.updateEntry <span class="attribute">name</span>: <span class="string">"Jim"</span>
+      expect(Things.Data.get()).to.be.length <span class="number">1</span>
+
+    it <span class="string">"can replace data in lists"</span>,<span class="function"> -&gt;</span>
+      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+
+      expect(Things.Data.get()).to.be.length <span class="number">0</span>
+
+      Things.Data.replace [<span class="number">1.</span><span class="number">.4</span>]
+      expect(Things.Data.get()).to.be.length <span class="number">4</span>
+
+    it <span class="string">"can replace data in singletons"</span>,<span class="function"> -&gt;</span>
+      Profile = Collection.<span class="keyword">new</span> <span class="string">"Profile"</span>, <span class="attribute">is_singleton</span>: <span class="literal">true</span>
+      expect(Profile.Data.get()).to.eql {}
+
+      Profile.Data.replace <span class="attribute">name</span>: <span class="string">"Jim"</span>
+      expect(Profile.Data.get()).to.eql <span class="attribute">name</span>: <span class="string">"Jim"</span>
+
+    it <span class="string">"can remove entries from lists"</span>,<span class="function"> -&gt;</span>
+      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+      Things.Data.updateEntry <span class="attribute">name</span>: <span class="string">"Jim"</span>
+      expect(Things.Data.get()).to.be.length <span class="number">1</span>
+
+      hit = Things.Data.removeEntry <span class="attribute">name</span>: <span class="string">"Jim"</span>
+      expect(hit).to.be.ok
+
+      expect(Things.Data.get()).to.be.length <span class="number">0</span></div></div></div></div></body></html>
