@@ -305,7 +305,7 @@ angular.module('EpicModel', [
             store.removeItem("#{name}.all", _data.all)
           return hit?
 
-      exports.Data = Data
+      config.Data = exports.Data = Data
 
       # ### HTTP Requests and Stuff
 
@@ -509,8 +509,19 @@ angular.module('EpicModel', [
           exports[key] = _.bind(val, config)
         # Custom HTTP Call
         else if _.isObject(val)
+          if _.isFunction val.onSuccess
+            success = _.bind(val.onSuccess, config)
+            delete val.onSuccess
+          if _.isFunction val.onFail
+            fail = _.bind(val.onFail, config)
+            delete val.onFail
           # @todo Add data storage options
-          exports[key] = (options) -> $http _.extend val, options
+          exports[key] = (options={}) ->
+            call = $http(_.extend val, options)
+            call.then(success) if success?
+            call.then(null, fail) if fail?
+            return call
+
 
       # - - -
       exports

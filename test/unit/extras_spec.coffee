@@ -66,3 +66,65 @@ describe "Extras", ->
         done new Error JSON.stringify err
 
       tick()
+
+  describe "like incremental updates", ->
+    early = 20131220
+    okay  = 20131222
+    late  = 20131224
+    # Mock Server on `/messages`
+    beforeEach inject ($httpBackend) ->
+      id = 0
+      _data = [
+        {id: ++id, created: early}
+        {id: ++id, created: okay}
+      ]
+
+      $httpBackend.whenGET('/messages').respond (method, url, data) ->
+        log "GET #{url}"
+        [200, _data, {}]
+
+      messagesSinceUrl = /\/messages\?since=(\d.*)/
+      $httpBackend.whenGET(messagesSinceUrl).respond (method, url, data) ->
+        log "GET #{url}"
+        [
+          200
+          [{id: ++id, created: late}]
+          {}
+        ]
+
+    it "should work using bound callbacks", (done) ->
+      Messages = Collection.new "Messages", {},
+        update:
+          method: 'GET'
+          url: "/messages"
+          ###
+          # @method Incremental Updates
+          #
+          # @description This is a great example on how to incremetally update
+          #   date using callbacks, since they are bound to have `this` point
+          #   to the Collection's `config` object!
+          # @param {Object} response HTTP response
+          # @return {Object} HTTP response (can be used in chained promises)
+          ###
+          onSuccess: (response) ->
+            if _.isArray response.data
+              _.each response.data, (item) =>
+                @Data.updateEntry item, @matchingCriteria(item)
+            return response
+
+      messages = Messages.all()
+      messages.$promise
+      .then ->
+        expect(messages.all).to.not.contain late
+        Messages.update params: since: late
+      .then (response) ->
+        # console.log response.data
+        expect(
+          _.pluck messages.all, 'created'
+        ).to.contain late
+
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
