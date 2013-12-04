@@ -33,11 +33,12 @@ You should read the documentation for `src/model.coffee`. It's quite comprehensi
 - [x] Retrieve single object resource (e.g. `/users/me`)
 - [x] Retrieve list resources and manage them in an array structure
 - [x] Update list resources after retrieving matching single resource
-- [ ] Add custom sub-resources (e.g. `/users/$id/follow` as `User.follow(id)`)
+- [x] Add custom sub-resources (e.g. `/users/$id/follow` as `User.follow(id)`)
+- [ ] Incremental updates (á  la `/messages?since=1386150532`)
 
 - [ ] Transform requests
 - [x] Transform response
-- [ ] Customizable URL patterns (always uses `$url/$id` for now)
+- [ ] Customizable URL patterns (always uses `$url/$id` for now, but should also offer stuff like `/item/{item._id}/property/{_id}`)
 
 - [x] Persistent storage wrapper (save to storage, retrieve when initializing)
 - [x] Implemented `localStorage` wrapper
