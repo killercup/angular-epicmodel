@@ -132,17 +132,18 @@ angular.module('EpicModel', [
 
       config.url ||= '/' + name.toLowerCase()
       config.baseUrl ||= globalConfig.baseUrl
+      config.listUrl ||= config.url
 
-      ###
-      # @method Make Detail URL (default)
-      #
-      # @param {Object} entry The entry to URL points to
-      # @param {String} [listUrl=config.url]
-      # @param {String} [baseUrl=config.baseUrl]
-      # @return {String} Entry URL
-      ###
-      makeDetailUrl = (entry, listUrl=config.url, baseUrl=config.baseUrl) ->
-        if _.isString config.detailUrl
+      if _.isString config.detailUrl
+        ###
+        # @method Make Detail URL from Pattern
+        #
+        # @param {Object} entry The entry to URL points to
+        # @param {String} [listUrl=config.url]
+        # @param {String} [baseUrl=config.baseUrl]
+        # @return {String} Entry URL
+        ###
+        makeDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
           substitutes = /{([\w_.]*?)}/g
           entryUrl = config.detailUrl
           _.each config.detailUrl.match(substitutes), (match) ->
@@ -160,11 +161,16 @@ angular.module('EpicModel', [
                 "(entry has no value for #{key})"
 
           return entryUrl
-        else
-          "#{config.baseUrl}#{config.url}/#{entry.id}"
+      else
+        makeDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
+          if entry.id?
+            "#{baseUrl}#{listUrl}/#{entry.id}"
+          else
+            throw new Error "#{name} Model: Need entry ID to construct URL"
 
       if _.isFunction config.detailUrl
-        config.getDetailUrl = config.detailUrl
+        config.getDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
+          config.detailUrl(entry, listUrl, baseUrl)
        else
         config.getDetailUrl = makeDetailUrl
 
@@ -356,10 +362,12 @@ angular.module('EpicModel', [
       # @todo Customize ID query
       ###
       exports.fetchOne = (query, options={}) ->
-        unless query?.id?
-          return $q.reject "#{name} Model: Need ID to retrieve entry."
+        try
+          _url = config.getDetailUrl(query, config.listUrl, config.baseUrl)
+        catch e
+          return $q.reject e.message || e
 
-        $http.get("#{config.baseUrl}#{config.url}/#{query.id}", options)
+        $http.get(_url, options)
         .then (res) ->
           unless _.isObject(res.data)
             console.warn "#{name} Model", "API Respsonse was", res.data
@@ -384,10 +392,12 @@ angular.module('EpicModel', [
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
 
-        unless query?.id?
-          return $q.reject "#{name} Model: Need ID to destroy entry."
+        try
+          _url = config.getDetailUrl(query, config.listUrl, config.baseUrl)
+        catch e
+          return $q.reject e.message || e
 
-        $http.delete("#{config.baseUrl}#{config.url}/#{query.id}", options)
+        $http.delete(_url, options)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'destroy')
           return $q.when Data.removeEntry data, config.matchingCriteria(data)
@@ -402,11 +412,13 @@ angular.module('EpicModel', [
       # @todo Customize ID query
       ###
       exports.save = (entry, options={}) ->
-        if !IS_SINGLETON && !entry?.id?
-          return $q.reject "#{name} Model: Need ID to save entry."
-
-        _url = "#{config.baseUrl}#{config.url}"
-        _url += "/#{entry.id}" unless IS_SINGLETON
+        if IS_SINGLETON
+          _url = "#{config.baseUrl}#{config.listUrl}"
+        else
+          try
+            _url = config.getDetailUrl(entry, config.listUrl, config.baseUrl)
+          catch e
+            return $q.reject e.message || e
 
         return $http.post(_url, JSON.stringify(entry), options)
         .then ({status, data}) ->
@@ -431,7 +443,7 @@ angular.module('EpicModel', [
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
 
-        return $http.post("#{config.baseUrl}#{config.url}", entry, options)
+        return $http.post("#{config.baseUrl}#{config.listUrl}", entry, options)
         .then ({status, data}) ->
           return $q.when Data.updateEntry data, config.matchingCriteria(data)
 

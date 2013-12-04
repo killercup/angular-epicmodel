@@ -132,7 +132,8 @@ describe "Config", ->
       it "works", ->
         Things = Collection.new "Things",
           detailUrl: (entry, listUrl, baseUrl) ->
-            "/thingies/#{entry.name}"
+            throw new Error unless entry.name?
+            "#{baseUrl}/thingies/#{entry.name}"
 
         expect(Things.config('url')).to.eql '/things'
 
@@ -146,7 +147,7 @@ describe "Config", ->
         Things = Collection.new "Things",
           detailUrl: (entry, listUrl, baseUrl) ->
             throw new Error unless entry.name?
-            "/thingies/#{entry.name}"
+            "#{baseUrl}/thingies/#{entry.name}"
 
         detailUrl = Things.config('getDetailUrl')
 
