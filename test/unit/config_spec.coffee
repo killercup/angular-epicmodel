@@ -89,3 +89,65 @@ describe "Config", ->
         done new Error JSON.stringify err
 
       tick()
+
+  describe "for custom detail URLs", ->
+    describe "using string matching", ->
+      it "works", ->
+        Things = Collection.new "Things", detailUrl: "/thingies/{_id}"
+
+        expect(Things.config('url')).to.eql '/things'
+
+        detailUrl = Things.config('getDetailUrl')
+        expect(detailUrl).to.be.a('function')
+
+        expect(detailUrl(_id: 42)).to.eql '/thingies/42'
+
+      it "fails with incorrect substitution schema", ->
+        Things = Collection.new "Things", detailUrl: "/thingies/{_id"
+
+        detailUrl = Things.config('getDetailUrl')
+        expect(detailUrl).to.be.a('function')
+
+        expect(detailUrl(_id: 42)).to.not.eql '/thingies/42'
+
+      it "works for complex substitutions", ->
+        Properties = Collection.new "Properties",
+          detailUrl: "/thingies/{item._id}/properties/{_id}"
+
+        detailUrl = Properties.config('getDetailUrl')
+        expect(detailUrl).to.be.a('function')
+
+        testUrl = detailUrl _id: 42, item: {_id: 21}
+        expect(testUrl).to.eql '/thingies/21/properties/42'
+
+      it "fails when fields are missing", ->
+        Things = Collection.new "Things", detailUrl: "/thingies/{_id}"
+
+        detailUrl = Things.config('getDetailUrl')
+        expect(detailUrl).to.be.a('function')
+
+        expect(-> detailUrl(name: 'Jim')).to.throw Error
+
+    describe "using a function", ->
+      it "works", ->
+        Things = Collection.new "Things",
+          detailUrl: (entry, listUrl, baseUrl) ->
+            "/thingies/#{entry.name}"
+
+        expect(Things.config('url')).to.eql '/things'
+
+        detailUrl = Things.config('getDetailUrl')
+        expect(detailUrl).to.be.a('function')
+
+        expect(detailUrl(name: 'Chair')).to.eql '/thingies/Chair'
+
+      it "fails when fields are missing", ->
+        # Actually, you should check this yourself!
+        Things = Collection.new "Things",
+          detailUrl: (entry, listUrl, baseUrl) ->
+            throw new Error unless entry.name?
+            "/thingies/#{entry.name}"
+
+        detailUrl = Things.config('getDetailUrl')
+
+        expect(-> detailUrl(id: 12)).to.throw Error

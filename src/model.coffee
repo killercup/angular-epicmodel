@@ -70,7 +70,13 @@ angular.module('EpicModel', [
     #
     # @param {String} name The unique name of the new collection.
     # @param {Object} [config] Configuration and settings
-    # @param {String} [config.url] Resource URL
+    # @param {String|Function} [config.url] Resource URL
+    # @param {String|Function} [config.detailUrl] URL for single resource,
+    #   default: `config.url + '/' + entry.id`. Will interpolate segments in
+    #   curly brackets, e.g. transforming `/item/{_id}` to `'/item/'+entry._id`.
+    #   If you supply a function, it will be called with the current entry,
+    #   the base URL and the resource list url (`config.url`) and should return
+    #   a string that will be used as URL.
     # @param {String} [config.baseUrl] Overwrite base URL
     # @param {Bool} [config.is_singleton] Whether resource returns an object
     # @param {Object} [config.storage] Storage implementation, e.g.
@@ -126,6 +132,42 @@ angular.module('EpicModel', [
 
       config.url ||= '/' + name.toLowerCase()
       config.baseUrl ||= globalConfig.baseUrl
+
+      ###
+      # @method Make Detail URL (default)
+      #
+      # @param {Object} entry The entry to URL points to
+      # @param {String} [listUrl=config.url]
+      # @param {String} [baseUrl=config.baseUrl]
+      # @return {String} Entry URL
+      ###
+      makeDetailUrl = (entry, listUrl=config.url, baseUrl=config.baseUrl) ->
+        if _.isString config.detailUrl
+          substitutes = /{([\w_.]*?)}/g
+          entryUrl = config.detailUrl
+          _.each config.detailUrl.match(substitutes), (match) ->
+            # Remove braces and split on dots (might address sub-object, e.g.
+            # using `item.id`)
+            keys = match.replace('{', '').replace('}', '').split('.')
+            value = entry
+            _.each keys, (key) ->
+              value = value[key]
+
+            if value?
+              entryUrl = entryUrl.replace match, value
+            else
+              throw new Error "#{name} Model: Can't substitute #{match} in URL"+
+                "(entry has no value for #{key})"
+
+          return entryUrl
+        else
+          "#{config.baseUrl}#{config.url}/#{entry.id}"
+
+      if _.isFunction config.detailUrl
+        config.getDetailUrl = config.detailUrl
+       else
+        config.getDetailUrl = makeDetailUrl
+
 
       IS_SINGLETON = !!config.is_singleton
 
