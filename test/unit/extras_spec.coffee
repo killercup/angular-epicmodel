@@ -67,10 +67,15 @@ describe "Extras", ->
 
       tick()
 
-  describe "like incremental updates", ->
+  describe "with bound callbacks", ->
+    Messages = null
+
     early = 20131220
     okay  = 20131222
     late  = 20131224
+
+    errorCheck = "It failed."
+
     # Mock Server on `/messages`
     beforeEach inject ($httpBackend) ->
       id = 0
@@ -86,13 +91,17 @@ describe "Extras", ->
       messagesSinceUrl = /\/messages\?since=(\d.*)/
       $httpBackend.whenGET(messagesSinceUrl).respond (method, url, data) ->
         log "GET #{url}"
+        since = +messagesSinceUrl.exec(url)[1]
+
+        if since is 42
+          return [403, {err: 'Classified'}, {}]
+
         [
           200
           [{id: ++id, created: late}]
           {}
         ]
 
-    it "should work using bound callbacks", (done) ->
       Messages = Collection.new "Messages", {},
         update:
           method: 'GET'
@@ -111,7 +120,12 @@ describe "Extras", ->
               _.each response.data, (item) =>
                 @Data.updateEntry item, @matchingCriteria(item)
             return response
+          # Test failure callback by manipulating return value
+          onFail: (response) ->
+            response.data = errorCheck
+            return response
 
+    it "should enable incremental updates", (done) ->
       messages = Messages.all()
       messages.$promise
       .then ->
@@ -128,3 +142,14 @@ describe "Extras", ->
         done new Error JSON.stringify err
 
       tick()
+
+    it "should offer failure handling", (done) ->
+      Messages.update(params: since: 42)
+      .then ->
+        done new Error "Should have been an error."
+      .then null, ({data}) ->
+        expect(data).to.eql errorCheck
+        done(null)
+
+      tick()
+
