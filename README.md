@@ -26,7 +26,7 @@ For now, just make sure the `src/model.coffee` is somewhere in your build proces
 
 ## Usage
 
-You should read the documentation for `src/model.coffee`. It's quite comprehensive and full of examples.
+You should read the inline documentation for `src/model.coffee`. It's quite comprehensive and full of examples.
 
 ## Features
 
@@ -38,7 +38,7 @@ You should read the documentation for `src/model.coffee`. It's quite comprehensi
 
 - [ ] Transform requests
 - [x] Transform response
-- [ ] Customizable URL patterns (always uses `$url/$id` for now, but should also offer stuff like `/item/{item._id}/property/{_id}`)
+- [x] Customizable URL patterns (always uses `$url/$id` for now, but should also offer stuff like `/item/{item._id}/property/{_id}`)
 
 - [x] Persistent storage wrapper (save to storage, retrieve when initializing)
 - [x] Implemented `localStorage` wrapper

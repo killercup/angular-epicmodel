@@ -91,6 +91,14 @@ describe "Config", ->
       tick()
 
   describe "for custom detail URLs", ->
+    it "has /{id} as default", ->
+      Things = Collection.new "Things"
+
+      expect(Things.config('url')).to.eql '/things'
+
+      detailUrl = Things.config('getDetailUrl')
+      expect(detailUrl(id: 42)).to.eql '/things/42'
+
     describe "using string matching", ->
       it "works", ->
         Things = Collection.new "Things", detailUrl: "/thingies/{_id}"
@@ -112,12 +120,12 @@ describe "Config", ->
 
       it "works for complex substitutions", ->
         Properties = Collection.new "Properties",
-          detailUrl: "/thingies/{item._id}/properties/{_id}"
+          detailUrl: "/thingies/{item.parent._id}/properties/{_id}"
 
         detailUrl = Properties.config('getDetailUrl')
         expect(detailUrl).to.be.a('function')
 
-        testUrl = detailUrl _id: 42, item: {_id: 21}
+        testUrl = detailUrl _id: 42, item: parent: _id: 21
         expect(testUrl).to.eql '/thingies/21/properties/42'
 
       it "fails when fields are missing", ->
