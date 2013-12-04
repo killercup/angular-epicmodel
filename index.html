@@ -16,18 +16,19 @@ Messages.get(<span class="attribute">id</span>: <span class="number">42</span>)
 <li>Underscore/Lodash</li>
 </ul>
 <h2 id="usage">Usage</h2>
-<p>You should read the documentation for <code>src/model.coffee</code>. It&#39;s quite comprehensive and full of examples.</p>
+<p>You should read the inline documentation for <code>src/model.coffee</code>. It&#39;s quite comprehensive and full of examples.</p>
 <h2 id="features">Features</h2>
 <ul>
 <li>[x] Retrieve single object resource (e.g. <code>/users/me</code>)</li>
 <li>[x] Retrieve list resources and manage them in an array structure</li>
 <li>[x] Update list resources after retrieving matching single resource</li>
-<li><p>[ ] Add custom sub-resources (e.g. <code>/users/$id/follow</code> as <code>User.follow(id)</code>)</p>
+<li>[x] Add custom sub-resources (e.g. <code>/users/$id/follow</code> as <code>User.follow(id)</code>)</li>
+<li><p>[ ] Incremental updates (á  la <code>/messages?since=1386150532</code>)</p>
 </li>
 <li><p>[ ] Transform requests</p>
 </li>
 <li>[x] Transform response</li>
-<li><p>[ ] Customizable URL patterns (always uses <code>$url/$id</code> for now)</p>
+<li><p>[x] Customizable URL patterns (always uses <code>$url/$id</code> for now, but should also offer stuff like <code>/item/{item._id}/property/{_id}</code>)</p>
 </li>
 <li><p>[x] Persistent storage wrapper (save to storage, retrieve when initializing)</p>
 </li>

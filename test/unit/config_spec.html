@@ -82,4 +82,73 @@
       .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
         done <span class="keyword">new</span> Error JSON.stringify err
 
-      tick()</div></div></div></div></body></html>
+      tick()
+
+  describe <span class="string">"for custom detail URLs"</span>,<span class="function"> -&gt;</span>
+    it <span class="string">"has /{id} as default"</span>,<span class="function"> -&gt;</span>
+      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+
+      expect(Things.config(<span class="string">'url'</span>)).to.eql <span class="string">'/things'</span>
+
+      detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+      expect(detailUrl(<span class="attribute">id</span>: <span class="number">42</span>)).to.eql <span class="string">'/things/42'</span>
+
+    describe <span class="string">"using string matching"</span>,<span class="function"> -&gt;</span>
+      it <span class="string">"works"</span>,<span class="function"> -&gt;</span>
+        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{_id}"</span>
+
+        expect(Things.config(<span class="string">'url'</span>)).to.eql <span class="string">'/things'</span>
+
+        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+
+        expect(detailUrl(<span class="attribute">_id</span>: <span class="number">42</span>)).to.eql <span class="string">'/thingies/42'</span>
+
+      it <span class="string">"fails with incorrect substitution schema"</span>,<span class="function"> -&gt;</span>
+        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{_id"</span>
+
+        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+
+        expect(detailUrl(<span class="attribute">_id</span>: <span class="number">42</span>)).to.not.eql <span class="string">'/thingies/42'</span>
+
+      it <span class="string">"works for complex substitutions"</span>,<span class="function"> -&gt;</span>
+        Properties = Collection.<span class="keyword">new</span> <span class="string">"Properties"</span>,
+          <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{item.parent._id}/properties/{_id}"</span>
+
+        detailUrl = Properties.config(<span class="string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+
+        testUrl = detailUrl <span class="attribute">_id</span>: <span class="number">42</span>, <span class="attribute">item</span>: <span class="attribute">parent</span>: <span class="attribute">_id</span>: <span class="number">21</span>
+        expect(testUrl).to.eql <span class="string">'/thingies/21/properties/42'</span>
+
+      it <span class="string">"fails when fields are missing"</span>,<span class="function"> -&gt;</span>
+        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{_id}"</span>
+
+        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+
+        expect(<span class="function">-&gt;</span> detailUrl(<span class="attribute">name</span>: <span class="string">'Jim'</span>)).to.<span class="keyword">throw</span> Error
+
+    describe <span class="string">"using a function"</span>,<span class="function"> -&gt;</span>
+      it <span class="string">"works"</span>,<span class="function"> -&gt;</span>
+        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>,
+          <span class="attribute">detailUrl</span>: <span class="function"><span class="params">(entry, listUrl, baseUrl)</span> -&gt;</span>
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="keyword">unless</span> entry.name?
+            <span class="string">"<span class="subst">#{baseUrl}</span>/thingies/<span class="subst">#{entry.name}</span>"</span>
+
+        expect(Things.config(<span class="string">'url'</span>)).to.eql <span class="string">'/things'</span>
+
+        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+
+        expect(detailUrl(<span class="attribute">name</span>: <span class="string">'Chair'</span>)).to.eql <span class="string">'/thingies/Chair'</span>
+
+      it <span class="string">"fails when fields are missing"</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Actually, you should check this yourself!</p></div></div><div class="code"><div class="wrapper">        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>,
+          <span class="attribute">detailUrl</span>: <span class="function"><span class="params">(entry, listUrl, baseUrl)</span> -&gt;</span>
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="keyword">unless</span> entry.name?
+            <span class="string">"<span class="subst">#{baseUrl}</span>/thingies/<span class="subst">#{entry.name}</span>"</span>
+
+        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+
+        expect(<span class="function">-&gt;</span> detailUrl(<span class="attribute">id</span>: <span class="number">12</span>)).to.<span class="keyword">throw</span> Error</div></div></div></div></body></html>

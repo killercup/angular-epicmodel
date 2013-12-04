@@ -40,7 +40,9 @@ like your life depended on it.</p>
 </li>
 <li><p><strong>config is optional and must be an Object.</strong><br/>(Configuration and settings)</p>
 <ul>
-<li><p><strong>config.url is optional and must be a String.</strong><br/>(Resource URL)</p>
+<li><p><strong>config.url is optional and can be a String or a Function.</strong><br/>(Resource URL)</p>
+</li>
+<li><p><strong>config.detailUrl is optional and can be a String or a Function.</strong><br/>(URL for single resource, default: <code>config.url + &#39;/&#39; + entry.id</code>. Will interpolate segments in curly brackets, e.g. transforming <code>/item/{_id}</code> to <code>&#39;/item/&#39;+entry._id</code>. If you supply a function, it will be called with the current entry, the base URL and the resource list url (<code>config.url</code>) and should return a string that will be used as URL.)</p>
 </li>
 <li><p><strong>config.baseUrl is optional and must be a String.</strong><br/>(Overwrite base URL)</p>
 </li>
@@ -88,6 +90,47 @@ like your life depended on it.</p>
 
       config.url ||= <span class="string">'/'</span> + name.toLowerCase()
       config.baseUrl ||= globalConfig.baseUrl
+      config.listUrl ||= config.url
+
+      <span class="keyword">if</span> _.isString config.detailUrl</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Make Detail URL from Pattern</span></p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>entry must be an Object.</strong><br/>(The entry to URL points to)</p>
+</li>
+<li><p><strong>listUrl is optional, must be a String, and has a default value of config.url.</strong></p>
+</li>
+<li><p><strong>baseUrl is optional, must be a String, and has a default value of config.baseUrl.</strong></p>
+</li>
+</ul>
+<p><strong>Returns a String</strong><br/>(Entry URL)</p></div></div><div class="code"><div class="wrapper">        <span class="function"><span class="title">makeDetailUrl</span> = <span class="params">(entry, listUrl=config.listUrl, baseUrl=config.baseUrl)</span> -&gt;</span>
+          substitutes = <span class="regexp">/{([\w_.]*?)}/g</span>
+          entryUrl = config.detailUrl
+          _.each config.detailUrl.match<span class="function"><span class="params">(substitutes)</span>, <span class="params">(match)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Remove braces and split on dots (might address sub-object, e.g.
+using <code>item.id</code>)</p></div></div><div class="code"><div class="wrapper">            keys = match.replace(<span class="string">'{'</span>, <span class="string">''</span>).replace(<span class="string">'}'</span>, <span class="string">''</span>).split(<span class="string">'.'</span>)
+            value = entry
+            _.each keys, <span class="function"><span class="params">(key)</span> -&gt;</span>
+              value = value[key]
+
+            <span class="keyword">if</span> value?
+              entryUrl = entryUrl.replace match, value
+            <span class="keyword">else</span>
+              <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Can't substitute <span class="subst">#{match}</span> in URL"</span>+
+                <span class="string">"(entry has no value for <span class="subst">#{key}</span>)"</span>
+
+          <span class="keyword">return</span> entryUrl
+      <span class="keyword">else</span>
+        <span class="function"><span class="title">makeDetailUrl</span> = <span class="params">(entry, listUrl=config.listUrl, baseUrl=config.baseUrl)</span> -&gt;</span>
+          <span class="keyword">if</span> entry.id?
+            <span class="string">"<span class="subst">#{baseUrl}</span><span class="subst">#{listUrl}</span>/<span class="subst">#{entry.id}</span>"</span>
+          <span class="keyword">else</span>
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Need entry ID to construct URL"</span>
+
+      <span class="keyword">if</span> _.isFunction config.detailUrl
+        config.<span class="function"><span class="title">getDetailUrl</span> = <span class="params">(entry, listUrl=config.listUrl, baseUrl=config.baseUrl)</span> -&gt;</span>
+          config.detailUrl(entry, listUrl, baseUrl)
+       <span class="keyword">else</span>
+        config.getDetailUrl = makeDetailUrl
+
 
       IS_SINGLETON = !!config.is_singleton
 
@@ -179,7 +222,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
             store.removeItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>, _data.all)
           <span class="keyword">return</span> hit?
 
-      exports.Data = Data</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="http-requests-and-stuff">HTTP Requests and Stuff</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve List</span></p>
+      config.Data = exports.Data = Data</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="http-requests-and-stuff">HTTP Requests and Stuff</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve List</span></p>
 <p>Gotta catch &#39;em all!</p>
 <p>Parameters:</p>
 <ul>
@@ -221,10 +264,12 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 </li>
 </ul>
 <p><strong>Returns a Promise</strong><br/>(HTTP data)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">fetchOne</span> = <span class="params">(query, options={})</span> -&gt;</span>
-        <span class="keyword">unless</span> query?.id?
-          <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to retrieve entry."</span>
+        <span class="keyword">try</span>
+          _url = config.getDetailUrl(query, config.listUrl, config.baseUrl)
+        <span class="keyword">catch</span> e
+          <span class="keyword">return</span> $q.reject e.message || e
 
-        $http.get(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>, options)
+        $http.get(_url, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">(res)</span> -&gt;</span>
           <span class="keyword">unless</span> _.isObject(res.data)
             console.warn <span class="string">"<span class="subst">#{name}</span> Model"</span>, <span class="string">"API Respsonse was"</span>, res.data
@@ -246,10 +291,12 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
         <span class="keyword">if</span> IS_SINGLETON
           <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Singleton collection doesn't have `destroy` method."</span>
 
-        <span class="keyword">unless</span> query?.id?
-          <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to destroy entry."</span>
+        <span class="keyword">try</span>
+          _url = config.getDetailUrl(query, config.listUrl, config.baseUrl)
+        <span class="keyword">catch</span> e
+          <span class="keyword">return</span> $q.reject e.message || e
 
-        $http.<span class="keyword">delete</span>(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>/<span class="subst">#{query.id}</span>"</span>, options)
+        $http.<span class="keyword">delete</span>(_url, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="string">'destroy'</span>)
           <span class="keyword">return</span> $q.<span class="keyword">when</span> Data.removeEntry data, config.matchingCriteria(data)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Save an Entry</span></p>
@@ -262,11 +309,13 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
 </li>
 </ul>
 <p><strong>Returns a Promise</strong><br/>(Resolved with new entry or rejected with HTTP error)</p></div></div><div class="code"><div class="wrapper">      exports.<span class="function"><span class="title">save</span> = <span class="params">(entry, options={})</span> -&gt;</span>
-        <span class="keyword">if</span> !IS_SINGLETON &amp;&amp; !entry?.id?
-          <span class="keyword">return</span> $q.reject <span class="string">"<span class="subst">#{name}</span> Model: Need ID to save entry."</span>
-
-        _url = <span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>
-        _url += <span class="string">"/<span class="subst">#{entry.id}</span>"</span> <span class="keyword">unless</span> IS_SINGLETON
+        <span class="keyword">if</span> IS_SINGLETON
+          _url = <span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.listUrl}</span>"</span>
+        <span class="keyword">else</span>
+          <span class="keyword">try</span>
+            _url = config.getDetailUrl(entry, config.listUrl, config.baseUrl)
+          <span class="keyword">catch</span> e
+            <span class="keyword">return</span> $q.reject e.message || e
 
         <span class="keyword">return</span> $http.post(_url, JSON.stringify(entry), options)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
@@ -288,7 +337,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
         <span class="keyword">if</span> IS_SINGLETON
           <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Singleton collection doesn't have `destroy` method."</span>
 
-        <span class="keyword">return</span> $http.post(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.url}</span>"</span>, entry, options)
+        <span class="keyword">return</span> $http.post(<span class="string">"<span class="subst">#{config.baseUrl}</span><span class="subst">#{config.listUrl}</span>"</span>, entry, options)
         .<span class="keyword">then</span> <span class="function"><span class="params">({status, data})</span> -&gt;</span>
           <span class="keyword">return</span> $q.<span class="keyword">when</span> Data.updateEntry data, config.matchingCriteria(data)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="generic-getters">Generic Getters</h3></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Get Collection</span></p>
 <p>Parameters:</p>
@@ -332,7 +381,17 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
           $q.<span class="keyword">when</span>(response)
 
         <span class="keyword">return</span> local</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mixin-extras">Mixin Extras</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">      _.each extras, <span class="function"><span class="params">(val, key)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Custom methods</p></div></div><div class="code"><div class="wrapper">        <span class="keyword">if</span> _.isFunction(val)
-          <span class="built_in">exports</span>[key] = _.bind(val, config)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Custom HTTP Call</p></div></div><div class="code"><div class="wrapper">        <span class="keyword">else</span> <span class="keyword">if</span> _.isObject(val)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>TODO: Add data storage options</p></div></div><div class="code"><div class="wrapper">          <span class="built_in">exports</span>[key] = <span class="function"><span class="params">(options)</span> -&gt;</span> $http _.extend val, options</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr></div></div><div class="code"><div class="wrapper">      <span class="built_in">exports</span>
+          <span class="built_in">exports</span>[key] = _.bind(val, config)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Custom HTTP Call</p></div></div><div class="code"><div class="wrapper">        <span class="keyword">else</span> <span class="keyword">if</span> _.isObject(val)
+          <span class="keyword">if</span> _.isFunction val.onSuccess
+            success = _.bind(val.onSuccess, config)
+            <span class="keyword">delete</span> val.onSuccess
+          <span class="keyword">if</span> _.isFunction val.onFail
+            fail = _.bind(val.onFail, config)
+            <span class="keyword">delete</span> val.onFail</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>TODO: Add data storage options</p></div></div><div class="code"><div class="wrapper">          <span class="built_in">exports</span>[key] = <span class="function"><span class="params">(options={})</span> -&gt;</span>
+            call = $http(_.extend val, options)
+            call.<span class="keyword">then</span>(success) <span class="keyword">if</span> success?
+            call.<span class="keyword">then</span>(<span class="literal">null</span>, fail) <span class="keyword">if</span> fail?
+            <span class="keyword">return</span> call</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr></div></div><div class="code"><div class="wrapper">      <span class="built_in">exports</span>
 
     <span class="keyword">return</span> <span class="attribute">new</span>: constructor
 

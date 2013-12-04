@@ -63,4 +63,60 @@
       .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
         done <span class="keyword">new</span> Error JSON.stringify err
 
+      tick()
+
+  describe <span class="string">"like incremental updates"</span>,<span class="function"> -&gt;</span>
+    early = <span class="number">20131220</span>
+    okay  = <span class="number">20131222</span>
+    late  = <span class="number">20131224</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/messages</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+      id = <span class="number">0</span>
+      _data = [
+        {<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: early}
+        {<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: okay}
+      ]
+
+      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/messages'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
+        [<span class="number">200</span>, _data, {}]
+
+      messagesSinceUrl = <span class="regexp">/\/messages\?since=(\d.*)/</span>
+      $httpBackend.whenGET<span class="function"><span class="params">(messagesSinceUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
+        [
+          <span class="number">200</span>
+          [{<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: late}]
+          {}
+        ]
+
+    it <span class="string">"should work using bound callbacks"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Messages = Collection.<span class="keyword">new</span> <span class="string">"Messages"</span>, {},
+        <span class="attribute">update</span>:
+          <span class="attribute">method</span>: <span class="string">'GET'</span>
+          <span class="attribute">url</span>: <span class="string">"/messages"</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Incremental Updates</span></p>
+<p>This is a great example on how to incremetally update
+  date using callbacks, since they are bound to have <code>this</code> point
+  to the Collection&#39;s <code>config</code> object!</p>
+<p>Parameters:</p>
+<ul>
+<li><strong>response must be an Object.</strong><br/>(HTTP response)</li>
+</ul>
+<p><strong>Returns an Object</strong><br/>(HTTP response (can be used in chained promises))</p></div></div><div class="code"><div class="wrapper">          <span class="attribute">onSuccess</span>: <span class="function"><span class="params">(response)</span> -&gt;</span>
+            <span class="keyword">if</span> _.isArray response.data
+              _.each response.data, <span class="function"><span class="params">(item)</span> =&gt;</span>
+                <span class="property">@Data</span>.updateEntry item, <span class="property">@matchingCriteria</span>(item)
+            <span class="keyword">return</span> response
+
+      messages = Messages.all()
+      messages.$promise
+      .<span class="keyword">then</span><span class="function"> -&gt;</span>
+        expect(messages.all).to.not.contain late
+        Messages.update <span class="attribute">params</span>: <span class="attribute">since</span>: late
+      .<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>console.log response.data</p></div></div><div class="code"><div class="wrapper">        expect(
+          _.pluck messages.all, <span class="string">'created'</span>
+        ).to.contain late
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
       tick()</div></div></div></div></body></html>

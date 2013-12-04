@@ -518,6 +518,28 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "CoffeeScript"
                 },
+                "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/local_storage_spec.coffee",
+                "projectPath": "test/unit/local_storage_spec.coffee",
+                "targetPath": "test/unit/local_storage_spec",
+                "pageTitle": "test/unit/local_storage_spec",
+                "title": "local_storage_spec"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".coffee", "Cakefile"],
+                  "pygmentsLexer": "coffee-script",
+                  "highlightJS": "coffeescript",
+                  "multiLineComment": ["###*", " *", " ###", "###", "#", "###"],
+                  "strictMultiLineEnd": false,
+                  "singleLineComment": ["#"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "CoffeeScript"
+                },
                 "sourcePath": "/Users/pascal/Projekte/epicmodel/test/unit/request_config_spec.coffee",
                 "projectPath": "test/unit/request_config_spec.coffee",
                 "targetPath": "test/unit/request_config_spec",
