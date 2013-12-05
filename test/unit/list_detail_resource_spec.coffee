@@ -71,6 +71,7 @@ describe "List Resource", ->
     messages = Messages.all()
 
     messages.$promise.then ->
+      expect(messages.$resolved).to.eql true
       expect(messages.all.length).to.eql messagesCount
       done(null)
     .then null, (err) ->
@@ -87,8 +88,10 @@ describe "List Resource", ->
 
     $q.all([messages.$promise, message.$promise]).then ->
       expect(messages.all).to.exist
+      expect(messages.$resolved).to.eql true
 
       expect(message.data).to.exist
+      expect(message.$resolved).to.eql true
 
       expect(_.findWhere(messages.all, query)).to.eql(message.data)
 
@@ -100,10 +103,12 @@ describe "List Resource", ->
     tick()
 
   it 'should not fetch a single item without an ID', (done) ->
-    Messages.get({}).$promise
+    message = Messages.get({})
+    message.$promise
     .then (data) ->
       done new Error "Incorrect message was saved."
     .then null, (err) ->
+      expect(message.$resolved).to.not.be.ok
       expect(err).to.exist
       done(null)
 

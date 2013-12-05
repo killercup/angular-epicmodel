@@ -455,16 +455,18 @@ angular.module('EpicModel', [
       # @method Get Collection
       #
       # @param {Object} [options] HTTP options
-      # @return {Object} With keys `all` and `$promise`
+      # @return {Object} With keys `data`, `$promise`, and `$resolved`
       ###
       exports.all = (options) ->
         local = {}
 
         if IS_SINGLETON
           local.$promise = exports.fetch(options)
+          local.$promise.then -> local.$resolved = true
           local.data = _data.data
         else
           local.$promise = exports.fetchAll(options)
+          local.$promise.then -> local.$resolved = true
           local.all = _data.all
 
         return local
@@ -483,7 +485,7 @@ angular.module('EpicModel', [
       #
       # @param {Object} query The query that will be used in `matchingCriteria`
       # @param {Object} [options] HTTP options
-      # @return {Object} With keys `data` and `$promise`
+      # @return {Object} With keys `data`, `$promise`, and `$resolved`
       # @throws {Error} When Collection is singleton
       #
       # @todo Customize ID query
@@ -497,6 +499,7 @@ angular.module('EpicModel', [
         local.$promise = exports.fetchOne(query, options)
         .then (response) ->
           local.data = response.data
+          local.$resolved = true
           $q.when(response)
 
         return local

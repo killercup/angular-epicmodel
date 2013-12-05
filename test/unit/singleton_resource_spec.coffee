@@ -28,6 +28,7 @@ describe "Singleton Resource", ->
     me = Me.all()
 
     me.$promise.then ->
+      expect(me.$resolved).to.eql true
       expect(me.data).to.be.an('object')
       expect(me.data).to.contain.keys('name', 'awesomeness')
       done(null)
