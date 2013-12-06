@@ -46,6 +46,12 @@ describe "Extras", ->
         log "GET /me/friends"
         [200, _data, {}]
 
+      friendsUrl = /^\/user\/(\d*)\/friends$/
+      $httpBackend.whenGET(friendsUrl).respond (method, url, data) ->
+        id = +friendsUrl.exec(url)[1]
+        log "GET #{url}"
+        [200, {msg: "friends for #{id}"}, {}]
+
     it 'should work', (done) ->
       Me = Collection.new "Me", {is_singleton: true},
         friends:
@@ -60,6 +66,26 @@ describe "Extras", ->
       friends.then (response) ->
         expect(response.data).to.exist
         expect(response.data).to.have.deep.property('[1].name')
+
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    it 'should work with URL matching', (done) ->
+      User = Collection.new "User", {},
+        friends:
+          method: 'GET'
+          url: '/user/{id}/friends'
+
+      theUser = 1
+
+      friends = User.friends(id: theUser)
+
+      friends.then ({data}) ->
+        expect(data).to.exist
+        expect(data.msg).to.eql "friends for #{theUser}"
 
         done(null)
       .then null, (err) ->
@@ -102,6 +128,8 @@ describe "Extras", ->
           {}
         ]
 
+    # Messages Collection
+    beforeEach ->
       Messages = Collection.new "Messages", {},
         update:
           method: 'GET'
@@ -130,7 +158,7 @@ describe "Extras", ->
       messages.$promise
       .then ->
         expect(messages.all).to.not.contain late
-        Messages.update params: since: late
+        Messages.update {}, params: since: late
       .then (response) ->
         # console.log response.data
         expect(
@@ -144,7 +172,7 @@ describe "Extras", ->
       tick()
 
     it "should offer failure handling", (done) ->
-      Messages.update(params: since: 42)
+      Messages.update({}, params: since: 42)
       .then ->
         done new Error "Should have been an error."
       .then null, ({data}) ->

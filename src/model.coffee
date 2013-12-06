@@ -139,33 +139,36 @@ angular.module('EpicModel', [
       config.baseUrl ||= globalConfig.baseUrl
       config.listUrl ||= config.url
 
+      ###
+      # @method Make Detail URL from Pattern
+      #
+      # @param {Object} entry The entry to URL points to
+      # @param {String} [listUrl=config.url]
+      # @param {String} [baseUrl=config.baseUrl]
+      # @return {String} Entry URL
+      ###
+      config.parseUrlPattern = (entry, url) ->
+        substitutes = /\{([\w_.]*?)\}/g
+        entryUrl = url
+        _.each url.match(substitutes), (match) ->
+          # Remove braces and split on dots (might address sub-object, e.g.
+          # using `item.id`)
+          keys = match.replace('{', '').replace('}', '').split('.')
+          value = entry
+          _.each keys, (key) ->
+            value = value[key]
+
+          if value?
+            entryUrl = entryUrl.replace match, value
+          else
+            throw new Error "#{name} Model: Can't substitute #{match} in URL"+
+              "(entry has no value for #{key})"
+
+        return entryUrl
+
       if _.isString config.detailUrl
-        ###
-        # @method Make Detail URL from Pattern
-        #
-        # @param {Object} entry The entry to URL points to
-        # @param {String} [listUrl=config.url]
-        # @param {String} [baseUrl=config.baseUrl]
-        # @return {String} Entry URL
-        ###
-        makeDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
-          substitutes = /{([\w_.]*?)}/g
-          entryUrl = config.detailUrl
-          _.each config.detailUrl.match(substitutes), (match) ->
-            # Remove braces and split on dots (might address sub-object, e.g.
-            # using `item.id`)
-            keys = match.replace('{', '').replace('}', '').split('.')
-            value = entry
-            _.each keys, (key) ->
-              value = value[key]
-
-            if value?
-              entryUrl = entryUrl.replace match, value
-            else
-              throw new Error "#{name} Model: Can't substitute #{match} in URL"+
-                "(entry has no value for #{key})"
-
-          return entryUrl
+        makeDetailUrl = (entry) ->
+          config.parseUrlPattern(entry, config.detailUrl)
       else
         makeDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
           if entry.id?
@@ -531,9 +534,16 @@ angular.module('EpicModel', [
           if _.isFunction val.onFail
             fail = _.bind(val.onFail, config)
             delete val.onFail
+
           # @todo Add data storage options
-          exports[key] = (options={}) ->
-            call = $http(_.extend val, options)
+          exports[key] = (data, options={}) ->
+            if !options.url
+              if _.isFunction(val.url)
+                options.url = val.url(data, config.listUrl, config.detailUrl)
+              else
+                options.url = config.parseUrlPattern(data, val.url)
+
+            call = $http _.extend(val, options), data
             call.then(success) if success?
             call.then(null, fail) if fail?
             return call
