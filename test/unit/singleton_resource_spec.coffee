@@ -37,6 +37,19 @@ describe "Singleton Resource", ->
 
     tick()
 
+  it "should have a 'loading' flag", (done) ->
+    me = Me.all()
+    expect(me.$loading).to.eql true
+
+    me.$promise.then ->
+      expect(me.$loading).to.eql false
+      expect(me.$resolved).to.eql true
+      done(null)
+    .then null, (err) ->
+      done new Error JSON.stringify err
+
+    tick()
+
   it 'should update an object', (done) ->
     oldMe = me = Me.all()
 

@@ -67,52 +67,166 @@ describe "List Resource", ->
     Messages = Collection.new "Messages"
 
   # ### GET /messages
-  it "should fetch an array of objects", (done) ->
-    messages = Messages.all()
+  describe "concerning all items", ->
+    it "should fetch an array of objects", (done) ->
+      messages = Messages.all()
 
-    messages.$promise.then ->
-      expect(messages.$resolved).to.eql true
-      expect(messages.all.length).to.eql messagesCount
-      done(null)
-    .then null, (err) ->
-      done new Error JSON.stringify err
+      messages.$promise.then ->
+        expect(messages.$resolved).to.eql true
+        expect(messages.all.length).to.eql messagesCount
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
 
-    tick()
+      tick()
 
-  # ### GET /messages/2
-  it 'should fetch single item', (done) ->
-    query = id: 2
+    # ### Query cached data
+    it 'should query cached data', (done) ->
+      Messages.all().$promise
+      .then ->
+        messages = Messages.where subject: 'Hello World'
+        expect(messages).to.be.an('array')
+        expect(messages.length).to.eql 1
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
 
-    messages = Messages.all()
-    message = Messages.get(query)
+      tick()
 
-    $q.all([messages.$promise, message.$promise]).then ->
-      expect(messages.all).to.exist
-      expect(messages.$resolved).to.eql true
+    it "should have a 'loading' flag", (done) ->
+      messages = Messages.all()
+      expect(messages.$loading).to.eql true
 
-      expect(message.data).to.exist
-      expect(message.$resolved).to.eql true
+      messages.$promise.then ->
+        expect(messages.$loading).to.eql false
+        expect(messages.$resolved).to.eql true
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
 
-      expect(_.findWhere(messages.all, query)).to.eql(message.data)
+      tick()
 
-      expect(message.data.subject).to.eql subject2
-      done(null)
-    .then null, (err) ->
-      done new Error JSON.stringify err
+  describe "concerning a single item", ->
+    # ### GET /messages/2
+    it 'should fetch single item', (done) ->
+      query = id: 2
 
-    tick()
+      messages = Messages.all()
+      message = Messages.get(query)
 
-  it 'should not fetch a single item without an ID', (done) ->
-    message = Messages.get({})
-    message.$promise
-    .then (data) ->
-      done new Error "Incorrect message was saved."
-    .then null, (err) ->
-      expect(message.$resolved).to.not.be.ok
-      expect(err).to.exist
-      done(null)
+      $q.all([messages.$promise, message.$promise]).then ->
+        expect(messages.all).to.exist
+        expect(messages.$resolved).to.eql true
 
-    tick()
+        expect(message.data).to.exist
+        expect(message.$resolved).to.eql true
+
+        expect(_.findWhere(messages.all, query)).to.eql(message.data)
+
+        expect(message.data.subject).to.eql subject2
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    it 'should not fetch a single item without an ID', (done) ->
+      message = Messages.get({})
+      message.$promise
+      .then (data) ->
+        done new Error "Incorrect message was saved."
+      .then null, (err) ->
+        expect(message.$resolved).to.not.be.ok
+        expect(err).to.exist
+        done(null)
+
+      tick()
+
+    it "should have a 'loading' flag", (done) ->
+      message = Messages.get id: 2
+      expect(message.$loading).to.eql true
+
+      message.$promise.then ->
+        expect(message.$loading).to.eql false
+        expect(message.$resolved).to.eql true
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    # ### POST /messages/1
+    it 'should update an entry', (done) ->
+      query = {}
+      messages = []
+      message = {}
+
+      new_subject = 'Shiny Message'
+
+      # Fetch all messages for reference
+      messages = Messages.all()
+      messages.$promise.then ->
+        # Load random message
+        query = id: _.sample(messages.all).id
+        message = Messages.get(query)
+        message.$promise
+      .then ->
+        expect(message.data.subject).to.exist
+
+        # Clone message and edit the clone so it is a new reference
+        updated_message = _.cloneDeep(message.data)
+        updated_message.subject = new_subject
+
+        # Save correctly
+        Messages.save(updated_message)
+      .then (data) ->
+        # message object updated
+        expect(data.subject).to.eql new_subject
+        expect(data.subject).to.eql message.data.subject
+        expect(data.body).to.eql message.data.body
+
+        # messages list item updated
+        expect(_.findWhere(messages.all, query)).to.deep.equal(data)
+
+        $q.when data
+      .then ->
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    it "should not update an entry without an ID", (done) ->
+      Messages.save({}).then (data) ->
+        done new Error "Incorrect message was saved."
+      .then null, (err) ->
+        expect(err).to.exist
+        done(null)
+
+      tick()
+
+    # ### DELETE /messages/2
+    it 'should delete an entry', (done) ->
+      query = id: 2
+      Messages.destroy(query)
+      .then ->
+        messages = Messages.where query
+        expect(messages).to.be.an('array')
+        expect(messages.length).to.eql 0
+        done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    it 'should not delete an entry without an ID', (done) ->
+      Messages.destroy({}).then (data) ->
+        done new Error "Incorrect message was saved."
+      .then null, (err) ->
+        expect(err).to.exist
+        done(null)
+
+      tick()
 
   # ### POST /messages
   it 'should create a new entry', (done) ->
@@ -128,92 +242,6 @@ describe "List Resource", ->
       done()
     .then null, (err) ->
       done new Error JSON.stringify err
-    tick()
-
-  # ### POST /messages/1
-  it 'should update an entry', (done) ->
-    query = {}
-    messages = []
-    message = {}
-
-    new_subject = 'Shiny Message'
-
-    # Fetch all messages for reference
-    messages = Messages.all()
-    messages.$promise.then ->
-      # Load random message
-      query = id: _.sample(messages.all).id
-      message = Messages.get(query)
-      message.$promise
-    .then ->
-      expect(message.data.subject).to.exist
-
-      # Clone message and edit the clone so it is a new reference
-      updated_message = _.cloneDeep(message.data)
-      updated_message.subject = new_subject
-
-      # Save correctly
-      Messages.save(updated_message)
-    .then (data) ->
-      # message object updated
-      expect(data.subject).to.eql new_subject
-      expect(data.subject).to.eql message.data.subject
-      expect(data.body).to.eql message.data.body
-
-      # messages list item updated
-      expect(_.findWhere(messages.all, query)).to.deep.equal(data)
-
-      $q.when data
-    .then ->
-      done(null)
-    .then null, (err) ->
-      done new Error JSON.stringify err
-
-    tick()
-
-  it "should not update an entry without an ID", (done) ->
-    Messages.save({}).then (data) ->
-      done new Error "Incorrect message was saved."
-    .then null, (err) ->
-      expect(err).to.exist
-      done(null)
-
-    tick()
-
-  # ### DELETE /messages/2
-  it 'should delete an entry', (done) ->
-    query = id: 2
-    Messages.destroy(query)
-    .then ->
-      messages = Messages.where query
-      expect(messages).to.be.an('array')
-      expect(messages.length).to.eql 0
-      done(null)
-    .then null, (err) ->
-      done new Error JSON.stringify err
-
-    tick()
-
-  it 'should not delete an entry without an ID', (done) ->
-    Messages.destroy({}).then (data) ->
-      done new Error "Incorrect message was saved."
-    .then null, (err) ->
-      expect(err).to.exist
-      done(null)
-
-    tick()
-
-  # ### Query cached data
-  it 'should query cached data', (done) ->
-    Messages.all().$promise
-    .then ->
-      messages = Messages.where subject: 'Hello World'
-      expect(messages).to.be.an('array')
-      expect(messages.length).to.eql 1
-      done(null)
-    .then null, (err) ->
-      done new Error JSON.stringify err
-
     tick()
 
   it "should reject promise on HTTP error", (done) ->

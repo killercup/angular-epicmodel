@@ -1,5 +1,5 @@
 ###
-# # Model Module
+# # Epic Model
 #
 # Represent data like a boss.
 ###
@@ -8,14 +8,8 @@ angular.module('EpicModel', [
 
 .provider "Collection", ->
   ###
-  # # Collection Factory
-  #
-  # Create your own collection by injecting this service and executing it
-  # like your life depended on it.
-  #
-  # When I'm done with it, it should work like the example.
-  #
-  # (Currently, it works like `Collection.new 'People', {is_singleton: true}`.)
+  # Create your own collection by injecting the `Collection` service and calling
+  # its 'new' method.
   #
   # @example
   # ```coffeescript
@@ -24,19 +18,30 @@ angular.module('EpicModel', [
   #   API =
   #     People: Collection.new 'People', {url: '/people/:id'},
   #       calculateStuff: (input) -> 42
-  #       befriend:
-  #         method: 'POST'
-  #         url: '/people/:id/befriend'
   # .controller "Ctrl", ($scope, ShittyAPI) ->
   #   $scope.list = API.People.all()
-  #   $scope.befriend = (data) -> API.People data: data
+  # ```
+  #
+  # **Immediate Return Data**
+  #
+  # Most methods return a promise, but the methods `all` and `get` methods
+  # return a special object instead, that contains the currently available data,
+  # a promise and flags to represent the data retrieval state. I.e., you can
+  # immediately use the return value in your views and the data will
+  # automatically appear once it has been retrieved (or updated).
+  #
+  # @example
+  # ```coffeescript
+  # Me = Collection.new "Me", is_singleton: true
+  # Me.all()
+  # #=> {data: {}, $resolved: false, $loading: true, $promise: {then, ...}}
   # ```
   ###
 
   # ## Global Config
   ###
   #
-  # Just inject le `CollectionProvider` and set some globals.
+  # Just inject the `CollectionProvider` and set some globals.
   #
   # @example
   # ```coffeescript
@@ -390,7 +395,7 @@ angular.module('EpicModel', [
       ###
       exports.destroy = (query, options={}) ->
         if IS_SINGLETON
-          throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
+          throw new Error "#{name} Model: Singleton doesn't have `destroy` method."
 
         try
           _url = config.getDetailUrl(query, config.listUrl, config.baseUrl)
@@ -441,7 +446,7 @@ angular.module('EpicModel', [
       ###
       exports.create = (entry, options={}) ->
         if IS_SINGLETON
-          throw new Error "#{name} Model: Singleton collection doesn't have `destroy` method."
+          throw new Error "#{name} Model: Singleton doesn't have `destroy` method."
 
         return $http.post("#{config.baseUrl}#{config.listUrl}", entry, options)
         .then ({status, data}) ->
@@ -455,18 +460,23 @@ angular.module('EpicModel', [
       # @method Get Collection
       #
       # @param {Object} [options] HTTP options
-      # @return {Object} With keys `data`, `$promise`, and `$resolved`
+      # @return {Object} Immediate Return Data (see above)
       ###
       exports.all = (options) ->
-        local = {}
+        local =
+          $loading: true
 
         if IS_SINGLETON
           local.$promise = exports.fetch(options)
-          local.$promise.then -> local.$resolved = true
+          local.$promise.then ->
+            local.$loading = false
+            local.$resolved = true
           local.data = _data.data
         else
           local.$promise = exports.fetchAll(options)
-          local.$promise.then -> local.$resolved = true
+          local.$promise.then ->
+            local.$loading = false
+            local.$resolved = true
           local.all = _data.all
 
         return local
@@ -485,20 +495,23 @@ angular.module('EpicModel', [
       #
       # @param {Object} query The query that will be used in `matchingCriteria`
       # @param {Object} [options] HTTP options
-      # @return {Object} With keys `data`, `$promise`, and `$resolved`
+      # @return {Object} Immediate Return Data (see above)
       # @throws {Error} When Collection is singleton
       #
       # @todo Customize ID query
       ###
       exports.get = (query, options) ->
         if IS_SINGLETON
-          throw new Error "#{name} Model: Singleton collection doesn't have `get` method."
+          throw new Error "#{name} Model: Singleton doesn't have `get` method."
 
-        local = {}
+        local =
+          $loading: true
+
         local.data = _.findWhere _data.all, config.matchingCriteria(query)
         local.$promise = exports.fetchOne(query, options)
         .then (response) ->
           local.data = response.data
+          local.$loading = false
           local.$resolved = true
           $q.when(response)
 
