@@ -136,22 +136,9 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 1,
-                "title": "Model Module",
-                "slug": "model-module",
+                "title": "Epic Model",
+                "slug": "epic-model",
                 "isFileHeader": true
-              },
-              "depth": 1
-            },
-            "title": "Model Module"
-          },
-          "depth": 2,
-          "outline": [
-            {
-              "type": "heading",
-              "data": {
-                "level": 1,
-                "title": "Collection Factory",
-                "slug": "collection-factory"
               },
               "depth": 1,
               "children": [
@@ -260,6 +247,116 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "depth": 3
                     }
                   ]
+                }
+              ]
+            },
+            "title": "Epic Model"
+          },
+          "depth": 2,
+          "outline": [
+            {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Global Config",
+                "slug": "global-config"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Constructor",
+                "slug": "constructor"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Options",
+                    "slug": "options"
+                  },
+                  "depth": 3,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 4,
+                        "title": "Storage Implementation",
+                        "slug": "storage-implementation"
+                      },
+                      "depth": 4
+                    }
+                  ]
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "In Memory Data",
+                    "slug": "in-memory-data"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "HTTP Requests and Stuff",
+                    "slug": "http-requests-and-stuff"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Generic Getters",
+                    "slug": "generic-getters"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Mixin Extras",
+                    "slug": "mixin-extras"
+                  },
+                  "depth": 3
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
+                "title": "Storage Wrapper for LocalStorage",
+                "slug": "storage-wrapper-for-localstorage"
+              },
+              "depth": 2,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Get Item",
+                    "slug": "get-item"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Set Item",
+                    "slug": "set-item"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "Remove Item",
+                    "slug": "remove-item"
+                  },
+                  "depth": 3
                 }
               ]
             }
@@ -466,16 +563,16 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "GET /messages/2",
-                    "slug": "get-messages2"
+                    "title": "Query cached data",
+                    "slug": "query-cached-data"
                   },
                   "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "POST /messages",
-                    "slug": "post-messages"
+                    "title": "GET /messages/2",
+                    "slug": "get-messages2"
                   },
                   "depth": 3
                 }, {
@@ -498,8 +595,8 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "Query cached data",
-                    "slug": "query-cached-data"
+                    "title": "POST /messages",
+                    "slug": "post-messages"
                   },
                   "depth": 3
                 }

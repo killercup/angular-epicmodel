@@ -3,9 +3,10 @@
   beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
   beforeEach addHelpers()
 
-  Collection = <span class="literal">null</span>
-  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+  Collection = $httpBackend = <span class="literal">null</span>
+  beforeEach inject <span class="function"><span class="params">(_$httpBackend_, _Collection_)</span> -&gt;</span>
     Collection = _Collection_
+    $httpBackend = _$httpBackend_
 
   describe <span class="string">'as functions'</span>,<span class="function"> -&gt;</span>
     it <span class="string">'should be available'</span>,<span class="function"> -&gt;</span>
@@ -34,15 +35,28 @@
       expect(Thingy.allYourBases()).to.eql specialBaseUrl
       expect(Thingy.whatsThisUrl()).to.eql specialUrl
 
-  describe <span class="string">'as HTTP calls'</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+  describe <span class="string">'as HTTP calls'</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach<span class="function"> -&gt;</span>
       _data = [
         {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
         {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>}
       ]
 
       $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/me/friends'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        log <span class="string">"GET /me/friends"</span>
+        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
         [<span class="number">200</span>, _data, {}]
+
+      friendsUrl = <span class="regexp">/^\/user\/(\d*)\/friends$/</span>
+      $httpBackend.whenGET<span class="function"><span class="params">(friendsUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        id = +friendsUrl.exec(url)[<span class="number">1</span>]
+        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
+        [<span class="number">200</span>, {<span class="attribute">msg</span>: <span class="string">"friends for <span class="subst">#{id}</span>"</span>}, {}]
+
+      $httpBackend.whenPATCH<span class="function"><span class="params">(<span class="string">'/user/payout'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
+        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
+        <span class="keyword">if</span> data.payout
+          [<span class="number">200</span>, {<span class="attribute">payout</span>: {<span class="attribute">status</span>: <span class="string">'success'</span>}}, {}]
+        <span class="keyword">else</span>
+          [<span class="number">400</span>, {<span class="attribute">err</span>: <span class="string">'no payout'</span>}, {}]
 
     it <span class="string">'should work'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
       Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
@@ -65,10 +79,66 @@
 
       tick()
 
-  describe <span class="string">"like incremental updates"</span>,<span class="function"> -&gt;</span>
+    it <span class="string">"should guess URLs"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
+        <span class="attribute">friends</span>:
+          <span class="attribute">method</span>: <span class="string">'GET'</span>
+
+      $httpBackend.expectGET(<span class="string">'/me/friends'</span>)
+      .respond<span class="function"> -&gt;</span>
+        done(<span class="literal">null</span>)
+
+      Me.friends()
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+    it <span class="string">'should work with URL matching'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      User = Collection.<span class="keyword">new</span> <span class="string">"User"</span>, {},
+        <span class="attribute">friends</span>:
+          <span class="attribute">method</span>: <span class="string">'GET'</span>
+          <span class="attribute">url</span>: <span class="string">'/user/{id}/friends'</span>
+
+      theUser = <span class="number">1</span>
+
+      friends = User.friends(<span class="attribute">id</span>: theUser)
+
+      friends.<span class="keyword">then</span> <span class="function"><span class="params">({data})</span> -&gt;</span>
+        expect(data).to.exist
+        expect(data.msg).to.eql <span class="string">"friends for <span class="subst">#{theUser}</span>"</span>
+
+        done(<span class="literal">null</span>)
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+    it <span class="string">"can use cool HTTP methods"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      User = Collection.<span class="keyword">new</span> <span class="string">'User'</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
+        <span class="attribute">payout</span>:
+          <span class="attribute">method</span>: <span class="string">'PATCH'</span>
+          <span class="attribute">data</span>:
+            <span class="attribute">payout</span>: <span class="literal">true</span>
+
+      $httpBackend.expectPATCH(<span class="string">'/user/payout'</span>)
+      .respond<span class="function"> -&gt;</span>
+        done(<span class="literal">null</span>)
+
+      User.payout()
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+        done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+  describe <span class="string">"with bound callbacks"</span>,<span class="function"> -&gt;</span>
+    Messages = <span class="literal">null</span>
+
     early = <span class="number">20131220</span>
     okay  = <span class="number">20131222</span>
-    late  = <span class="number">20131224</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/messages</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+    late  = <span class="number">20131224</span>
+
+    errorCheck = <span class="string">"It failed."</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/messages</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
       id = <span class="number">0</span>
       _data = [
         {<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: early}
@@ -82,13 +152,16 @@
       messagesSinceUrl = <span class="regexp">/\/messages\?since=(\d.*)/</span>
       $httpBackend.whenGET<span class="function"><span class="params">(messagesSinceUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
         log <span class="string">"GET <span class="subst">#{url}</span>"</span>
+        since = +messagesSinceUrl.exec(url)[<span class="number">1</span>]
+
+        <span class="keyword">if</span> since <span class="keyword">is</span> <span class="number">42</span>
+          <span class="keyword">return</span> [<span class="number">403</span>, {<span class="attribute">err</span>: <span class="string">'Classified'</span>}, {}]
+
         [
           <span class="number">200</span>
           [{<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: late}]
           {}
-        ]
-
-    it <span class="string">"should work using bound callbacks"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+        ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Messages Collection</p></div></div><div class="code"><div class="wrapper">    beforeEach<span class="function"> -&gt;</span>
       Messages = Collection.<span class="keyword">new</span> <span class="string">"Messages"</span>, {},
         <span class="attribute">update</span>:
           <span class="attribute">method</span>: <span class="string">'GET'</span>
@@ -104,13 +177,16 @@
             <span class="keyword">if</span> _.isArray response.data
               _.each response.data, <span class="function"><span class="params">(item)</span> =&gt;</span>
                 <span class="property">@Data</span>.updateEntry item, <span class="property">@matchingCriteria</span>(item)
+            <span class="keyword">return</span> response</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test failure callback by manipulating return value</p></div></div><div class="code"><div class="wrapper">          <span class="attribute">onFail</span>: <span class="function"><span class="params">(response)</span> -&gt;</span>
+            response.data = errorCheck
             <span class="keyword">return</span> response
 
+    it <span class="string">"should enable incremental updates"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
       messages = Messages.all()
       messages.$promise
       .<span class="keyword">then</span><span class="function"> -&gt;</span>
         expect(messages.all).to.not.contain late
-        Messages.update <span class="attribute">params</span>: <span class="attribute">since</span>: late
+        Messages.update {}, <span class="attribute">params</span>: <span class="attribute">since</span>: late
       .<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>console.log response.data</p></div></div><div class="code"><div class="wrapper">        expect(
           _.pluck messages.all, <span class="string">'created'</span>
         ).to.contain late
@@ -118,5 +194,15 @@
         done(<span class="literal">null</span>)
       .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
         done <span class="keyword">new</span> Error JSON.stringify err
+
+      tick()
+
+    it <span class="string">"should offer failure handling"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+      Messages.update({}, <span class="attribute">params</span>: <span class="attribute">since</span>: <span class="number">42</span>)
+      .<span class="keyword">then</span><span class="function"> -&gt;</span>
+        done <span class="keyword">new</span> Error <span class="string">"Should have been an error."</span>
+      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">({data})</span> -&gt;</span>
+        expect(data).to.eql errorCheck
+        done(<span class="literal">null</span>)
 
       tick()</div></div></div></div></body></html>

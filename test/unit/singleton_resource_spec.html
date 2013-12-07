@@ -22,8 +22,22 @@
     me = Me.all()
 
     me.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+      expect(me.$resolved).to.eql <span class="literal">true</span>
       expect(me.data).to.be.an(<span class="string">'object'</span>)
       expect(me.data).to.contain.keys(<span class="string">'name'</span>, <span class="string">'awesomeness'</span>)
+      done(<span class="literal">null</span>)
+    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
+      done <span class="keyword">new</span> Error JSON.stringify err
+
+    tick()
+
+  it <span class="string">"should have a 'loading' flag"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    me = Me.all()
+    expect(me.$loading).to.eql <span class="literal">true</span>
+
+    me.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+      expect(me.$loading).to.eql <span class="literal">false</span>
+      expect(me.$resolved).to.eql <span class="literal">true</span>
       done(<span class="literal">null</span>)
     .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
       done <span class="keyword">new</span> Error JSON.stringify err
