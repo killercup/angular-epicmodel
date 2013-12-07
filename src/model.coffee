@@ -111,7 +111,7 @@ angular.module('EpicModel', [
     #   storage: myStorage # see below
     # }, {
     #   something: (id) -> 42
-    #   specials: # this is NYI
+    #   pay:
     #     method: 'PATCH'
     #     params:
     #       payout: true
@@ -520,33 +520,39 @@ angular.module('EpicModel', [
 
         return local
 
-
       # ### Mixin Extras
+
+      addExtraCall = (key, val) ->
+        unless val.url
+          val.url = "#{config.baseUrl}#{config.listUrl}/#{key}"
+
+        if _.isFunction val.onSuccess
+          success = _.bind(val.onSuccess, config)
+          delete val.onSuccess
+        if _.isFunction val.onFail
+          fail = _.bind(val.onFail, config)
+          delete val.onFail
+
+        # @todo Add data storage options
+        exports[key] = (data, options={}) ->
+          if !options.url
+            if _.isFunction(val.url)
+              options.url = val.url(data, config.listUrl, config.detailUrl)
+            else
+              options.url = config.parseUrlPattern(data, val.url)
+
+          call = $http _.extend(val, options), data
+          call.then(success) if success?
+          call.then(null, fail) if fail?
+          return call
+
       _.each extras, (val, key) ->
         # Custom methods
         if _.isFunction(val)
           exports[key] = _.bind(val, config)
         # Custom HTTP Call
         else if _.isObject(val)
-          if _.isFunction val.onSuccess
-            success = _.bind(val.onSuccess, config)
-            delete val.onSuccess
-          if _.isFunction val.onFail
-            fail = _.bind(val.onFail, config)
-            delete val.onFail
-
-          # @todo Add data storage options
-          exports[key] = (data, options={}) ->
-            if !options.url
-              if _.isFunction(val.url)
-                options.url = val.url(data, config.listUrl, config.detailUrl)
-              else
-                options.url = config.parseUrlPattern(data, val.url)
-
-            call = $http _.extend(val, options), data
-            call.then(success) if success?
-            call.then(null, fail) if fail?
-            return call
+          addExtraCall key, val
 
 
       # - - -

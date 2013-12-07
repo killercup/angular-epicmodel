@@ -3,9 +3,10 @@ describe "Extras", ->
   beforeEach module('Stuff')
   beforeEach addHelpers()
 
-  Collection = null
-  beforeEach inject (_Collection_) ->
+  Collection = $httpBackend = null
+  beforeEach inject (_$httpBackend_, _Collection_) ->
     Collection = _Collection_
+    $httpBackend = _$httpBackend_
 
   describe 'as functions', ->
     it 'should be available', ->
@@ -36,14 +37,14 @@ describe "Extras", ->
 
   describe 'as HTTP calls', ->
     # Mock Server on `/me/friends`
-    beforeEach inject ($httpBackend) ->
+    beforeEach ->
       _data = [
         {name: "Jim"}
         {name: "Some Dude"}
       ]
 
       $httpBackend.whenGET('/me/friends').respond (method, url, data) ->
-        log "GET /me/friends"
+        log "GET #{url}"
         [200, _data, {}]
 
       friendsUrl = /^\/user\/(\d*)\/friends$/
@@ -51,6 +52,13 @@ describe "Extras", ->
         id = +friendsUrl.exec(url)[1]
         log "GET #{url}"
         [200, {msg: "friends for #{id}"}, {}]
+
+      $httpBackend.whenPATCH('/user/payout').respond (method, url, data) ->
+        log "GET #{url}"
+        if data.payout
+          [200, {payout: {status: 'success'}}, {}]
+        else
+          [400, {err: 'no payout'}, {}]
 
     it 'should work', (done) ->
       Me = Collection.new "Me", {is_singleton: true},
@@ -73,6 +81,21 @@ describe "Extras", ->
 
       tick()
 
+    it "should guess URLs", (done) ->
+      Me = Collection.new "Me", {is_singleton: true},
+        friends:
+          method: 'GET'
+
+      $httpBackend.expectGET('/me/friends')
+      .respond ->
+        done(null)
+
+      Me.friends()
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
     it 'should work with URL matching', (done) ->
       User = Collection.new "User", {},
         friends:
@@ -88,6 +111,23 @@ describe "Extras", ->
         expect(data.msg).to.eql "friends for #{theUser}"
 
         done(null)
+      .then null, (err) ->
+        done new Error JSON.stringify err
+
+      tick()
+
+    it "can use cool HTTP methods", (done) ->
+      User = Collection.new 'User', {is_singleton: true},
+        payout:
+          method: 'PATCH'
+          data:
+            payout: true
+
+      $httpBackend.expectPATCH('/user/payout')
+      .respond ->
+        done(null)
+
+      User.payout()
       .then null, (err) ->
         done new Error JSON.stringify err
 
