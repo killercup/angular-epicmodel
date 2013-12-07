@@ -179,7 +179,7 @@ angular.module('EpicModel', [
       if _.isFunction config.detailUrl
         config.getDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
           config.detailUrl(entry, listUrl, baseUrl)
-       else
+      else
         config.getDetailUrl = makeDetailUrl
 
 
