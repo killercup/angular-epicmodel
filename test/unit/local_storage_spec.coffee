@@ -17,7 +17,7 @@ describe "Local Storage", ->
       [200, _data, {}]
 
   it "should be populated after data was loaded", (done) ->
-    expect(localStorage).to.exist 
+    expect(localStorage).to.exist
     Items = Collection.new "Items", storage: CollectionLocalStorage
 
     items = Items.all()

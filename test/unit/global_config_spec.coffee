@@ -4,7 +4,7 @@ describe "Global config", ->
 
   demoUrl = 'https://example.com/api/v42/'
 
-  it "sets baseUrl correctly", ->    
+  it "sets baseUrl correctly", ->
     module (CollectionProvider) ->
       CollectionProvider.setBaseUrl demoUrl
       # Return nothing because Angular will try to inject return value!
