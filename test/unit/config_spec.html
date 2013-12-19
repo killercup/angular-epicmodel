@@ -51,8 +51,8 @@
       winners = Winners.all()
       winners.$promise.<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
         expect(winners.all).to.have.length.above <span class="number">0</span>
-        expect(winners.all).to.contain jim
-        expect(winners.all).to.not.contain arch_enemy
+        expect(_.findWhere(winners.all, jim)).to.exist
+        expect(_.findWhere(winners.all, arch_enemy)).to.not.exist
 
         expect(response.data).to.deep.eql(winners.all)
 

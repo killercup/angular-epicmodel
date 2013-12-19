@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><title>src/model</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="src/model"><meta name="groc-project-path" content="src/model.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/src/model.coffee">src/model.coffee</a></div></div><div id="document"><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'> version 0.3.2</span></p>
+<!DOCTYPE html><html lang="en"><head><title>src/model</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="src/model"><meta name="groc-project-path" content="src/model.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/src/model.coffee">src/model.coffee</a></div></div><div id="document"><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'> version 0.3.3</span></p>
 <h1 id="epic-model">Epic Model</h1>
 <p>Represent data like a boss.</p></div></div><div class="code"><div class="wrapper">angular.<span class="built_in">module</span>(<span class="string">'EpicModel'</span>, [
 ])
@@ -199,7 +199,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
           _data.all.splice(<span class="number">0</span>, data.length)
           [].push.apply(_data.all, data)
           store.setItem(<span class="string">"<span class="subst">#{name}</span>.all"</span>, _data.all)
-          <span class="keyword">return</span> _data</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Update Single Entry from Collection</span></p>
+          <span class="keyword">return</span> _data.all</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Update Single Entry from Collection</span></p>
 <p>This will also add an entry if no existing one matches
   the criteria</p>
 <p>Parameters:</p>
@@ -241,7 +241,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
             console.warn <span class="string">"<span class="subst">#{name}</span> Model"</span>, <span class="string">"API Respsonse was"</span>, response.data
             <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Expected array, got <span class="subst">#{<span class="keyword">typeof</span> response.data}</span>"</span>
 
-          response.data = config.transformResponse(response.data, <span class="string">'array'</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>replace array items with new data</p></div></div><div class="code"><div class="wrapper">          Data.replace(response.data)
+          response.data = config.transformResponse(response.data, <span class="string">'array'</span>)</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>replace array items with new data</p></div></div><div class="code"><div class="wrapper">          response.data = Data.replace(response.data)
 
           <span class="keyword">return</span> $q.<span class="keyword">when</span>(response)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve Singleton</span></p>
 <p>Parameters:</p>
@@ -256,9 +256,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
             <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"<span class="subst">#{name}</span> Model: Expected object, got <span class="subst">#{<span class="keyword">typeof</span> response.data}</span>"</span>
 
           response.data = config.transformResponse(response.data, <span class="string">'one'</span>)
-
-          Data.replace(response.data)
-
+          response.data = Data.replace(response.data)
           <span class="keyword">return</span> $q.<span class="keyword">when</span>(response)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Retrieve One</span></p>
 <p>This also updates the internal data collection, of course.</p>
 <p>TODO: Customize ID query</p>
@@ -282,8 +280,7 @@ Collection.<span class="keyword">new</span> <span class="string">'People'</span>
             <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="string">"Expected object, got <span class="subst">#{<span class="keyword">typeof</span> res.data}</span>"</span>
 
           res.data = config.transformResponse(res.data, <span class="string">'one'</span>)
-
-          Data.updateEntry res.data, config.matchingCriteria(res.data)
+          res.data = Data.updateEntry res.data, config.matchingCriteria(res.data)
           <span class="keyword">return</span> $q.<span class="keyword">when</span>(res)</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Destroy some Entry</span></p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
