@@ -4,7 +4,7 @@
 #
 # Represent data like a boss.
 #
-# @version 0.3.2
+# @version 0.3.3
 */
 
 
@@ -309,7 +309,7 @@
             _data.all.splice(0, data.length);
             [].push.apply(_data.all, data);
             store.setItem("" + name + ".all", _data.all);
-            return _data;
+            return _data.all;
           };
           /*
           # @method Update Single Entry from Collection
@@ -374,7 +374,7 @@
               throw new Error("" + name + " Model: Expected array, got " + (typeof response.data));
             }
             response.data = config.transformResponse(response.data, 'array');
-            Data.replace(response.data);
+            response.data = Data.replace(response.data);
             return $q.when(response);
           });
         };
@@ -395,7 +395,7 @@
               throw new Error("" + name + " Model: Expected object, got " + (typeof response.data));
             }
             response.data = config.transformResponse(response.data, 'one');
-            Data.replace(response.data);
+            response.data = Data.replace(response.data);
             return $q.when(response);
           });
         };
@@ -428,7 +428,7 @@
               throw new Error("Expected object, got " + (typeof res.data));
             }
             res.data = config.transformResponse(res.data, 'one');
-            Data.updateEntry(res.data, config.matchingCriteria(res.data));
+            res.data = Data.updateEntry(res.data, config.matchingCriteria(res.data));
             return $q.when(res);
           });
         };
