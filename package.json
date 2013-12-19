@@ -4,6 +4,7 @@
   "description": "A model/collection service for Angular.js",
   "homepage": "https://github.com/killercup/angular-epicmodel",
   "scripts": {
+    "compile": "coffee --compile --map --output dist/ src/model.coffee",
     "bower": "bower install",
     "test": "karma start test/karma.conf.coffee --single-run --browsers PhantomJS --reporters story",
     "testing": "karma start test/karma.conf.coffee",
@@ -39,6 +40,7 @@
     "karma": "~0.10.6",
     "karma-mocha": "~0.1.1",
     "karma-chai": "0.0.2",
-    "karma-story-reporter": "~0.2.0"
+    "karma-story-reporter": "~0.2.0",
+    "coffee-script": "~1.6.3"
   }
 }

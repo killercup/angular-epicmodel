@@ -2,6 +2,8 @@
 # # Epic Model
 #
 # Represent data like a boss.
+#
+# @version 0.3.1
 ###
 angular.module('EpicModel', [
 ])

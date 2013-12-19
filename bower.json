@@ -6,7 +6,7 @@
     "Pascal Hertleif <killercup@gmail.com>"
   ],
   "description": "A model/collection service for Angular.js",
-  "main": "src/model.coffee",
+  "main": "dist/model.js",
   "keywords": [
     "angular.js",
     "storage",
