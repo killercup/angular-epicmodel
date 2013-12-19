@@ -57,8 +57,8 @@ describe "Config", ->
       winners = Winners.all()
       winners.$promise.then (response) ->
         expect(winners.all).to.have.length.above 0
-        expect(winners.all).to.contain jim
-        expect(winners.all).to.not.contain arch_enemy
+        expect(_.findWhere(winners.all, jim)).to.exist
+        expect(_.findWhere(winners.all, arch_enemy)).to.not.exist
 
         expect(response.data).to.deep.eql(winners.all)
 

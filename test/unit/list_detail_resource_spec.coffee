@@ -61,6 +61,10 @@ describe "List Resource", ->
       delete messages[messages.indexOf(message)]
       [200, recover, {}]
 
+  afterEach inject ($httpBackend) ->
+    $httpBackend.verifyNoOutstandingExpectation()
+    $httpBackend.verifyNoOutstandingRequest()
+
   # ### Initialize new Collection each time
   Messages = null
   beforeEach inject (Collection) ->
