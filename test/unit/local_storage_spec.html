@@ -17,7 +17,7 @@
       [<span class="number">200</span>, _data, {}]
 
   it <span class="string">"should be populated after data was loaded"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-    expect(localStorage).to.exist 
+    expect(localStorage).to.exist
     Items = Collection.<span class="keyword">new</span> <span class="string">"Items"</span>, <span class="attribute">storage</span>: CollectionLocalStorage
 
     items = Items.all()

@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><title>src/model</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="src/model"><meta name="groc-project-path" content="src/model.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/src/model.coffee">src/model.coffee</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="epic-model">Epic Model</h1>
+<!DOCTYPE html><html lang="en"><head><title>src/model</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="src/model"><meta name="groc-project-path" content="src/model.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/src/model.coffee">src/model.coffee</a></div></div><div id="document"><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'> version 0.3.2</span></p>
+<h1 id="epic-model">Epic Model</h1>
 <p>Represent data like a boss.</p></div></div><div class="code"><div class="wrapper">angular.<span class="built_in">module</span>(<span class="string">'EpicModel'</span>, [
 ])
 
@@ -133,7 +134,7 @@ using <code>item.id</code>)</p></div></div><div class="code"><div class="wrapper
       <span class="keyword">if</span> _.isFunction config.detailUrl
         config.<span class="function"><span class="title">getDetailUrl</span> = <span class="params">(entry, listUrl=config.listUrl, baseUrl=config.baseUrl)</span> -&gt;</span>
           config.detailUrl(entry, listUrl, baseUrl)
-       <span class="keyword">else</span>
+      <span class="keyword">else</span>
         config.getDetailUrl = makeDetailUrl
 
 
