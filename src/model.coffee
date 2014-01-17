@@ -1,9 +1,9 @@
-###
+###!
 # # Epic Model
 #
-# Represent data like a boss.
-#
+# @author [Pascal Hertleif](https://github.com/killercup)
 # @version 0.3.3
+# @license MIT
 ###
 angular.module('EpicModel', [
 ])
