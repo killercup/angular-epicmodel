@@ -4,12 +4,13 @@
   "description": "A model/collection service for Angular.js",
   "homepage": "https://github.com/killercup/angular-epicmodel",
   "scripts": {
-    "compile": "coffee --compile --map --output dist/ src/model.coffee",
     "bower": "bower install",
     "test": "karma start test/karma.conf.coffee --single-run --browsers PhantomJS --reporters story",
     "testing": "karma start test/karma.conf.coffee",
     "docs": "groc",
-    "publish_docs": "groc --github"
+    "publish_docs": "groc --github",
+    "compile": "gulp compile --require coffee-script",
+    "watch": "gulp watch --require coffee-script"
   },
   "keywords": [
     "angular.js",
@@ -35,12 +36,19 @@
   },
   "dependecies": {},
   "devDependencies": {
-    "groc": "killercup/groc#caa2f2062e6f29a1826e3560a6f16f1ca3bd2118",
+    "groc": "killercup/groc#6bc47682317c2b6dba7a4b1aa7a1b92a339d4c6f",
     "bower": "~1.2.7",
     "karma": "~0.10.6",
     "karma-mocha": "~0.1.1",
     "karma-chai": "0.0.2",
     "karma-story-reporter": "~0.2.0",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "gulp": "3.3.4",
+    "gulp-util": "2.2.10",
+    "gulp-ngmin": "~0.1.1",
+    "gulp-coffee": "~1.2.5",
+    "gulp-concat": "~2.1.7",
+    "gulp-uglify": "~0.1.0",
+    "gulp-header": "~1.0.2"
   }
 }
