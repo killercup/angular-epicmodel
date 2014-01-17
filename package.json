@@ -36,7 +36,7 @@
   },
   "dependecies": {},
   "devDependencies": {
-    "groc": "killercup/groc#6bc47682317c2b6dba7a4b1aa7a1b92a339d4c6f",
+    "groc": "git://github.com/killercup/groc.git#6d93d66e15cade1973e9fa96716573afc3cfcc20",
     "bower": "~1.2.7",
     "karma": "~0.10.6",
     "karma-mocha": "~0.1.1",

@@ -16,5 +16,6 @@
   "root": ".",
   "out": "docs",
   "silent": false,
-  "strip": []
+  "strip": [],
+  "style": "Solarized"
 }
