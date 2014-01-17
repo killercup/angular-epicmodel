@@ -1,30 +1,30 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/local_storage_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/local_storage_spec"><meta name="groc-project-path" content="test/unit/local_storage_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/local_storage_spec.coffee">test/unit/local_storage_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Local Storage"</span>,<span class="function"> -&gt;</span>
-  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
-  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+<!DOCTYPE html><html lang="en"><head><title>test/unit/local_storage_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/local_storage_spec"><meta name="groc-project-path" content="test/unit/local_storage_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/local_storage_spec.coffee">test/unit/local_storage_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"Local Storage"</span>,<span class="hljs-function"> -&gt;</span>
+  angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
+  beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
   beforeEach addHelpers()
 
-  Collection = <span class="literal">null</span>
-  CollectionLocalStorage = <span class="literal">null</span>
-  beforeEach inject <span class="function"><span class="params">(_Collection_, _CollectionLocalStorage_)</span> -&gt;</span>
+  Collection = <span class="hljs-literal">null</span>
+  CollectionLocalStorage = <span class="hljs-literal">null</span>
+  beforeEach inject <span class="hljs-function"><span class="hljs-params">(_Collection_, _CollectionLocalStorage_)</span> -&gt;</span>
     Collection = _Collection_
     CollectionLocalStorage = _CollectionLocalStorage_
 
-  beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
-    _data = [<span class="number">1</span>, <span class="number">42</span>, <span class="number">13</span>]
+  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+    _data = [<span class="hljs-number">1</span>, <span class="hljs-number">42</span>, <span class="hljs-number">13</span>]
 
-    $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/items'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-      log <span class="string">"GET <span class="subst">#{url}</span>"</span>
-      [<span class="number">200</span>, _data, {}]
+    $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/items'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+      log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+      [<span class="hljs-number">200</span>, _data, {}]
 
-  it <span class="string">"should be populated after data was loaded"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+  it <span class="hljs-string">"should be populated after data was loaded"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
     expect(localStorage).to.exist
-    Items = Collection.<span class="keyword">new</span> <span class="string">"Items"</span>, <span class="attribute">storage</span>: CollectionLocalStorage
+    Items = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Items"</span>, <span class="hljs-attribute">storage</span>: CollectionLocalStorage
 
     items = Items.all()
-    items.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
-      expect(localStorage[<span class="string">'Items.all'</span>]).to.exist
-      done(<span class="literal">null</span>)
-    .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-      done <span class="keyword">new</span> Error JSON.stringify err
+    items.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+      expect(localStorage[<span class="hljs-string">'Items.all'</span>]).to.exist
+      done(<span class="hljs-literal">null</span>)
+    .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
-    tick()</div></div></div></div></body></html>
+    tick()</div></div></div></div></div></body></html>

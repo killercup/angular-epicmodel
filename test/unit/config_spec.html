@@ -1,154 +1,154 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/config_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/config_spec"><meta name="groc-project-path" content="test/unit/config_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/config_spec.coffee">test/unit/config_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Config"</span>,<span class="function"> -&gt;</span>
-  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
-  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+<!DOCTYPE html><html lang="en"><head><title>test/unit/config_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/config_spec"><meta name="groc-project-path" content="test/unit/config_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/config_spec.coffee">test/unit/config_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"Config"</span>,<span class="hljs-function"> -&gt;</span>
+  angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
+  beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
   beforeEach addHelpers()
 
-  Collection = <span class="literal">null</span>
-  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+  Collection = <span class="hljs-literal">null</span>
+  beforeEach inject <span class="hljs-function"><span class="hljs-params">(_Collection_)</span> -&gt;</span>
     Collection = _Collection_
 
-  it <span class="string">"can set specific URL"</span>,<span class="function"> -&gt;</span>
-    customUrl = <span class="string">"/api/v2/stuff"</span>
-    Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">url</span>: customUrl
+  it <span class="hljs-string">"can set specific URL"</span>,<span class="hljs-function"> -&gt;</span>
+    customUrl = <span class="hljs-string">"/api/v2/stuff"</span>
+    Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>, <span class="hljs-attribute">url</span>: customUrl
 
-    expect(Things.config(<span class="string">"url"</span>)).to.eql customUrl
+    expect(Things.config(<span class="hljs-string">"url"</span>)).to.eql customUrl
 
-  describe <span class="string">"response transformation"</span>,<span class="function"> -&gt;</span>
-    jim = {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
-    arch_enemy = {<span class="attribute">name</span>: <span class="string">"Arch Enemy"</span>}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/winners</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
+  describe <span class="hljs-string">"response transformation"</span>,<span class="hljs-function"> -&gt;</span>
+    jim = {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>}
+    arch_enemy = {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Arch Enemy"</span>}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/winners</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
       _data = [
         jim
         arch_enemy
-        {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>, <span class="attribute">occupation</span>: <span class="string">'Sofa Tester'</span>}
-      ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/winners/:id</code></p></div></div><div class="code"><div class="wrapper">      winnerDetailUrl = <span class="regexp">/^\/winners\/(\d+)$/</span>
+        {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Some Dude"</span>, <span class="hljs-attribute">occupation</span>: <span class="hljs-string">'Sofa Tester'</span>}
+      ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/winners/:id</code></p></div></div><div class="code"><div class="wrapper">      winnerDetailUrl = <span class="hljs-regexp">/^\/winners\/(\d+)$/</span>
 
-      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/winners'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        log <span class="string">"GET /winners"</span>
-        [<span class="number">200</span>, _data, {}]
+      $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/winners'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+        log <span class="hljs-string">"GET /winners"</span>
+        [<span class="hljs-number">200</span>, _data, {}]
 
-      $httpBackend.whenGET<span class="function"><span class="params">(winnerDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers)</span> -&gt;</span>
-        id = +winnerDetailUrl.exec(url)[<span class="number">1</span>]
-        log <span class="string">"GET /winner/<span class="subst">#{id}</span>"</span>
-        [<span class="number">200</span>, _data[id], {}]
+      $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(winnerDetailUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data, headers)</span> -&gt;</span>
+        id = +winnerDetailUrl.exec(url)[<span class="hljs-number">1</span>]
+        log <span class="hljs-string">"GET /winner/<span class="hljs-subst">#{id}</span>"</span>
+        [<span class="hljs-number">200</span>, _data[id], {}]
 
-      $httpBackend.whenPOST<span class="function"><span class="params">(winnerDetailUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data, headers)</span> -&gt;</span>
-        id = +winnerDetailUrl.exec(url)[<span class="number">1</span>]
-        log <span class="string">"POST /winner/<span class="subst">#{id}</span>"</span>
-        [<span class="number">200</span>, _data[id], {}]
+      $httpBackend.whenPOST<span class="hljs-function"><span class="hljs-params">(winnerDetailUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data, headers)</span> -&gt;</span>
+        id = +winnerDetailUrl.exec(url)[<span class="hljs-number">1</span>]
+        log <span class="hljs-string">"POST /winner/<span class="hljs-subst">#{id}</span>"</span>
+        [<span class="hljs-number">200</span>, _data[id], {}]
 
-    Winners = <span class="literal">null</span>
-    beforeEach inject <span class="function"><span class="params">(Collection)</span> -&gt;</span>
-      Winners = Collection.<span class="keyword">new</span> <span class="string">"Winners"</span>,
-        <span class="attribute">transformResponse</span>: <span class="function"><span class="params">(data)</span> -&gt;</span>
-          <span class="keyword">if</span> _.isArray(data)
-            _.filter data, <span class="function"><span class="params">(item)</span> -&gt;</span>
-              item.name <span class="keyword">isnt</span> arch_enemy.name
-          <span class="keyword">else</span> <span class="keyword">if</span> _.isObject(data)
-            _.extend data, {<span class="attribute">age</span>: <span class="number">42</span>}
-          <span class="keyword">else</span> data
+    Winners = <span class="hljs-literal">null</span>
+    beforeEach inject <span class="hljs-function"><span class="hljs-params">(Collection)</span> -&gt;</span>
+      Winners = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Winners"</span>,
+        <span class="hljs-attribute">transformResponse</span>: <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span>
+          <span class="hljs-keyword">if</span> _.isArray(data)
+            _.filter data, <span class="hljs-function"><span class="hljs-params">(item)</span> -&gt;</span>
+              item.name <span class="hljs-keyword">isnt</span> arch_enemy.name
+          <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> _.isObject(data)
+            _.extend data, {<span class="hljs-attribute">age</span>: <span class="hljs-number">42</span>}
+          <span class="hljs-keyword">else</span> data
 
-    it <span class="string">"works with list resources"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    it <span class="hljs-string">"works with list resources"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       winners = Winners.all()
-      winners.$promise.<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
-        expect(winners.all).to.have.length.above <span class="number">0</span>
+      winners.$promise.<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
+        expect(winners.all).to.have.length.above <span class="hljs-number">0</span>
         expect(_.findWhere(winners.all, jim)).to.exist
-        expect(_.findWhere(winners.all, arch_enemy)).to.not.exist
+        expect(_.findWhere(winners.all, arch_enemy)).to.<span class="hljs-keyword">not</span>.exist
 
         expect(response.data).to.deep.eql(winners.all)
 
-        done(<span class="literal">null</span>)
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+        done(<span class="hljs-literal">null</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-    it <span class="string">'works with detail resource'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      winner = Winners.get(<span class="attribute">id</span>: <span class="number">1</span>)
-      winner.$promise.<span class="keyword">then</span><span class="function"> -&gt;</span>
+    it <span class="hljs-string">'works with detail resource'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      winner = Winners.get(<span class="hljs-attribute">id</span>: <span class="hljs-number">1</span>)
+      winner.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
         expect(winner.data.age).to.exist
 
-        done(<span class="literal">null</span>)
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+        done(<span class="hljs-literal">null</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-    it <span class="string">'works with saved resource'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      Winners.save(<span class="attribute">id</span>: <span class="number">1</span>, <span class="attribute">name</span>: <span class="string">"New Friend"</span>)
-      .<span class="keyword">then</span> <span class="function"><span class="params">(winner)</span> -&gt;</span>
+    it <span class="hljs-string">'works with saved resource'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      Winners.save(<span class="hljs-attribute">id</span>: <span class="hljs-number">1</span>, <span class="hljs-attribute">name</span>: <span class="hljs-string">"New Friend"</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(winner)</span> -&gt;</span>
         expect(winner.age).to.exist
 
-        done(<span class="literal">null</span>)
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+        done(<span class="hljs-literal">null</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-  describe <span class="string">"for custom detail URLs"</span>,<span class="function"> -&gt;</span>
-    it <span class="string">"has /{id} as default"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+  describe <span class="hljs-string">"for custom detail URLs"</span>,<span class="hljs-function"> -&gt;</span>
+    it <span class="hljs-string">"has /{id} as default"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
 
-      expect(Things.config(<span class="string">'url'</span>)).to.eql <span class="string">'/things'</span>
+      expect(Things.config(<span class="hljs-string">'url'</span>)).to.eql <span class="hljs-string">'/things'</span>
 
-      detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
-      expect(detailUrl(<span class="attribute">id</span>: <span class="number">42</span>)).to.eql <span class="string">'/things/42'</span>
+      detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
+      expect(detailUrl(<span class="hljs-attribute">id</span>: <span class="hljs-number">42</span>)).to.eql <span class="hljs-string">'/things/42'</span>
 
-    describe <span class="string">"using string matching"</span>,<span class="function"> -&gt;</span>
-      it <span class="string">"works"</span>,<span class="function"> -&gt;</span>
-        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{_id}"</span>
+    describe <span class="hljs-string">"using string matching"</span>,<span class="hljs-function"> -&gt;</span>
+      it <span class="hljs-string">"works"</span>,<span class="hljs-function"> -&gt;</span>
+        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>, <span class="hljs-attribute">detailUrl</span>: <span class="hljs-string">"/thingies/{_id}"</span>
 
-        expect(Things.config(<span class="string">'url'</span>)).to.eql <span class="string">'/things'</span>
+        expect(Things.config(<span class="hljs-string">'url'</span>)).to.eql <span class="hljs-string">'/things'</span>
 
-        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
-        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+        detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="hljs-string">'function'</span>)
 
-        expect(detailUrl(<span class="attribute">_id</span>: <span class="number">42</span>)).to.eql <span class="string">'/thingies/42'</span>
+        expect(detailUrl(<span class="hljs-attribute">_id</span>: <span class="hljs-number">42</span>)).to.eql <span class="hljs-string">'/thingies/42'</span>
 
-      it <span class="string">"fails with incorrect substitution schema"</span>,<span class="function"> -&gt;</span>
-        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{_id"</span>
+      it <span class="hljs-string">"fails with incorrect substitution schema"</span>,<span class="hljs-function"> -&gt;</span>
+        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>, <span class="hljs-attribute">detailUrl</span>: <span class="hljs-string">"/thingies/{_id"</span>
 
-        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
-        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+        detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="hljs-string">'function'</span>)
 
-        expect(detailUrl(<span class="attribute">_id</span>: <span class="number">42</span>)).to.not.eql <span class="string">'/thingies/42'</span>
+        expect(detailUrl(<span class="hljs-attribute">_id</span>: <span class="hljs-number">42</span>)).to.<span class="hljs-keyword">not</span>.eql <span class="hljs-string">'/thingies/42'</span>
 
-      it <span class="string">"works for complex substitutions"</span>,<span class="function"> -&gt;</span>
-        Properties = Collection.<span class="keyword">new</span> <span class="string">"Properties"</span>,
-          <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{item.parent._id}/properties/{_id}"</span>
+      it <span class="hljs-string">"works for complex substitutions"</span>,<span class="hljs-function"> -&gt;</span>
+        Properties = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Properties"</span>,
+          <span class="hljs-attribute">detailUrl</span>: <span class="hljs-string">"/thingies/{item.parent._id}/properties/{_id}"</span>
 
-        detailUrl = Properties.config(<span class="string">'getDetailUrl'</span>)
-        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+        detailUrl = Properties.config(<span class="hljs-string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="hljs-string">'function'</span>)
 
-        testUrl = detailUrl <span class="attribute">_id</span>: <span class="number">42</span>, <span class="attribute">item</span>: <span class="attribute">parent</span>: <span class="attribute">_id</span>: <span class="number">21</span>
-        expect(testUrl).to.eql <span class="string">'/thingies/21/properties/42'</span>
+        testUrl = detailUrl <span class="hljs-attribute">_id</span>: <span class="hljs-number">42</span>, <span class="hljs-attribute">item</span>: <span class="hljs-attribute">parent</span>: <span class="hljs-attribute">_id</span>: <span class="hljs-number">21</span>
+        expect(testUrl).to.eql <span class="hljs-string">'/thingies/21/properties/42'</span>
 
-      it <span class="string">"fails when fields are missing"</span>,<span class="function"> -&gt;</span>
-        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>, <span class="attribute">detailUrl</span>: <span class="string">"/thingies/{_id}"</span>
+      it <span class="hljs-string">"fails when fields are missing"</span>,<span class="hljs-function"> -&gt;</span>
+        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>, <span class="hljs-attribute">detailUrl</span>: <span class="hljs-string">"/thingies/{_id}"</span>
 
-        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
-        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+        detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="hljs-string">'function'</span>)
 
-        expect(<span class="function">-&gt;</span> detailUrl(<span class="attribute">name</span>: <span class="string">'Jim'</span>)).to.<span class="keyword">throw</span> Error
+        expect(<span class="hljs-function">-&gt;</span> detailUrl(<span class="hljs-attribute">name</span>: <span class="hljs-string">'Jim'</span>)).to.<span class="hljs-keyword">throw</span> Error
 
-    describe <span class="string">"using a function"</span>,<span class="function"> -&gt;</span>
-      it <span class="string">"works"</span>,<span class="function"> -&gt;</span>
-        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>,
-          <span class="attribute">detailUrl</span>: <span class="function"><span class="params">(entry, listUrl, baseUrl)</span> -&gt;</span>
-            <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="keyword">unless</span> entry.name?
-            <span class="string">"<span class="subst">#{baseUrl}</span>/thingies/<span class="subst">#{entry.name}</span>"</span>
+    describe <span class="hljs-string">"using a function"</span>,<span class="hljs-function"> -&gt;</span>
+      it <span class="hljs-string">"works"</span>,<span class="hljs-function"> -&gt;</span>
+        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>,
+          <span class="hljs-attribute">detailUrl</span>: <span class="hljs-function"><span class="hljs-params">(entry, listUrl, baseUrl)</span> -&gt;</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-keyword">unless</span> entry.name?
+            <span class="hljs-string">"<span class="hljs-subst">#{baseUrl}</span>/thingies/<span class="hljs-subst">#{entry.name}</span>"</span>
 
-        expect(Things.config(<span class="string">'url'</span>)).to.eql <span class="string">'/things'</span>
+        expect(Things.config(<span class="hljs-string">'url'</span>)).to.eql <span class="hljs-string">'/things'</span>
 
-        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
-        expect(detailUrl).to.be.a(<span class="string">'function'</span>)
+        detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
+        expect(detailUrl).to.be.a(<span class="hljs-string">'function'</span>)
 
-        expect(detailUrl(<span class="attribute">name</span>: <span class="string">'Chair'</span>)).to.eql <span class="string">'/thingies/Chair'</span>
+        expect(detailUrl(<span class="hljs-attribute">name</span>: <span class="hljs-string">'Chair'</span>)).to.eql <span class="hljs-string">'/thingies/Chair'</span>
 
-      it <span class="string">"fails when fields are missing"</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Actually, you should check this yourself!</p></div></div><div class="code"><div class="wrapper">        Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>,
-          <span class="attribute">detailUrl</span>: <span class="function"><span class="params">(entry, listUrl, baseUrl)</span> -&gt;</span>
-            <span class="keyword">throw</span> <span class="keyword">new</span> Error <span class="keyword">unless</span> entry.name?
-            <span class="string">"<span class="subst">#{baseUrl}</span>/thingies/<span class="subst">#{entry.name}</span>"</span>
+      it <span class="hljs-string">"fails when fields are missing"</span>,<span class="hljs-function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Actually, you should check this yourself!</p></div></div><div class="code"><div class="wrapper">        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>,
+          <span class="hljs-attribute">detailUrl</span>: <span class="hljs-function"><span class="hljs-params">(entry, listUrl, baseUrl)</span> -&gt;</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-keyword">unless</span> entry.name?
+            <span class="hljs-string">"<span class="hljs-subst">#{baseUrl}</span>/thingies/<span class="hljs-subst">#{entry.name}</span>"</span>
 
-        detailUrl = Things.config(<span class="string">'getDetailUrl'</span>)
+        detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
 
-        expect(<span class="function">-&gt;</span> detailUrl(<span class="attribute">id</span>: <span class="number">12</span>)).to.<span class="keyword">throw</span> Error</div></div></div></div></body></html>
+        expect(<span class="hljs-function">-&gt;</span> detailUrl(<span class="hljs-attribute">id</span>: <span class="hljs-number">12</span>)).to.<span class="hljs-keyword">throw</span> Error</div></div></div></div></div></body></html>

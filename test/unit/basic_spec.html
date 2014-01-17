@@ -1,69 +1,69 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/basic_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/basic_spec"><meta name="groc-project-path" content="test/unit/basic_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/basic_spec.coffee">test/unit/basic_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Collection"</span>,<span class="function"> -&gt;</span>
-  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
-  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+<!DOCTYPE html><html lang="en"><head><title>test/unit/basic_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/basic_spec"><meta name="groc-project-path" content="test/unit/basic_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/basic_spec.coffee">test/unit/basic_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"Collection"</span>,<span class="hljs-function"> -&gt;</span>
+  angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
+  beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
 
   beforeEach addHelpers()
 
-  Collection = <span class="literal">null</span>
-  beforeEach inject <span class="function"><span class="params">(_Collection_)</span> -&gt;</span>
+  Collection = <span class="hljs-literal">null</span>
+  beforeEach inject <span class="hljs-function"><span class="hljs-params">(_Collection_)</span> -&gt;</span>
     Collection = _Collection_
 
-  describe <span class="string">"creation"</span>,<span class="function"> -&gt;</span>
+  describe <span class="hljs-string">"creation"</span>,<span class="hljs-function"> -&gt;</span>
 
-    it <span class="string">"works with a name"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
-      expect(Things).to.be.an(<span class="string">'object'</span>)
-      expect(Things).to.have.property(<span class="string">'all'</span>)
+    it <span class="hljs-string">"works with a name"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
+      expect(Things).to.be.an(<span class="hljs-string">'object'</span>)
+      expect(Things).to.have.property(<span class="hljs-string">'all'</span>)
 
-    it <span class="string">"infers URL from name"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
-      expect(Things.config(<span class="string">'url'</span>)).to.eql(<span class="string">'/things'</span>)
+    it <span class="hljs-string">"infers URL from name"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
+      expect(Things.config(<span class="hljs-string">'url'</span>)).to.eql(<span class="hljs-string">'/things'</span>)
 
-    it <span class="string">"doesn't work without name"</span>,<span class="function"> -&gt;</span>
-      expect(<span class="function">-&gt;</span>
-        Collection.<span class="keyword">new</span>()
-      ).to.<span class="keyword">throw</span>(Error)
+    it <span class="hljs-string">"doesn't work without name"</span>,<span class="hljs-function"> -&gt;</span>
+      expect(<span class="hljs-function">-&gt;</span>
+        Collection.<span class="hljs-keyword">new</span>()
+      ).to.<span class="hljs-keyword">throw</span>(Error)
 
-  describe <span class="string">"has data methods that"</span>,<span class="function"> -&gt;</span>
-    it <span class="string">"can read data from lists"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+  describe <span class="hljs-string">"has data methods that"</span>,<span class="hljs-function"> -&gt;</span>
+    it <span class="hljs-string">"can read data from lists"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
 
-      expect(Things.Data).to.respondTo(<span class="string">"get"</span>)
-      expect(Things.Data.get()).to.be.an(<span class="string">"array"</span>)
+      expect(Things.Data).to.respondTo(<span class="hljs-string">"get"</span>)
+      expect(Things.Data.get()).to.be.an(<span class="hljs-string">"array"</span>)
 
-    it <span class="string">"can read data from singletons"</span>,<span class="function"> -&gt;</span>
-      Profile = Collection.<span class="keyword">new</span> <span class="string">"Profile"</span>, <span class="attribute">is_singleton</span>: <span class="literal">true</span>
-      expect(Profile.Data.get()).to.be.an(<span class="string">"object"</span>)
+    it <span class="hljs-string">"can read data from singletons"</span>,<span class="hljs-function"> -&gt;</span>
+      Profile = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Profile"</span>, <span class="hljs-attribute">is_singleton</span>: <span class="hljs-literal">true</span>
+      expect(Profile.Data.get()).to.be.an(<span class="hljs-string">"object"</span>)
 
-    it <span class="string">"can add entries to lists"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+    it <span class="hljs-string">"can add entries to lists"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
 
-      expect(Things.Data.get()).to.be.length <span class="number">0</span>
+      expect(Things.Data.get()).to.be.length <span class="hljs-number">0</span>
 
-      Things.Data.updateEntry <span class="attribute">name</span>: <span class="string">"Jim"</span>
-      expect(Things.Data.get()).to.be.length <span class="number">1</span>
+      Things.Data.updateEntry <span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>
+      expect(Things.Data.get()).to.be.length <span class="hljs-number">1</span>
 
-    it <span class="string">"can replace data in lists"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
+    it <span class="hljs-string">"can replace data in lists"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
 
-      expect(Things.Data.get()).to.be.length <span class="number">0</span>
+      expect(Things.Data.get()).to.be.length <span class="hljs-number">0</span>
 
-      Things.Data.replace [<span class="number">1.</span><span class="number">.4</span>]
-      expect(Things.Data.get()).to.be.length <span class="number">4</span>
+      Things.Data.replace [<span class="hljs-number">1.</span><span class="hljs-number">.4</span>]
+      expect(Things.Data.get()).to.be.length <span class="hljs-number">4</span>
 
-    it <span class="string">"can replace data in singletons"</span>,<span class="function"> -&gt;</span>
-      Profile = Collection.<span class="keyword">new</span> <span class="string">"Profile"</span>, <span class="attribute">is_singleton</span>: <span class="literal">true</span>
+    it <span class="hljs-string">"can replace data in singletons"</span>,<span class="hljs-function"> -&gt;</span>
+      Profile = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Profile"</span>, <span class="hljs-attribute">is_singleton</span>: <span class="hljs-literal">true</span>
       expect(Profile.Data.get()).to.eql {}
 
-      Profile.Data.replace <span class="attribute">name</span>: <span class="string">"Jim"</span>
-      expect(Profile.Data.get()).to.eql <span class="attribute">name</span>: <span class="string">"Jim"</span>
+      Profile.Data.replace <span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>
+      expect(Profile.Data.get()).to.eql <span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>
 
-    it <span class="string">"can remove entries from lists"</span>,<span class="function"> -&gt;</span>
-      Things = Collection.<span class="keyword">new</span> <span class="string">"Things"</span>
-      Things.Data.updateEntry <span class="attribute">name</span>: <span class="string">"Jim"</span>
-      expect(Things.Data.get()).to.be.length <span class="number">1</span>
+    it <span class="hljs-string">"can remove entries from lists"</span>,<span class="hljs-function"> -&gt;</span>
+      Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>
+      Things.Data.updateEntry <span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>
+      expect(Things.Data.get()).to.be.length <span class="hljs-number">1</span>
 
-      hit = Things.Data.removeEntry <span class="attribute">name</span>: <span class="string">"Jim"</span>
+      hit = Things.Data.removeEntry <span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>
       expect(hit).to.be.ok
 
-      expect(Things.Data.get()).to.be.length <span class="number">0</span></div></div></div></div></body></html>
+      expect(Things.Data.get()).to.be.length <span class="hljs-number">0</span></div></div></div></div></div></body></html>

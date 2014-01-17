@@ -1,171 +1,171 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/extras_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/extras_spec"><meta name="groc-project-path" content="test/unit/extras_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/extras_spec.coffee">test/unit/extras_spec.coffee</a></div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="string">"Extras"</span>,<span class="function"> -&gt;</span>
-  angular.<span class="built_in">module</span> <span class="string">'Stuff'</span>, [<span class="string">'EpicModel'</span>]
-  beforeEach <span class="built_in">module</span>(<span class="string">'Stuff'</span>)
+<!DOCTYPE html><html lang="en"><head><title>test/unit/extras_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/extras_spec"><meta name="groc-project-path" content="test/unit/extras_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/extras_spec.coffee">test/unit/extras_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"Extras"</span>,<span class="hljs-function"> -&gt;</span>
+  angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
+  beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
   beforeEach addHelpers()
 
-  Collection = $httpBackend = <span class="literal">null</span>
-  beforeEach inject <span class="function"><span class="params">(_$httpBackend_, _Collection_)</span> -&gt;</span>
+  Collection = $httpBackend = <span class="hljs-literal">null</span>
+  beforeEach inject <span class="hljs-function"><span class="hljs-params">(_$httpBackend_, _Collection_)</span> -&gt;</span>
     Collection = _Collection_
     $httpBackend = _$httpBackend_
 
-  describe <span class="string">'as functions'</span>,<span class="function"> -&gt;</span>
-    it <span class="string">'should be available'</span>,<span class="function"> -&gt;</span>
-      Specials = Collection.<span class="keyword">new</span> <span class="string">"Specials"</span>, {},
-        <span class="attribute">calculateStuff</span>: <span class="function"><span class="params">(data)</span> -&gt;</span>
-          <span class="keyword">if</span> _.isArray(data)
-            _.reduce data, <span class="function"><span class="params">((memo, val) -&gt; memo + +val.count)</span>, 0
-          <span class="title">else</span> 42
+  describe <span class="hljs-string">'as functions'</span>,<span class="hljs-function"> -&gt;</span>
+    it <span class="hljs-string">'should be available'</span>,<span class="hljs-function"> -&gt;</span>
+      Specials = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Specials"</span>, {},
+        <span class="hljs-attribute">calculateStuff</span>: <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span>
+          <span class="hljs-keyword">if</span> _.isArray(data)
+            _.reduce data, <span class="hljs-function"><span class="hljs-params">((memo, val) -&gt; memo + +val.count)</span>, 0
+          <span class="hljs-title">else</span> 42
 
-      <span class="title">sum</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> [{<span class="title">count</span>: 3}, {<span class="title">count</span>: 2}]
-      <span class="title">expect</span><span class="params">(sum)</span>.<span class="title">to</span>.<span class="title">eql</span> 5
-      <span class="title">num</span> = <span class="title">Specials</span>.<span class="title">calculateStuff</span> "<span class="title">hi</span>"
-      <span class="title">expect</span><span class="params">(num)</span>.<span class="title">to</span>.<span class="title">eql</span> 42
+      <span class="hljs-title">sum</span> = <span class="hljs-title">Specials</span>.<span class="hljs-title">calculateStuff</span> [{<span class="hljs-title">count</span>: 3}, {<span class="hljs-title">count</span>: 2}]
+      <span class="hljs-title">expect</span><span class="hljs-params">(sum)</span>.<span class="hljs-title">to</span>.<span class="hljs-title">eql</span> 5
+      <span class="hljs-title">num</span> = <span class="hljs-title">Specials</span>.<span class="hljs-title">calculateStuff</span> "<span class="hljs-title">hi</span>"
+      <span class="hljs-title">expect</span><span class="hljs-params">(num)</span>.<span class="hljs-title">to</span>.<span class="hljs-title">eql</span> 42
 
-    <span class="title">it</span> '<span class="title">should</span> <span class="title">have</span> <span class="title">Collection</span> <span class="title">config</span> <span class="title">as</span> <span class="title">scope</span>', -&gt;</span>
-      specialBaseUrl = <span class="string">'https://example.com/api/v42'</span>
-      specialUrl = <span class="string">'/1337'</span>
+    <span class="hljs-title">it</span> '<span class="hljs-title">should</span> <span class="hljs-title">have</span> <span class="hljs-title">Collection</span> <span class="hljs-title">config</span> <span class="hljs-title">as</span> <span class="hljs-title">scope</span>', -&gt;</span>
+      specialBaseUrl = <span class="hljs-string">'https://example.com/api/v42'</span>
+      specialUrl = <span class="hljs-string">'/1337'</span>
 
-      Thingy = Collection.<span class="keyword">new</span> <span class="string">"Thingy"</span>, {
-        <span class="attribute">baseUrl</span>: specialBaseUrl
-        <span class="attribute">url</span>: specialUrl
+      Thingy = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Thingy"</span>, {
+        <span class="hljs-attribute">baseUrl</span>: specialBaseUrl
+        <span class="hljs-attribute">url</span>: specialUrl
       },
-        <span class="attribute">allYourBases</span>:<span class="function"> -&gt;</span> <span class="property">@baseUrl</span>
-        <span class="attribute">whatsThisUrl</span>:<span class="function"> -&gt;</span> <span class="property">@url</span>
+        <span class="hljs-attribute">allYourBases</span>:<span class="hljs-function"> -&gt;</span> <span class="hljs-property">@baseUrl</span>
+        <span class="hljs-attribute">whatsThisUrl</span>:<span class="hljs-function"> -&gt;</span> <span class="hljs-property">@url</span>
 
       expect(Thingy.allYourBases()).to.eql specialBaseUrl
       expect(Thingy.whatsThisUrl()).to.eql specialUrl
 
-  describe <span class="string">'as HTTP calls'</span>,<span class="function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach<span class="function"> -&gt;</span>
+  describe <span class="hljs-string">'as HTTP calls'</span>,<span class="hljs-function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/me/friends</code></p></div></div><div class="code"><div class="wrapper">    beforeEach<span class="hljs-function"> -&gt;</span>
       _data = [
-        {<span class="attribute">name</span>: <span class="string">"Jim"</span>}
-        {<span class="attribute">name</span>: <span class="string">"Some Dude"</span>}
+        {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>}
+        {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Some Dude"</span>}
       ]
 
-      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/me/friends'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
-        [<span class="number">200</span>, _data, {}]
+      $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/me/friends'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+        log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+        [<span class="hljs-number">200</span>, _data, {}]
 
-      friendsUrl = <span class="regexp">/^\/user\/(\d*)\/friends$/</span>
-      $httpBackend.whenGET<span class="function"><span class="params">(friendsUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        id = +friendsUrl.exec(url)[<span class="number">1</span>]
-        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
-        [<span class="number">200</span>, {<span class="attribute">msg</span>: <span class="string">"friends for <span class="subst">#{id}</span>"</span>}, {}]
+      friendsUrl = <span class="hljs-regexp">/^\/user\/(\d*)\/friends$/</span>
+      $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(friendsUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+        id = +friendsUrl.exec(url)[<span class="hljs-number">1</span>]
+        log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+        [<span class="hljs-number">200</span>, {<span class="hljs-attribute">msg</span>: <span class="hljs-string">"friends for <span class="hljs-subst">#{id}</span>"</span>}, {}]
 
-      $httpBackend.whenPATCH<span class="function"><span class="params">(<span class="string">'/user/payout'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
-        <span class="keyword">if</span> data.payout
-          [<span class="number">200</span>, {<span class="attribute">payout</span>: {<span class="attribute">status</span>: <span class="string">'success'</span>}}, {}]
-        <span class="keyword">else</span>
-          [<span class="number">400</span>, {<span class="attribute">err</span>: <span class="string">'no payout'</span>}, {}]
+      $httpBackend.whenPATCH<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/user/payout'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+        log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+        <span class="hljs-keyword">if</span> data.payout
+          [<span class="hljs-number">200</span>, {<span class="hljs-attribute">payout</span>: {<span class="hljs-attribute">status</span>: <span class="hljs-string">'success'</span>}}, {}]
+        <span class="hljs-keyword">else</span>
+          [<span class="hljs-number">400</span>, {<span class="hljs-attribute">err</span>: <span class="hljs-string">'no payout'</span>}, {}]
 
-    it <span class="string">'should work'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
-        <span class="attribute">friends</span>:
-          <span class="attribute">method</span>: <span class="string">'GET'</span>
-          <span class="attribute">url</span>: <span class="string">'/me/friends'</span>
+    it <span class="hljs-string">'should work'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      Me = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Me"</span>, {<span class="hljs-attribute">is_singleton</span>: <span class="hljs-literal">true</span>},
+        <span class="hljs-attribute">friends</span>:
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">'/me/friends'</span>
 
-      expect(Me.friends).to.be.a(<span class="string">'function'</span>)
+      expect(Me.friends).to.be.a(<span class="hljs-string">'function'</span>)
 
       friends = Me.friends()
-      expect(friends).to.respondTo(<span class="string">'then'</span>)
+      expect(friends).to.respondTo(<span class="hljs-string">'then'</span>)
 
-      friends.<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span>
+      friends.<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
         expect(response.data).to.exist
-        expect(response.data).to.have.deep.property(<span class="string">'[1].name'</span>)
+        expect(response.data).to.have.deep.property(<span class="hljs-string">'[1].name'</span>)
 
-        done(<span class="literal">null</span>)
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+        done(<span class="hljs-literal">null</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-    it <span class="string">"should guess URLs"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      Me = Collection.<span class="keyword">new</span> <span class="string">"Me"</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
-        <span class="attribute">friends</span>:
-          <span class="attribute">method</span>: <span class="string">'GET'</span>
+    it <span class="hljs-string">"should guess URLs"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      Me = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Me"</span>, {<span class="hljs-attribute">is_singleton</span>: <span class="hljs-literal">true</span>},
+        <span class="hljs-attribute">friends</span>:
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>
 
-      $httpBackend.expectGET(<span class="string">'/me/friends'</span>)
-      .respond<span class="function"> -&gt;</span>
-        done(<span class="literal">null</span>)
+      $httpBackend.expectGET(<span class="hljs-string">'/me/friends'</span>)
+      .respond<span class="hljs-function"> -&gt;</span>
+        done(<span class="hljs-literal">null</span>)
 
       Me.friends()
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-    it <span class="string">'should work with URL matching'</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      User = Collection.<span class="keyword">new</span> <span class="string">"User"</span>, {},
-        <span class="attribute">friends</span>:
-          <span class="attribute">method</span>: <span class="string">'GET'</span>
-          <span class="attribute">url</span>: <span class="string">'/user/{id}/friends'</span>
+    it <span class="hljs-string">'should work with URL matching'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      User = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"User"</span>, {},
+        <span class="hljs-attribute">friends</span>:
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">'/user/{id}/friends'</span>
 
-      theUser = <span class="number">1</span>
+      theUser = <span class="hljs-number">1</span>
 
-      friends = User.friends(<span class="attribute">id</span>: theUser)
+      friends = User.friends(<span class="hljs-attribute">id</span>: theUser)
 
-      friends.<span class="keyword">then</span> <span class="function"><span class="params">({data})</span> -&gt;</span>
+      friends.<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({data})</span> -&gt;</span>
         expect(data).to.exist
-        expect(data.msg).to.eql <span class="string">"friends for <span class="subst">#{theUser}</span>"</span>
+        expect(data.msg).to.eql <span class="hljs-string">"friends for <span class="hljs-subst">#{theUser}</span>"</span>
 
-        done(<span class="literal">null</span>)
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+        done(<span class="hljs-literal">null</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-    it <span class="string">"can use cool HTTP methods"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      User = Collection.<span class="keyword">new</span> <span class="string">'User'</span>, {<span class="attribute">is_singleton</span>: <span class="literal">true</span>},
-        <span class="attribute">payout</span>:
-          <span class="attribute">method</span>: <span class="string">'PATCH'</span>
-          <span class="attribute">data</span>:
-            <span class="attribute">payout</span>: <span class="literal">true</span>
+    it <span class="hljs-string">"can use cool HTTP methods"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      User = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'User'</span>, {<span class="hljs-attribute">is_singleton</span>: <span class="hljs-literal">true</span>},
+        <span class="hljs-attribute">payout</span>:
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">'PATCH'</span>
+          <span class="hljs-attribute">data</span>:
+            <span class="hljs-attribute">payout</span>: <span class="hljs-literal">true</span>
 
-      $httpBackend.expectPATCH(<span class="string">'/user/payout'</span>)
-      .respond<span class="function"> -&gt;</span>
-        done(<span class="literal">null</span>)
+      $httpBackend.expectPATCH(<span class="hljs-string">'/user/payout'</span>)
+      .respond<span class="hljs-function"> -&gt;</span>
+        done(<span class="hljs-literal">null</span>)
 
       User.payout()
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-  describe <span class="string">"with bound callbacks"</span>,<span class="function"> -&gt;</span>
-    Messages = <span class="literal">null</span>
+  describe <span class="hljs-string">"with bound callbacks"</span>,<span class="hljs-function"> -&gt;</span>
+    Messages = <span class="hljs-literal">null</span>
 
-    early = <span class="number">20131220</span>
-    okay  = <span class="number">20131222</span>
-    late  = <span class="number">20131224</span>
+    early = <span class="hljs-number">20131220</span>
+    okay  = <span class="hljs-number">20131222</span>
+    late  = <span class="hljs-number">20131224</span>
 
-    errorCheck = <span class="string">"It failed."</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/messages</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="function"><span class="params">($httpBackend)</span> -&gt;</span>
-      id = <span class="number">0</span>
+    errorCheck = <span class="hljs-string">"It failed."</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/messages</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+      id = <span class="hljs-number">0</span>
       _data = [
-        {<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: early}
-        {<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: okay}
+        {<span class="hljs-attribute">id</span>: ++id, <span class="hljs-attribute">created</span>: early}
+        {<span class="hljs-attribute">id</span>: ++id, <span class="hljs-attribute">created</span>: okay}
       ]
 
-      $httpBackend.whenGET<span class="function"><span class="params">(<span class="string">'/messages'</span>)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
-        [<span class="number">200</span>, _data, {}]
+      $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/messages'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+        log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+        [<span class="hljs-number">200</span>, _data, {}]
 
-      messagesSinceUrl = <span class="regexp">/\/messages\?since=(\d.*)/</span>
-      $httpBackend.whenGET<span class="function"><span class="params">(messagesSinceUrl)</span>.<span class="title">respond</span> <span class="params">(method, url, data)</span> -&gt;</span>
-        log <span class="string">"GET <span class="subst">#{url}</span>"</span>
-        since = +messagesSinceUrl.exec(url)[<span class="number">1</span>]
+      messagesSinceUrl = <span class="hljs-regexp">/\/messages\?since=(\d.*)/</span>
+      $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(messagesSinceUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+        log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+        since = +messagesSinceUrl.exec(url)[<span class="hljs-number">1</span>]
 
-        <span class="keyword">if</span> since <span class="keyword">is</span> <span class="number">42</span>
-          <span class="keyword">return</span> [<span class="number">403</span>, {<span class="attribute">err</span>: <span class="string">'Classified'</span>}, {}]
+        <span class="hljs-keyword">if</span> since <span class="hljs-keyword">is</span> <span class="hljs-number">42</span>
+          <span class="hljs-keyword">return</span> [<span class="hljs-number">403</span>, {<span class="hljs-attribute">err</span>: <span class="hljs-string">'Classified'</span>}, {}]
 
         [
-          <span class="number">200</span>
-          [{<span class="attribute">id</span>: ++id, <span class="attribute">created</span>: late}]
+          <span class="hljs-number">200</span>
+          [{<span class="hljs-attribute">id</span>: ++id, <span class="hljs-attribute">created</span>: late}]
           {}
-        ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Messages Collection</p></div></div><div class="code"><div class="wrapper">    beforeEach<span class="function"> -&gt;</span>
-      Messages = Collection.<span class="keyword">new</span> <span class="string">"Messages"</span>, {},
-        <span class="attribute">update</span>:
-          <span class="attribute">method</span>: <span class="string">'GET'</span>
-          <span class="attribute">url</span>: <span class="string">"/messages"</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Incremental Updates</span></p>
+        ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Messages Collection</p></div></div><div class="code"><div class="wrapper">    beforeEach<span class="hljs-function"> -&gt;</span>
+      Messages = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Messages"</span>, {},
+        <span class="hljs-attribute">update</span>:
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">"/messages"</span></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p><span class='doc-section-header'>Method Incremental Updates</span></p>
 <p>This is a great example on how to incremetally update
   date using callbacks, since they are bound to have <code>this</code> point
   to the Collection&#39;s <code>config</code> object!</p>
@@ -173,36 +173,36 @@
 <ul>
 <li><strong>response must be an Object.</strong><br/>(HTTP response)</li>
 </ul>
-<p><strong>Returns an Object</strong><br/>(HTTP response (can be used in chained promises))</p></div></div><div class="code"><div class="wrapper">          <span class="attribute">onSuccess</span>: <span class="function"><span class="params">(response)</span> -&gt;</span>
-            <span class="keyword">if</span> _.isArray response.data
-              _.each response.data, <span class="function"><span class="params">(item)</span> =&gt;</span>
-                <span class="property">@Data</span>.updateEntry item, <span class="property">@matchingCriteria</span>(item)
-            <span class="keyword">return</span> response</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test failure callback by manipulating return value</p></div></div><div class="code"><div class="wrapper">          <span class="attribute">onFail</span>: <span class="function"><span class="params">(response)</span> -&gt;</span>
+<p><strong>Returns an Object</strong><br/>(HTTP response (can be used in chained promises))</p></div></div><div class="code"><div class="wrapper">          <span class="hljs-attribute">onSuccess</span>: <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
+            <span class="hljs-keyword">if</span> _.isArray response.data
+              _.each response.data, <span class="hljs-function"><span class="hljs-params">(item)</span> =&gt;</span>
+                <span class="hljs-property">@Data</span>.updateEntry item, <span class="hljs-property">@matchingCriteria</span>(item)
+            <span class="hljs-keyword">return</span> response</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Test failure callback by manipulating return value</p></div></div><div class="code"><div class="wrapper">          <span class="hljs-attribute">onFail</span>: <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
             response.data = errorCheck
-            <span class="keyword">return</span> response
+            <span class="hljs-keyword">return</span> response
 
-    it <span class="string">"should enable incremental updates"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
+    it <span class="hljs-string">"should enable incremental updates"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       messages = Messages.all()
       messages.$promise
-      .<span class="keyword">then</span><span class="function"> -&gt;</span>
-        expect(messages.all).to.not.contain late
-        Messages.update {}, <span class="attribute">params</span>: <span class="attribute">since</span>: late
-      .<span class="keyword">then</span> <span class="function"><span class="params">(response)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>console.log response.data</p></div></div><div class="code"><div class="wrapper">        expect(
-          _.pluck messages.all, <span class="string">'created'</span>
+      .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+        expect(messages.all).to.<span class="hljs-keyword">not</span>.contain late
+        Messages.update {}, <span class="hljs-attribute">params</span>: <span class="hljs-attribute">since</span>: late
+      .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>console.log response.data</p></div></div><div class="code"><div class="wrapper">        expect(
+          _.pluck messages.all, <span class="hljs-string">'created'</span>
         ).to.contain late
 
-        done(<span class="literal">null</span>)
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">(err)</span> -&gt;</span>
-        done <span class="keyword">new</span> Error JSON.stringify err
+        done(<span class="hljs-literal">null</span>)
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
       tick()
 
-    it <span class="string">"should offer failure handling"</span>, <span class="function"><span class="params">(done)</span> -&gt;</span>
-      Messages.update({}, <span class="attribute">params</span>: <span class="attribute">since</span>: <span class="number">42</span>)
-      .<span class="keyword">then</span><span class="function"> -&gt;</span>
-        done <span class="keyword">new</span> Error <span class="string">"Should have been an error."</span>
-      .<span class="keyword">then</span> <span class="literal">null</span>, <span class="function"><span class="params">({data})</span> -&gt;</span>
+    it <span class="hljs-string">"should offer failure handling"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      Messages.update({}, <span class="hljs-attribute">params</span>: <span class="hljs-attribute">since</span>: <span class="hljs-number">42</span>)
+      .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+        done <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Should have been an error."</span>
+      .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">({data})</span> -&gt;</span>
         expect(data).to.eql errorCheck
-        done(<span class="literal">null</span>)
+        done(<span class="hljs-literal">null</span>)
 
-      tick()</div></div></div></div></body></html>
+      tick()</div></div></div></div></div></body></html>
