@@ -2,7 +2,7 @@
 * angular-epicmodel
 *
 * @author [Pascal Hertleif](https://github.com/killercup)
-* @version 0.3.3
+* @version 0.3.4
 * @license MIT
 */
 (function () {
