@@ -5,10 +5,11 @@ gulp = require 'gulp'
 gutil = require 'gulp-util'
 
 coffee = require 'gulp-coffee'
+coffeelint = require 'gulp-coffeelint'
 ngmin = require 'gulp-ngmin'
 uglify = require 'gulp-uglify'
 concat = require 'gulp-concat'
-header = require('gulp-header')
+header = require 'gulp-header'
 
 pkg = require './package.json'
 
@@ -25,7 +26,9 @@ banner = """/*!
 
 gulp.task "compileScripts", ->
   gulp.src("src/**/*.coffee")
-  .pipe(coffee())
+  .pipe(coffeelint())
+  .pipe(coffeelint.reporter())
+  .pipe(coffee().on('error', gutil.log))
   .pipe(ngmin())
   .pipe(concat("model.js"))
   .pipe(header(banner, pkg))

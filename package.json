@@ -5,7 +5,7 @@
   "homepage": "https://github.com/killercup/angular-epicmodel",
   "scripts": {
     "bower": "bower install",
-    "test": "karma start test/karma.conf.coffee --single-run --browsers PhantomJS --reporters story",
+    "test": "coffeelint src/*.coffee && karma start test/karma.conf.coffee --single-run --browsers PhantomJS --reporters story",
     "testing": "karma start test/karma.conf.coffee",
     "docs": "groc",
     "publish_docs": "groc --github",
@@ -49,6 +49,8 @@
     "gulp-coffee": "~1.2.5",
     "gulp-concat": "~2.1.7",
     "gulp-uglify": "~0.1.0",
-    "gulp-header": "~1.0.2"
+    "gulp-header": "~1.0.2",
+    "gulp-coffeelint": "~0.1.2",
+    "coffeelint": "~1.0.4"
   }
 }
