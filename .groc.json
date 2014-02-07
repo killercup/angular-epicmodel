@@ -17,5 +17,6 @@
   "out": "docs",
   "silent": false,
   "strip": [],
-  "style": "Solarized"
+  "style": "Solarized",
+  "repository-url": "https://github.com/killercup/angular-epicmodel"
 }

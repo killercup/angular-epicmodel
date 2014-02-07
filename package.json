@@ -7,8 +7,8 @@
     "bower": "bower install",
     "test": "coffeelint src/*.coffee && karma start test/karma.conf.coffee --single-run --browsers PhantomJS --reporters story",
     "testing": "karma start test/karma.conf.coffee",
-    "docs": "groc",
-    "publish_docs": "groc --github",
+    "docs": "grock",
+    "publish_docs": "grock --github",
     "compile": "gulp compile --require coffee-script",
     "watch": "gulp watch --require coffee-script"
   },
@@ -36,7 +36,7 @@
   },
   "dependecies": {},
   "devDependencies": {
-    "groc": "git://github.com/killercup/groc.git#6d93d66e15cade1973e9fa96716573afc3cfcc20",
+    "grock": "~0.2.5",
     "bower": "~1.2.7",
     "karma": "~0.10.6",
     "karma-mocha": "~0.1.1",
