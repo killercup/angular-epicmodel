@@ -1,4 +1,33 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/config_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/config_spec"><meta name="groc-project-path" content="test/unit/config_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/config_spec.coffee">test/unit/config_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"Config"</span>,<span class="hljs-function"> -&gt;</span>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> - config_spec.coffee</title>
+
+  <link rel="stylesheet" href="../../assets/style.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+  <meta name="groc-relative-root" content="../../"/>
+  <meta name="groc-document-path" content="test/unit/config_spec.coffee"/>
+  
+  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
+  
+</head>
+<body>
+  <div id="file-area">
+    <div id="meta">
+      <code class="file-path">
+      
+        <a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/config_spec.coffee">test/unit/config_spec.coffee</a>
+      
+      </code>
+    </div>
+    <div id="document">
+    
+      <div class="segment">
+      
+      
+        <div class="code"><div class="wrapper">describe <span class="hljs-string">"Config"</span>,<span class="hljs-function"> -&gt;</span>
   angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
   beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
   beforeEach addHelpers()
@@ -15,12 +44,38 @@
 
   describe <span class="hljs-string">"response transformation"</span>,<span class="hljs-function"> -&gt;</span>
     jim = {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>}
-    arch_enemy = {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Arch Enemy"</span>}</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Mock Server on <code>/winners</code></p></div></div><div class="code"><div class="wrapper">    beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+    arch_enemy = {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Arch Enemy"</span>}
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>Mock Server on <code>/winners</code></p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
       _data = [
         jim
         arch_enemy
         {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Some Dude"</span>, <span class="hljs-attribute">occupation</span>: <span class="hljs-string">'Sofa Tester'</span>}
-      ]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/winners/:id</code></p></div></div><div class="code"><div class="wrapper">      winnerDetailUrl = <span class="hljs-regexp">/^\/winners\/(\d+)$/</span>
+      ]
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>URL schema: <code>/winners/:id</code></p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">      winnerDetailUrl = <span class="hljs-regexp">/^\/winners\/(\d+)$/</span>
 
       $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/winners'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
         log <span class="hljs-string">"GET /winners"</span>
@@ -144,11 +199,35 @@
 
         expect(detailUrl(<span class="hljs-attribute">name</span>: <span class="hljs-string">'Chair'</span>)).to.eql <span class="hljs-string">'/thingies/Chair'</span>
 
-      it <span class="hljs-string">"fails when fields are missing"</span>,<span class="hljs-function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Actually, you should check this yourself!</p></div></div><div class="code"><div class="wrapper">        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>,
+      it <span class="hljs-string">"fails when fields are missing"</span>,<span class="hljs-function"> -&gt;</span></div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>Actually, you should check this yourself!</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">        Things = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Things"</span>,
           <span class="hljs-attribute">detailUrl</span>: <span class="hljs-function"><span class="hljs-params">(entry, listUrl, baseUrl)</span> -&gt;</span>
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-keyword">unless</span> entry.name?
             <span class="hljs-string">"<span class="hljs-subst">#{baseUrl}</span>/thingies/<span class="hljs-subst">#{entry.name}</span>"</span>
 
         detailUrl = Things.config(<span class="hljs-string">'getDetailUrl'</span>)
 
-        expect(<span class="hljs-function">-&gt;</span> detailUrl(<span class="hljs-attribute">id</span>: <span class="hljs-number">12</span>)).to.<span class="hljs-keyword">throw</span> Error</div></div></div></div></div></body></html>
+        expect(<span class="hljs-function">-&gt;</span> detailUrl(<span class="hljs-attribute">id</span>: <span class="hljs-number">12</span>)).to.<span class="hljs-keyword">throw</span> Error
+</div></div>
+      
+      </div>
+    
+    </div>
+  </div>
+
+  <script src="../../toc.js"></script>
+  <script src="../../assets/libs.js"></script>
+  <script src="../../assets/behavior.js"></script>
+</body>
+</html>

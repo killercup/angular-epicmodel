@@ -1,7 +1,48 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/singleton_resource_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/singleton_resource_spec"><meta name="groc-project-path" content="test/unit/singleton_resource_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/singleton_resource_spec.coffee">test/unit/singleton_resource_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"Singleton Resource"</span>,<span class="hljs-function"> -&gt;</span>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> - singleton_resource_spec.coffee</title>
+
+  <link rel="stylesheet" href="../../assets/style.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+  <meta name="groc-relative-root" content="../../"/>
+  <meta name="groc-document-path" content="test/unit/singleton_resource_spec.coffee"/>
+  
+  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
+  
+</head>
+<body>
+  <div id="file-area">
+    <div id="meta">
+      <code class="file-path">
+      
+        <a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/singleton_resource_spec.coffee">test/unit/singleton_resource_spec.coffee</a>
+      
+      </code>
+    </div>
+    <div id="document">
+    
+      <div class="segment">
+      
+      
+        <div class="code"><div class="wrapper">describe <span class="hljs-string">"Singleton Resource"</span>,<span class="hljs-function"> -&gt;</span>
   angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
   beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
-  beforeEach addHelpers()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-me-">Mock Server on <code>/me</code></h3></div></div><div class="code"><div class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+  beforeEach addHelpers()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="mock-server-on-me"><a href="#mock-server-on-me" class="anchor"></a>Mock Server on <code>/me</code></h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
     _data =
       <span class="hljs-attribute">name</span>: <span class="hljs-string">"Pascal"</span>
       <span class="hljs-attribute">awesomeness</span>: <span class="hljs-number">42</span>
@@ -14,7 +55,19 @@
       log <span class="hljs-string">"POST /me"</span>, data
       _data = _.extend(data, _data)
       log <span class="hljs-string">"new data"</span>, _data
-      [<span class="hljs-number">200</span>, _data, {}]</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  Me = <span class="hljs-literal">null</span>
+      [<span class="hljs-number">200</span>, _data, {}]
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="initialize-new-collection-each-time"><a href="#initialize-new-collection-each-time" class="anchor"></a>Initialize new Collection each time</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  Me = <span class="hljs-literal">null</span>
   beforeEach inject <span class="hljs-function"><span class="hljs-params">(Collection)</span> -&gt;</span>
     Me = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Me"</span>, <span class="hljs-attribute">is_singleton</span>: <span class="hljs-literal">true</span>
 
@@ -68,4 +121,16 @@
     expect(Me.destroy).to.<span class="hljs-keyword">throw</span>(Error)
 
   it <span class="hljs-string">'should not be able to create entry'</span>,<span class="hljs-function"> -&gt;</span>
-    expect(Me.create).to.<span class="hljs-keyword">throw</span>(Error)</div></div></div></div></div></body></html>
+    expect(Me.create).to.<span class="hljs-keyword">throw</span>(Error)
+</div></div>
+      
+      </div>
+    
+    </div>
+  </div>
+
+  <script src="../../toc.js"></script>
+  <script src="../../assets/libs.js"></script>
+  <script src="../../assets/behavior.js"></script>
+</body>
+</html>

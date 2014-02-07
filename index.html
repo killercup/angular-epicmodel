@@ -1,5 +1,33 @@
-<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/README.md">README.md</a></code></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="epicmodel">EpicModel</h1>
-<p>A model/collection service for Angular.js</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EpicModel - README.md</title>
+
+  <link rel="stylesheet" href="assets/style.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+  <meta name="groc-relative-root" content=""/>
+  <meta name="groc-document-path" content="README.md"/>
+  
+  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
+  
+</head>
+<body>
+  <div id="file-area">
+    <div id="meta">
+      <code class="file-path">
+      
+        <a href="https://github.com/killercup/angular-epicmodel/blob/master/README.md">README.md</a>
+      
+      </code>
+    </div>
+    <div id="document">
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h1 id="epicmodel"><a href="#epicmodel" class="anchor"></a>EpicModel</h1><p>A model/collection service for Angular.js</p>
 <p>Inspired by <a href="http://docs.angularjs.org/api/ngResource.$resource">$resource</a>, I wanted to create a service that can manage the data retrieved from an API and always return the same objects, so Angular will automatically update all your views.</p>
 <pre><code class="lang-coffeescript">Messages = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Messages"</span>, <span class="hljs-attribute">url</span>: <span class="hljs-string">"/messages"</span>
 
@@ -7,26 +35,37 @@ Messages.all()
 <span class="hljs-comment"># =&gt; {all: Array(), $promise: {then, finally, catch}}</span>
 
 Messages.get(<span class="hljs-attribute">id</span>: <span class="hljs-number">42</span>)
-<span class="hljs-comment"># =&gt; {data: Object(), $promise: {then, finally, catch}}</span></code></pre>
+<span class="hljs-comment"># =&gt; {data: Object(), $promise: {then, finally, catch}}</span>
+</code></pre>
 <p><a href="https://travis-ci.org/killercup/angular-epicmodel"><img src="https://travis-ci.org/killercup/angular-epicmodel.png?branch=master" alt="Build Status"></a></p>
-<h2 id="install">Install</h2>
-<p>For now, just make sure the <code>src/model.coffee</code> is somewhere in your build process so you can require <code>EpicModel</code> in your modules.</p>
-<h3 id="dependencies">Dependencies</h3>
-<ul>
+<h2 id="install"><a href="#install" class="anchor"></a>Install</h2><p>For now, just make sure the <code>src/model.coffee</code> is somewhere in your build process so you can require <code>EpicModel</code> in your modules.</p>
+<h3 id="dependencies"><a href="#dependencies" class="anchor"></a>Dependencies</h3><ul>
 <li>Underscore/Lodash</li>
 </ul>
-<h2 id="usage">Usage</h2>
-<p>You should read the inline documentation for <code>src/model.coffee</code>. It&#39;s quite comprehensive and full of examples.</p>
-<h2 id="features">Features</h2>
-<ul>
-<li>[x] Retrieve single object resource (e.g. <code>/users/me</code>)</li>
-<li>[x] Retrieve list resources and manage them in an array structure</li>
-<li>[x] Update list resources after retrieving matching single resource</li>
-<li>[x] Add custom sub-resources (e.g. <code>/users/$id/follow</code> as <code>User.follow(id)</code>)</li>
-<li>[x] Incremental updates (á la <code>/messages?since=1386150532</code>, see <code>extras_spec</code>)</li>
-<li>[ ] Transform requests</li>
-<li>[x] Transform response</li>
-<li>[x] Customizable URL patterns (always uses <code>$url/$id</code> for now, but should also offer stuff like <code>/item/{item._id}/property/{_id}</code>)</li>
-<li>[x] Persistent storage wrapper (save to storage, retrieve when initializing)</li>
-<li>[x] Implemented <code>localStorage</code> wrapper</li>
-</ul></div></div></div></div></div></body></html>
+<h2 id="usage"><a href="#usage" class="anchor"></a>Usage</h2><p>You should read the inline documentation for <code>src/model.coffee</code>. It&#39;s quite comprehensive and full of examples.</p>
+<h2 id="features"><a href="#features" class="anchor"></a>Features</h2><ul>
+<li><input type="checkbox" checked disabled/> Retrieve single object resource (e.g. <code>/users/me</code>)</li>
+<li><input type="checkbox" checked disabled/> Retrieve list resources and manage them in an array structure</li>
+<li><input type="checkbox" checked disabled/> Update list resources after retrieving matching single resource</li>
+<li><input type="checkbox" checked disabled/> Add custom sub-resources (e.g. <code>/users/$id/follow</code> as <code>User.follow(id)</code>)</li>
+<li><input type="checkbox" checked disabled/> Incremental updates (á la <code>/messages?since=1386150532</code>, see <code>extras_spec</code>)</li>
+<li><input type="checkbox" disabled/> Transform requests</li>
+<li><input type="checkbox" checked disabled/> Transform response</li>
+<li><input type="checkbox" checked disabled/> Customizable URL patterns (always uses <code>$url/$id</code> for now, but should also offer stuff like <code>/item/{item._id}/property/{_id}</code>)</li>
+<li><input type="checkbox" checked disabled/> Persistent storage wrapper (save to storage, retrieve when initializing)</li>
+<li><input type="checkbox" checked disabled/> Implemented <code>localStorage</code> wrapper</li>
+</ul>
+</div>
+        </div>
+      
+      
+      </div>
+    
+    </div>
+  </div>
+
+  <script src="toc.js"></script>
+  <script src="assets/libs.js"></script>
+  <script src="assets/behavior.js"></script>
+</body>
+</html>

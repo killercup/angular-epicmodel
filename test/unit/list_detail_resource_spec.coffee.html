@@ -1,8 +1,69 @@
-<!DOCTYPE html><html lang="en"><head><title>test/unit/list_detail_resource_spec</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="test/unit/list_detail_resource_spec"><meta name="groc-project-path" content="test/unit/list_detail_resource_spec.coffee"><meta name="groc-github-url" content="https://github.com/killercup/angular-epicmodel"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="file-area"><div id="meta"><code class="file-path"><a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/list_detail_resource_spec.coffee">test/unit/list_detail_resource_spec.coffee</a></code></div><div id="document"><div class="segment"><div class="code"><div class="wrapper">describe <span class="hljs-string">"List Resource"</span>,<span class="hljs-function"> -&gt;</span>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> - list_detail_resource_spec.coffee</title>
+
+  <link rel="stylesheet" href="../../assets/style.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+  <meta name="groc-relative-root" content="../../"/>
+  <meta name="groc-document-path" content="test/unit/list_detail_resource_spec.coffee"/>
+  
+  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
+  
+</head>
+<body>
+  <div id="file-area">
+    <div id="meta">
+      <code class="file-path">
+      
+        <a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/list_detail_resource_spec.coffee">test/unit/list_detail_resource_spec.coffee</a>
+      
+      </code>
+    </div>
+    <div id="document">
+    
+      <div class="segment">
+      
+      
+        <div class="code"><div class="wrapper">describe <span class="hljs-string">"List Resource"</span>,<span class="hljs-function"> -&gt;</span>
   angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
   beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
-  beforeEach addHelpers()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>static values, DRY</p></div></div><div class="code"><div class="wrapper">  subject2 = <span class="hljs-string">'Hi There'</span>
-  messagesCount = <span class="hljs-number">0</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="mock-server-on-messages-">Mock Server on <code>/messages</code></h3></div></div><div class="code"><div class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span></div></div></div><div class="segment"><div class="code folded"><div class="wrapper marker"><span class="c1">    #  dummy values</span></div><div class="wrapper">    <span class="hljs-comment">#  dummy values</span>
+  beforeEach addHelpers()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>static values, DRY</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  subject2 = <span class="hljs-string">'Hi There'</span>
+  messagesCount = <span class="hljs-number">0</span>
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="mock-server-on-messages"><a href="#mock-server-on-messages" class="anchor"></a>Mock Server on <code>/messages</code></h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span></div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+      
+        <div class="code"><div class="wrapper">    <span class="hljs-comment">#  dummy values</span>
     id = <span class="hljs-number">0</span>
     messages = [
       {
@@ -16,7 +77,20 @@
         <span class="hljs-attribute">body</span>: <span class="hljs-string">'Dolor sit amet'</span>
       }
     ]
-    messagesCount = messages.length</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>URL schema: <code>/messages/:id</code></p></div></div><div class="code"><div class="wrapper">    messageDetailUrl = <span class="hljs-regexp">/^\/messages\/(\d+)$/</span>
+    messagesCount = messages.length
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>URL schema: <code>/messages/:id</code></p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    messageDetailUrl = <span class="hljs-regexp">/^\/messages\/(\d+)$/</span>
 
     $httpBackend.whenGET(<span class="hljs-string">'/messages'</span>).respond<span class="hljs-function"> -&gt;</span>
       log <span class="hljs-string">"GET /messages"</span>
@@ -53,9 +127,33 @@
 
   afterEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
     $httpBackend.verifyNoOutstandingExpectation()
-    $httpBackend.verifyNoOutstandingRequest()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="initialize-new-collection-each-time">Initialize new Collection each time</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  Messages = <span class="hljs-literal">null</span>
+    $httpBackend.verifyNoOutstandingRequest()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="initialize-new-collection-each-time"><a href="#initialize-new-collection-each-time" class="anchor"></a>Initialize new Collection each time</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  Messages = <span class="hljs-literal">null</span>
   beforeEach inject <span class="hljs-function"><span class="hljs-params">(Collection)</span> -&gt;</span>
-    Messages = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Messages"</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-messages">GET /messages</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  describe <span class="hljs-string">"concerning all items"</span>,<span class="hljs-function"> -&gt;</span>
+    Messages = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Messages"</span>
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="get-messages"><a href="#get-messages" class="anchor"></a>GET /messages</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  describe <span class="hljs-string">"concerning all items"</span>,<span class="hljs-function"> -&gt;</span>
     it <span class="hljs-string">"should fetch an array of objects"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       messages = Messages.all()
 
@@ -66,7 +164,19 @@
       .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
         done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
-      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="query-cached-data">Query cached data</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="hljs-string">'should query cached data'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      tick()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="query-cached-data"><a href="#query-cached-data" class="anchor"></a>Query cached data</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    it <span class="hljs-string">'should query cached data'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       Messages.all().$promise
       .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
         messages = Messages.where <span class="hljs-attribute">subject</span>: <span class="hljs-string">'Hello World'</span>
@@ -91,7 +201,18 @@
 
       tick()
 
-  describe <span class="hljs-string">"concerning a single item"</span>,<span class="hljs-function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="get-messages2">GET /messages/2</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="hljs-string">'should fetch single item'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+  describe <span class="hljs-string">"concerning a single item"</span>,<span class="hljs-function"> -&gt;</span></div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="get-messages-2"><a href="#get-messages-2" class="anchor"></a>GET /messages/2</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    it <span class="hljs-string">'should fetch single item'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       query = <span class="hljs-attribute">id</span>: <span class="hljs-number">2</span>
 
       messages = Messages.all()
@@ -136,21 +257,109 @@
       .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
         done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
-      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="post-messages1">POST /messages/1</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="hljs-string">'should update an entry'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      tick()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="post-messages-1"><a href="#post-messages-1" class="anchor"></a>POST /messages/1</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    it <span class="hljs-string">'should update an entry'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       query = {}
       messages = []
       message = {}
 
-      new_subject = <span class="hljs-string">'Shiny Message'</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Fetch all messages for reference</p></div></div><div class="code"><div class="wrapper">      messages = Messages.all()
-      messages.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Load random message</p></div></div><div class="code"><div class="wrapper">        query = <span class="hljs-attribute">id</span>: _.sample(messages.all).id
+      new_subject = <span class="hljs-string">'Shiny Message'</span>
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>Fetch all messages for reference</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">      messages = Messages.all()
+      messages.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span></div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>Load random message</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">        query = <span class="hljs-attribute">id</span>: _.sample(messages.all).id
         message = Messages.get(query)
         message.$promise
       .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
-        expect(message.data.subject).to.exist</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Clone message and edit the clone so it is a new reference</p></div></div><div class="code"><div class="wrapper">        updated_message = _.cloneDeep(message.data)
-        updated_message.subject = new_subject</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Save correctly</p></div></div><div class="code"><div class="wrapper">        Messages.save(updated_message)
-      .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>message object updated</p></div></div><div class="code"><div class="wrapper">        expect(data.subject).to.eql new_subject
+        expect(message.data.subject).to.exist
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>Clone message and edit the clone so it is a new reference</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">        updated_message = _.cloneDeep(message.data)
+        updated_message.subject = new_subject
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>Save correctly</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">        Messages.save(updated_message)
+      .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span></div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>message object updated</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">        expect(data.subject).to.eql new_subject
         expect(data.subject).to.eql message.data.subject
-        expect(data.body).to.eql message.data.body</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>messages list item updated</p></div></div><div class="code"><div class="wrapper">        expect(_.findWhere(messages.all, query)).to.deep.equal(data)
+        expect(data.body).to.eql message.data.body
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>messages list item updated</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">        expect(_.findWhere(messages.all, query)).to.deep.equal(data)
 
         $q.<span class="hljs-keyword">when</span> data
       .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
@@ -167,7 +376,19 @@
         expect(err).to.exist
         done(<span class="hljs-literal">null</span>)
 
-      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="delete-messages2">DELETE /messages/2</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">    it <span class="hljs-string">'should delete an entry'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      tick()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="delete-messages-2"><a href="#delete-messages-2" class="anchor"></a>DELETE /messages/2</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    it <span class="hljs-string">'should delete an entry'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
       query = <span class="hljs-attribute">id</span>: <span class="hljs-number">2</span>
       Messages.destroy(query)
       .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
@@ -187,7 +408,19 @@
         expect(err).to.exist
         done(<span class="hljs-literal">null</span>)
 
-      tick()</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h3 id="post-messages">POST /messages</h3></div></div></div><div class="segment"><div class="code"><div class="wrapper">  it <span class="hljs-string">'should create a new entry'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+      tick()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="post-messages"><a href="#post-messages" class="anchor"></a>POST /messages</h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  it <span class="hljs-string">'should create a new entry'</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
     new_message =
       <span class="hljs-attribute">subject</span>: subject = <span class="hljs-string">"Fresh Start"</span>
       <span class="hljs-attribute">body</span>: body = <span class="hljs-string">"Brand new message"</span>
@@ -210,4 +443,16 @@
       expect(err).to.exist
       done(<span class="hljs-literal">null</span>)
 
-    tick()</div></div></div></div></div></body></html>
+    tick()
+</div></div>
+      
+      </div>
+    
+    </div>
+  </div>
+
+  <script src="../../toc.js"></script>
+  <script src="../../assets/libs.js"></script>
+  <script src="../../assets/behavior.js"></script>
+</body>
+</html>

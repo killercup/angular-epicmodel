@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> - request_config_spec.coffee</title>
+
+  <link rel="stylesheet" href="../../assets/style.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+  <meta name="groc-relative-root" content="../../"/>
+  <meta name="groc-document-path" content="test/unit/request_config_spec.coffee"/>
+  
+  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
+  
+</head>
+<body>
+  <div id="file-area">
+    <div id="meta">
+      <code class="file-path">
+      
+        <a href="https://github.com/killercup/angular-epicmodel/blob/master/test/unit/request_config_spec.coffee">test/unit/request_config_spec.coffee</a>
+      
+      </code>
+    </div>
+    <div id="document">
+    
+      <div class="segment">
+      
+        <div class="comments doc-section">
+          <div class="wrapper"><p>Test Config for Single Requests</p>
+<p>Most methods have an additional argument for HTTP options.</p>
+<p>Example:</p>
+<pre><code class="lang-coffeescript">Items.get {<span class="hljs-attribute">id</span>: <span class="hljs-number">42</span>}, <span class="hljs-attribute">params</span>: {<span class="hljs-attribute">include</span>: <span class="hljs-string">'comments'</span>}
+</code></pre>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">describe <span class="hljs-string">"Request Config"</span>,<span class="hljs-function"> -&gt;</span>
+  angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
+  beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
+  beforeEach addHelpers()
+
+  Collection = <span class="hljs-literal">null</span>
+  beforeEach inject <span class="hljs-function"><span class="hljs-params">(_Collection_)</span> -&gt;</span>
+    Collection = _Collection_
+
+  specialValue = <span class="hljs-string">'param'</span>
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h3 id="mock-server-on-items"><a href="#mock-server-on-items" class="anchor"></a>Mock Server on <code>/items</code></h3></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+    _data = [<span class="hljs-number">1</span>, <span class="hljs-number">42</span>, <span class="hljs-number">13</span>]
+
+    $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/items'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+      log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>
+      [<span class="hljs-number">200</span>, _data, {}]
+
+    $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-regexp">/\/items\?(\w*)/</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+      log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>, data
+      [<span class="hljs-number">200</span>, [specialValue], {}]
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>URL schema: <code>/items/:id</code></p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">    itemsDetailUrl = <span class="hljs-regexp">/^\/items\/(\d+)$/</span>
+
+    $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(itemsDetailUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data, headers={})</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> headers.Authorization?
+        [<span class="hljs-number">200</span>, {<span class="hljs-attribute">special</span>: specialValue}, {}]
+      <span class="hljs-keyword">else</span>
+        [<span class="hljs-number">403</span>, {<span class="hljs-attribute">err</span>: <span class="hljs-string">'no auth'</span>}, {}]
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h2 id="list-resource"><a href="#list-resource" class="anchor"></a>List Resource</h2></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  it <span class="hljs-string">"can set parameters for all()"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+    Items = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Items"</span>
+
+    things = Items.all <span class="hljs-attribute">params</span>: {<span class="hljs-attribute">special</span>: <span class="hljs-literal">true</span>}
+    things.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+      expect(things.all).to.have.length(<span class="hljs-number">1</span>)
+      expect(things.all[<span class="hljs-number">0</span>]).to.eql specialValue
+
+      done(<span class="hljs-literal">null</span>)
+    .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      done <span class="hljs-keyword">new</span> Error JSON.stringify err
+
+    tick()
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><h2 id="detail-resource"><a href="#detail-resource" class="anchor"></a>Detail Resource</h2></div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">  it <span class="hljs-string">"can set headers"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+    Items = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Items"</span>
+    auth = <span class="hljs-attribute">Authorization</span>: <span class="hljs-string">"Token 1337"</span>
+
+    thingy = Items.get {<span class="hljs-attribute">id</span>: <span class="hljs-number">1</span>}
+    thingy.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
+      done <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Should throw 403 ($httpBackend config)"</span>
+    .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
+      expect(status).to.eql <span class="hljs-number">403</span>
+      expect(data).to.have.property(<span class="hljs-string">'err'</span>)
+</div></div>
+      
+      </div>
+    
+      <div class="segment">
+      
+        <div class="comments ">
+          <div class="wrapper"><p>now with auth header</p>
+</div>
+        </div>
+      
+      
+        <div class="code"><div class="wrapper">      thingy = Items.get {<span class="hljs-attribute">id</span>: <span class="hljs-number">1</span>}, <span class="hljs-attribute">headers</span>: auth
+      thingy.$promise
+    .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status})</span> -&gt;</span>
+      expect(status).to.eql <span class="hljs-number">200</span>
+      expect(thingy.data.special).to.eql specialValue
+      done(<span class="hljs-literal">null</span>)
+    .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+      done <span class="hljs-keyword">new</span> Error JSON.stringify err
+
+    tick()
+</div></div>
+      
+      </div>
+    
+    </div>
+  </div>
+
+  <script src="../../toc.js"></script>
+  <script src="../../assets/libs.js"></script>
+  <script src="../../assets/behavior.js"></script>
+</body>
+</html>
