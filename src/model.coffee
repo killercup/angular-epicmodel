@@ -166,7 +166,7 @@ angular.module('EpicModel', [
 
       if _.isString config.detailUrl
         makeDetailUrl = (entry) ->
-          config.parseUrlPattern(entry, config.detailUrl)
+          config.parseUrlPattern(entry, "#{config.baseUrl}#{config.detailUrl}")
       else
         makeDetailUrl = (entry, listUrl=config.listUrl, baseUrl=config.baseUrl) ->
           if entry.id?
@@ -534,7 +534,7 @@ angular.module('EpicModel', [
             if _.isFunction(val.url)
               options.url = val.url(data, config.listUrl, config.detailUrl)
             else
-              options.url = config.parseUrlPattern(data, val.url)
+              options.url = config.parseUrlPattern(data, "#{config.baseUrl}#{val.url}")
 
           call = $http _.extend(val, options), data
           call.then(success) if success?
