@@ -2,7 +2,7 @@
 * angular-epicmodel
 *
 * @author [Pascal Hertleif](https://github.com/killercup)
-* @version 0.3.4
+* @version 0.4.0
 * @license MIT
 */
 (function () {
@@ -62,7 +62,7 @@
           };
           if (_.isString(config.detailUrl)) {
             makeDetailUrl = function (entry) {
-              return config.parseUrlPattern(entry, config.detailUrl);
+              return config.parseUrlPattern(entry, '' + config.baseUrl + config.detailUrl);
             };
           } else {
             makeDetailUrl = function (entry, listUrl, baseUrl) {
@@ -244,7 +244,7 @@
                 return $q.reject(e.message || e);
               }
             }
-            return $http.post(_url, JSON.stringify(entry), options).then(function (_arg) {
+            return $http.put(_url, JSON.stringify(entry), options).then(function (_arg) {
               var data, status;
               status = _arg.status, data = _arg.data;
               data = config.transformResponse(data, 'save');
@@ -328,7 +328,7 @@
                 if (_.isFunction(val.url)) {
                   options.url = val.url(data, config.listUrl, config.detailUrl);
                 } else {
-                  options.url = config.parseUrlPattern(data, val.url);
+                  options.url = config.parseUrlPattern(data, '' + config.baseUrl + val.url);
                 }
               }
               call = $http(_.extend(val, options), data);
