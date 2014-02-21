@@ -51,7 +51,7 @@
       log <span class="hljs-string">"GET /me"</span>
       [<span class="hljs-number">200</span>, _data, {}]
 
-    $httpBackend.whenPOST<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/me'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
+    $httpBackend.whenPUT<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/me'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
       log <span class="hljs-string">"POST /me"</span>, data
       _data = _.extend(data, _data)
       log <span class="hljs-string">"new data"</span>, _data

@@ -86,7 +86,7 @@
         log <span class="hljs-string">"GET /winner/<span class="hljs-subst">#{id}</span>"</span>
         [<span class="hljs-number">200</span>, _data[id], {}]
 
-      $httpBackend.whenPOST<span class="hljs-function"><span class="hljs-params">(winnerDetailUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data, headers)</span> -&gt;</span>
+      $httpBackend.whenPUT<span class="hljs-function"><span class="hljs-params">(winnerDetailUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data, headers)</span> -&gt;</span>
         id = +winnerDetailUrl.exec(url)[<span class="hljs-number">1</span>]
         log <span class="hljs-string">"POST /winner/<span class="hljs-subst">#{id}</span>"</span>
         [<span class="hljs-number">200</span>, _data[id], {}]

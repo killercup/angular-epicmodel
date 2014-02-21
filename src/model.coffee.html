@@ -261,7 +261,7 @@ using <code>item.id</code>)</p>
 
       <span class="hljs-keyword">if</span> _.isString config.detailUrl
         <span class="hljs-function"><span class="hljs-title">makeDetailUrl</span> = <span class="hljs-params">(entry)</span> -&gt;</span>
-          config.parseUrlPattern(entry, config.detailUrl)
+          config.parseUrlPattern(entry, <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.detailUrl}</span>"</span>)
       <span class="hljs-keyword">else</span>
         <span class="hljs-function"><span class="hljs-title">makeDetailUrl</span> = <span class="hljs-params">(entry, listUrl=config.listUrl, baseUrl=config.baseUrl)</span> -&gt;</span>
           <span class="hljs-keyword">if</span> entry.id?
@@ -664,7 +664,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           <span class="hljs-keyword">catch</span> e
             <span class="hljs-keyword">return</span> $q.reject e.message || e
 
-        <span class="hljs-keyword">return</span> $http.post(_url, JSON.stringify(entry), options)
+        <span class="hljs-keyword">return</span> $http.put(_url, JSON.stringify(entry), options)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="hljs-string">'save'</span>)
 
@@ -844,7 +844,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
             <span class="hljs-keyword">if</span> _.isFunction(val.url)
               options.url = val.url(data, config.listUrl, config.detailUrl)
             <span class="hljs-keyword">else</span>
-              options.url = config.parseUrlPattern(data, val.url)
+              options.url = config.parseUrlPattern(data, <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{val.url}</span>"</span>)
 
           call = $http _.extend(val, options), data
           call.<span class="hljs-keyword">then</span>(success) <span class="hljs-keyword">if</span> success?
