@@ -46,7 +46,7 @@ describe "List Resource", ->
       messages.push message
       [200, message, {}]
 
-    $httpBackend.whenPOST(messageDetailUrl).respond (method, url, data) ->
+    $httpBackend.whenPUT(messageDetailUrl).respond (method, url, data) ->
       id = +messageDetailUrl.exec(url)[1]
       log "POST /messages/#{id}"
       message = _.findWhere messages, id: id

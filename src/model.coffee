@@ -423,7 +423,7 @@ angular.module('EpicModel', [
           catch e
             return $q.reject e.message || e
 
-        return $http.post(_url, JSON.stringify(entry), options)
+        return $http.put(_url, JSON.stringify(entry), options)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'save')
 

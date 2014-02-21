@@ -37,7 +37,7 @@ describe "Config", ->
         log "GET /winner/#{id}"
         [200, _data[id], {}]
 
-      $httpBackend.whenPOST(winnerDetailUrl).respond (method, url, data, headers) ->
+      $httpBackend.whenPUT(winnerDetailUrl).respond (method, url, data, headers) ->
         id = +winnerDetailUrl.exec(url)[1]
         log "POST /winner/#{id}"
         [200, _data[id], {}]

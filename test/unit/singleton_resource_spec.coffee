@@ -13,7 +13,7 @@ describe "Singleton Resource", ->
       log "GET /me"
       [200, _data, {}]
 
-    $httpBackend.whenPOST('/me').respond (method, url, data) ->
+    $httpBackend.whenPUT('/me').respond (method, url, data) ->
       log "POST /me", data
       _data = _.extend(data, _data)
       log "new data", _data
