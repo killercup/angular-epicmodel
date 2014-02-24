@@ -324,7 +324,11 @@ angular.module('EpicModel', [
       # @return {Promise} HTTP data
       ###
       exports.fetchAll = (options={}) ->
-        $http.get("#{config.baseUrl}#{config.url}", options)
+        httpOptions = _.defaults options,
+          method: "GET"
+          url: "#{config.baseUrl}#{config.url}"
+
+        $http(httpOptions)
         .then (response) ->
           unless _.isArray(response.data)
             console.warn "#{name} Model", "API Respsonse was", response.data
@@ -344,7 +348,11 @@ angular.module('EpicModel', [
       # @return {Promise} HTTP data
       ###
       exports.fetch = (options={}) ->
-        $http.get("#{config.baseUrl}#{config.url}", options)
+        httpOptions = _.defaults options,
+          method: "GET"
+          url: "#{config.baseUrl}#{config.url}"
+
+        $http(httpOptions)
         .then (response) ->
           unless _.isObject(response.data)
             console.warn "#{name} Model", "API Respsonse was", response.data
@@ -371,7 +379,11 @@ angular.module('EpicModel', [
         catch e
           return $q.reject e.message || e
 
-        $http.get(_url, options)
+        httpOptions = _.defaults options,
+          method: "GET"
+          url: _url
+
+        $http(httpOptions)
         .then (res) ->
           unless _.isObject(res.data)
             console.warn "#{name} Model", "API Respsonse was", res.data
@@ -400,7 +412,11 @@ angular.module('EpicModel', [
         catch e
           return $q.reject e.message || e
 
-        $http.delete(_url, options)
+        httpOptions = _.defaults options,
+          method: "DELETE"
+          url: _url
+
+        $http(httpOptions)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'destroy')
           return $q.when Data.removeEntry data, config.matchingCriteria(data)
@@ -423,7 +439,12 @@ angular.module('EpicModel', [
           catch e
             return $q.reject e.message || e
 
-        return $http.put(_url, angular.toJson(entry), options)
+        httpOptions = _.defaults options,
+          method: "PUT"
+          url: _url
+          data: angular.toJson(entry)
+
+        return $http(httpOptions)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'save')
 
@@ -446,7 +467,12 @@ angular.module('EpicModel', [
         if IS_SINGLETON
           throw new Error "#{name} Model: Singleton doesn't have `destroy` method."
 
-        return $http.post("#{config.baseUrl}#{config.listUrl}", entry, options)
+        httpOptions = _.defaults options,
+          method: "POST"
+          url: "#{config.baseUrl}#{config.listUrl}"
+          data: angular.toJson(entry)
+
+        return $http(httpOptions)
         .then ({status, data}) ->
           return $q.when Data.updateEntry data, config.matchingCriteria(data)
 

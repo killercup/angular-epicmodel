@@ -48,10 +48,14 @@ describe "List Resource", ->
 
     $httpBackend.whenPUT(messageDetailUrl).respond (method, url, data) ->
       id = +messageDetailUrl.exec(url)[1]
-      log "POST /messages/#{id}"
+      log "PUT /messages/#{id}"
       message = _.findWhere messages, id: id
       message = data
       [200, message, {}]
+
+    $httpBackend.whenPOST(messageDetailUrl).respond (method, url, data) ->
+      log "POST /messages/#{id}"
+      [405, {error: "Method Not Allowed"}, {}]
 
     $httpBackend.whenDELETE(messageDetailUrl).respond (method, url, data) ->
       id = +messageDetailUrl.exec(url)[1]
@@ -229,6 +233,16 @@ describe "List Resource", ->
       .then null, (err) ->
         expect(err).to.exist
         done(null)
+
+      tick()
+
+    it 'should overwrite method using options', (done) ->
+      Messages.save({id: 12}, {method: 'POST'})
+      .then ->
+        done new Error "Should have overwritten method and failed"
+      .then null, (res) ->
+        expect(res.status).to.eql 405
+        done()
 
       tick()
 
