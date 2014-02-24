@@ -2,7 +2,7 @@
 * angular-epicmodel
 *
 * @author [Pascal Hertleif](https://github.com/killercup)
-* @version 0.4.0
+* @version 0.4.1
 * @license MIT
 */
 (function () {
@@ -160,10 +160,15 @@
           }
           config.Data = exports.Data = Data;
           exports.fetchAll = function (options) {
+            var httpOptions;
             if (options == null) {
               options = {};
             }
-            return $http.get('' + config.baseUrl + config.url, options).then(function (response) {
+            httpOptions = _.defaults(options, {
+              method: 'GET',
+              url: '' + config.baseUrl + config.url
+            });
+            return $http(httpOptions).then(function (response) {
               if (!_.isArray(response.data)) {
                 console.warn('' + name + ' Model', 'API Respsonse was', response.data);
                 throw new Error('' + name + ' Model: Expected array, got ' + typeof response.data);
@@ -174,10 +179,15 @@
             });
           };
           exports.fetch = function (options) {
+            var httpOptions;
             if (options == null) {
               options = {};
             }
-            return $http.get('' + config.baseUrl + config.url, options).then(function (response) {
+            httpOptions = _.defaults(options, {
+              method: 'GET',
+              url: '' + config.baseUrl + config.url
+            });
+            return $http(httpOptions).then(function (response) {
               if (!_.isObject(response.data)) {
                 console.warn('' + name + ' Model', 'API Respsonse was', response.data);
                 throw new Error('' + name + ' Model: Expected object, got ' + typeof response.data);
@@ -188,7 +198,7 @@
             });
           };
           exports.fetchOne = function (query, options) {
-            var e, _url;
+            var e, httpOptions, _url;
             if (options == null) {
               options = {};
             }
@@ -198,7 +208,11 @@
               e = _error;
               return $q.reject(e.message || e);
             }
-            return $http.get(_url, options).then(function (res) {
+            httpOptions = _.defaults(options, {
+              method: 'GET',
+              url: _url
+            });
+            return $http(httpOptions).then(function (res) {
               if (!_.isObject(res.data)) {
                 console.warn('' + name + ' Model', 'API Respsonse was', res.data);
                 throw new Error('Expected object, got ' + typeof res.data);
@@ -209,7 +223,7 @@
             });
           };
           exports.destroy = function (query, options) {
-            var e, _url;
+            var e, httpOptions, _url;
             if (options == null) {
               options = {};
             }
@@ -222,7 +236,11 @@
               e = _error;
               return $q.reject(e.message || e);
             }
-            return $http['delete'](_url, options).then(function (_arg) {
+            httpOptions = _.defaults(options, {
+              method: 'DELETE',
+              url: _url
+            });
+            return $http(httpOptions).then(function (_arg) {
               var data, status;
               status = _arg.status, data = _arg.data;
               data = config.transformResponse(data, 'destroy');
@@ -230,7 +248,7 @@
             });
           };
           exports.save = function (entry, options) {
-            var e, _url;
+            var e, httpOptions, _url;
             if (options == null) {
               options = {};
             }
@@ -244,7 +262,12 @@
                 return $q.reject(e.message || e);
               }
             }
-            return $http.put(_url, JSON.stringify(entry), options).then(function (_arg) {
+            httpOptions = _.defaults(options, {
+              method: 'PUT',
+              url: _url,
+              data: angular.toJson(entry)
+            });
+            return $http(httpOptions).then(function (_arg) {
               var data, status;
               status = _arg.status, data = _arg.data;
               data = config.transformResponse(data, 'save');
@@ -256,13 +279,19 @@
             });
           };
           exports.create = function (entry, options) {
+            var httpOptions;
             if (options == null) {
               options = {};
             }
             if (IS_SINGLETON) {
               throw new Error('' + name + ' Model: Singleton doesn\'t have `destroy` method.');
             }
-            return $http.post('' + config.baseUrl + config.listUrl, entry, options).then(function (_arg) {
+            httpOptions = _.defaults(options, {
+              method: 'POST',
+              url: '' + config.baseUrl + config.listUrl,
+              data: angular.toJson(entry)
+            });
+            return $http(httpOptions).then(function (_arg) {
               var data, status;
               status = _arg.status, data = _arg.data;
               return $q.when(Data.updateEntry(data, config.matchingCriteria(data)));
@@ -364,7 +393,7 @@
         return value && JSON.parse(value);
       },
       setItem: function (key, value) {
-        return window.localStorage.setItem(key, JSON.stringify(value));
+        return window.localStorage.setItem(key, angular.toJson(value));
       },
       removeItem: function (key) {
         return window.localStorage.removeItem(key);
