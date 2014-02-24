@@ -302,7 +302,7 @@ using <code>item.id</code>)</p>
     value = <span class="hljs-built_in">window</span>.localStorage.getItem(key)
     value &amp;&amp; JSON.parse(value)
   <span class="hljs-attribute">setItem</span>: <span class="hljs-function"><span class="hljs-params">(key, value)</span> -&gt;</span>
-    <span class="hljs-built_in">window</span>.localStorage.setItem(key, JSON.stringify(value))
+    <span class="hljs-built_in">window</span>.localStorage.setItem(key, angular.toJson(value))
   <span class="hljs-attribute">removeItem</span>: <span class="hljs-function"><span class="hljs-params">(key)</span> -&gt;</span>
     <span class="hljs-built_in">window</span>.localStorage.removeItem(key)
 
@@ -520,7 +520,11 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
       
       
         <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetchAll</span> = <span class="hljs-params">(options={})</span> -&gt;</span>
-        $http.get(<span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.url}</span>"</span>, options)
+        httpOptions = _.defaults options,
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">"GET"</span>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.url}</span>"</span>
+
+        $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
           <span class="hljs-keyword">unless</span> _.isArray(response.data)
             <span class="hljs-built_in">console</span>.warn <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model"</span>, <span class="hljs-string">"API Respsonse was"</span>, response.data
@@ -560,7 +564,11 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
       
       
         <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetch</span> = <span class="hljs-params">(options={})</span> -&gt;</span>
-        $http.get(<span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.url}</span>"</span>, options)
+        httpOptions = _.defaults options,
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">"GET"</span>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.url}</span>"</span>
+
+        $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
           <span class="hljs-keyword">unless</span> _.isObject(response.data)
             <span class="hljs-built_in">console</span>.warn <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model"</span>, <span class="hljs-string">"API Respsonse was"</span>, response.data
@@ -595,7 +603,11 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         <span class="hljs-keyword">catch</span> e
           <span class="hljs-keyword">return</span> $q.reject e.message || e
 
-        $http.get(_url, options)
+        httpOptions = _.defaults options,
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">"GET"</span>
+          <span class="hljs-attribute">url</span>: _url
+
+        $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(res)</span> -&gt;</span>
           <span class="hljs-keyword">unless</span> _.isObject(res.data)
             <span class="hljs-built_in">console</span>.warn <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model"</span>, <span class="hljs-string">"API Respsonse was"</span>, res.data
@@ -632,7 +644,11 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         <span class="hljs-keyword">catch</span> e
           <span class="hljs-keyword">return</span> $q.reject e.message || e
 
-        $http.<span class="hljs-keyword">delete</span>(_url, options)
+        httpOptions = _.defaults options,
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">"DELETE"</span>
+          <span class="hljs-attribute">url</span>: _url
+
+        $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="hljs-string">'destroy'</span>)
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span> Data.removeEntry data, config.matchingCriteria(data)
@@ -664,7 +680,12 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           <span class="hljs-keyword">catch</span> e
             <span class="hljs-keyword">return</span> $q.reject e.message || e
 
-        <span class="hljs-keyword">return</span> $http.put(_url, JSON.stringify(entry), options)
+        httpOptions = _.defaults options,
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">"PUT"</span>
+          <span class="hljs-attribute">url</span>: _url
+          <span class="hljs-attribute">data</span>: angular.toJson(entry)
+
+        <span class="hljs-keyword">return</span> $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="hljs-string">'save'</span>)
 
@@ -695,7 +716,12 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         <span class="hljs-keyword">if</span> IS_SINGLETON
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model: Singleton doesn't have `destroy` method."</span>
 
-        <span class="hljs-keyword">return</span> $http.post(<span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.listUrl}</span>"</span>, entry, options)
+        httpOptions = _.defaults options,
+          <span class="hljs-attribute">method</span>: <span class="hljs-string">"POST"</span>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.listUrl}</span>"</span>
+          <span class="hljs-attribute">data</span>: angular.toJson(entry)
+
+        <span class="hljs-keyword">return</span> $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span> Data.updateEntry data, config.matchingCriteria(data)
 </div></div>
@@ -948,7 +974,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
       
       
         <div class="code"><div class="wrapper">    <span class="hljs-attribute">setItem</span>: <span class="hljs-function"><span class="hljs-params">(key, value)</span> -&gt;</span>
-      <span class="hljs-built_in">window</span>.localStorage.setItem(key, JSON.stringify(value))
+      <span class="hljs-built_in">window</span>.localStorage.setItem(key, angular.toJson(value))
 </div></div>
       
       </div>
