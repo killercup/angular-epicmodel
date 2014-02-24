@@ -206,7 +206,7 @@ angular.module('EpicModel', [
       #     value = window.localStorage.getItem(key)
       #     value && JSON.parse(value)
       #   setItem: (key, value) ->
-      #     window.localStorage.setItem(key, JSON.stringify(value))
+      #     window.localStorage.setItem(key, angular.toJson(value))
       #   removeItem: (key) ->
       #     window.localStorage.removeItem(key)
       #
@@ -423,7 +423,7 @@ angular.module('EpicModel', [
           catch e
             return $q.reject e.message || e
 
-        return $http.put(_url, JSON.stringify(entry), options)
+        return $http.put(_url, angular.toJson(entry), options)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'save')
 
@@ -579,7 +579,7 @@ angular.module('EpicModel', [
     # @return {Any}
     ###
     setItem: (key, value) ->
-      window.localStorage.setItem(key, JSON.stringify(value))
+      window.localStorage.setItem(key, angular.toJson(value))
 
     # ### Remove Item
     ###
