@@ -492,16 +492,20 @@ angular.module('EpicModel', [
 
         if IS_SINGLETON
           local.$promise = exports.fetch(options)
-          local.$promise.then ->
-            local.$loading = false
-            local.$resolved = true
           local.data = _data.data
         else
           local.$promise = exports.fetchAll(options)
-          local.$promise.then ->
-            local.$loading = false
-            local.$resolved = true
           local.all = _data.all
+
+        local.$promise = local.$promise
+        .then (response) ->
+          local.$loading = false
+          local.$resolved = true
+          $q.when(response)
+        .then null, (err) ->
+          local.$error = err
+          local.$loading = false
+          $q.reject(err)
 
         return local
 
@@ -538,6 +542,10 @@ angular.module('EpicModel', [
           local.$loading = false
           local.$resolved = true
           $q.when(response)
+        .then null, (err) ->
+          local.$error = err
+          local.$loading = false
+          $q.reject(err)
 
         return local
 

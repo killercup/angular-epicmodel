@@ -263,10 +263,14 @@ describe "List Resource", ->
     tick()
 
   it "should reject promise on HTTP error", (done) ->
-    Messages.get(id: 42).$promise
+    getting = Messages.get(id: 42)
+    getting.$promise
     .then (data) ->
       done new Error "HTTP error did not reject promise."
     .then null, (err) ->
+      expect(getting.$resolved).to.not.be.true
+      expect(getting.$loading).to.be.false
+      expect(getting.$error).to.exist
       expect(err).to.exist
       done(null)
 
