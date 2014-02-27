@@ -2,7 +2,7 @@
 * angular-epicmodel
 *
 * @author [Pascal Hertleif](https://github.com/killercup)
-* @version 0.4.1
+* @version 0.4.2
 * @license MIT
 */
 (function () {
@@ -302,19 +302,20 @@
             local = { $loading: true };
             if (IS_SINGLETON) {
               local.$promise = exports.fetch(options);
-              local.$promise.then(function () {
-                local.$loading = false;
-                return local.$resolved = true;
-              });
               local.data = _data.data;
             } else {
               local.$promise = exports.fetchAll(options);
-              local.$promise.then(function () {
-                local.$loading = false;
-                return local.$resolved = true;
-              });
               local.all = _data.all;
             }
+            local.$promise = local.$promise.then(function (response) {
+              local.$loading = false;
+              local.$resolved = true;
+              return $q.when(response);
+            }).then(null, function (err) {
+              local.$error = err;
+              local.$loading = false;
+              return $q.reject(err);
+            });
             return local;
           };
           exports.where = function (query) {
@@ -332,6 +333,10 @@
               local.$loading = false;
               local.$resolved = true;
               return $q.when(response);
+            }).then(null, function (err) {
+              local.$error = err;
+              local.$loading = false;
+              return $q.reject(err);
             });
             return local;
           };
@@ -360,7 +365,7 @@
                   options.url = config.parseUrlPattern(data, '' + config.baseUrl + val.url);
                 }
               }
-              call = $http(_.extend(val, options), data);
+              call = $http(_.defaults(options, val), data);
               if (success != null) {
                 call.then(success);
               }
