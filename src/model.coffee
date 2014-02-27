@@ -570,7 +570,7 @@ angular.module('EpicModel', [
             else
               options.url = config.parseUrlPattern(data, "#{config.baseUrl}#{val.url}")
 
-          call = $http _.extend(val, options), data
+          call = $http _.defaults(options, val), data
           call.then(success) if success?
           call.then(null, fail) if fail?
           return call
