@@ -766,16 +766,20 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
 
         <span class="hljs-keyword">if</span> IS_SINGLETON
           local.$promise = <span class="hljs-built_in">exports</span>.fetch(options)
-          local.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
-            local.$loading = <span class="hljs-literal">false</span>
-            local.$resolved = <span class="hljs-literal">true</span>
           local.data = _data.data
         <span class="hljs-keyword">else</span>
           local.$promise = <span class="hljs-built_in">exports</span>.fetchAll(options)
-          local.$promise.<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
-            local.$loading = <span class="hljs-literal">false</span>
-            local.$resolved = <span class="hljs-literal">true</span>
           local.all = _data.all
+
+        local.$promise = local.$promise
+        .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
+          local.$loading = <span class="hljs-literal">false</span>
+          local.$resolved = <span class="hljs-literal">true</span>
+          $q.<span class="hljs-keyword">when</span>(response)
+        .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+          local.$error = err
+          local.$loading = <span class="hljs-literal">false</span>
+          $q.reject(err)
 
         <span class="hljs-keyword">return</span> local
 </div></div>
@@ -830,6 +834,10 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           local.$loading = <span class="hljs-literal">false</span>
           local.$resolved = <span class="hljs-literal">true</span>
           $q.<span class="hljs-keyword">when</span>(response)
+        .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">(err)</span> -&gt;</span>
+          local.$error = err
+          local.$loading = <span class="hljs-literal">false</span>
+          $q.reject(err)
 
         <span class="hljs-keyword">return</span> local
 </div></div>
@@ -872,7 +880,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
             <span class="hljs-keyword">else</span>
               options.url = config.parseUrlPattern(data, <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{val.url}</span>"</span>)
 
-          call = $http _.extend(val, options), data
+          call = $http _.defaults(options, val), data
           call.<span class="hljs-keyword">then</span>(success) <span class="hljs-keyword">if</span> success?
           call.<span class="hljs-keyword">then</span>(<span class="hljs-literal">null</span>, fail) <span class="hljs-keyword">if</span> fail?
           <span class="hljs-keyword">return</span> call
