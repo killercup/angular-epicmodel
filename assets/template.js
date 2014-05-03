@@ -19,11 +19,9 @@ __e( data.repositoryUrl ) +
 '"/>\n  ';
  } ;
 __p += '\n</head>\n<body>\n  <div id="file-area">\n    <div id="meta">\n      <code class="file-path">\n      ';
- if (data.repositoryUrl) { ;
+ if (data.publicURL) { ;
 __p += '\n        <a href="' +
-__e( data.repositoryUrl ) +
-'/blob/master/' +
-__e( data.targetPath ) +
+__e( data.publicURL ) +
 '">' +
 ((__t = ( data.targetPath )) == null ? '' : __t) +
 '</a>\n      ';
@@ -44,9 +42,9 @@ __e( segment.accessClasses ) +
  } ;
 __p += '\n      ';
  if (segment.code != '') { ;
-__p += '\n        <div class="code"><div class="wrapper">' +
+__p += '\n        <div class="code"><pre class="wrapper">' +
 ((__t = ( segment.code )) == null ? '' : __t) +
-'</div></div>\n      ';
+'</pre></div>\n      ';
  } ;
 __p += '\n      </div>\n    ';
  }) ;

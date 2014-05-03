@@ -10,8 +10,6 @@
   <meta name="groc-relative-root" content="../"/>
   <meta name="groc-document-path" content="src/model.coffee"/>
   
-  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
-  
 </head>
 <body>
   <div id="file-area">
@@ -31,10 +29,10 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'EpicModel'</span>, [
+        <div class="code"><pre class="wrapper">angular.<span class="hljs-built_in">module</span>(<span class="hljs-string">'EpicModel'</span>, [
 ])
 
-.provider <span class="hljs-string">"Collection"</span>,<span class="hljs-function"> -&gt;</span></div></div>
+.provider <span class="hljs-string">"Collection"</span>,<span class="hljs-function"> -&gt;</span></pre></div>
       
       </div>
     
@@ -82,16 +80,18 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">  globalConfig =
+        <div class="code"><pre class="wrapper">  globalConfig =
     <span class="hljs-attribute">baseUrl</span>: <span class="hljs-string">''</span>
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Set Base URL</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Set Base URL</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>url</code> must be a String.</strong><br/>(The new base URL)</li>
@@ -101,10 +101,10 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">  <span class="hljs-property">@setBaseUrl</span> = <span class="hljs-function"><span class="hljs-params">(url=<span class="hljs-string">''</span>)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">  <span class="hljs-property">@setBaseUrl</span> = <span class="hljs-function"><span class="hljs-params">(url=<span class="hljs-string">''</span>)</span> -&gt;</span>
     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"No URL given."</span> <span class="hljs-keyword">unless</span> url?
     globalConfig.baseUrl = url
-</div></div>
+</pre></div>
       
       </div>
     
@@ -117,7 +117,7 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">  <span class="hljs-property">@$get</span> = <span class="hljs-function"><span class="hljs-params">($q, $http)</span> -&gt;</span></div></div>
+        <div class="code"><pre class="wrapper">  <span class="hljs-property">@$get</span> = <span class="hljs-function"><span class="hljs-params">($q, $http)</span> -&gt;</span></pre></div>
       
       </div>
     
@@ -162,7 +162,7 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">    <span class="hljs-function"><span class="hljs-title">constructor</span> = <span class="hljs-params">(name, config={}, extras={})</span> -&gt;</span></div></div>
+        <div class="code"><pre class="wrapper">    <span class="hljs-function"><span class="hljs-title">constructor</span> = <span class="hljs-params">(name, config={}, extras={})</span> -&gt;</span></pre></div>
       
       </div>
     
@@ -174,8 +174,8 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span> = {}
-</div></div>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span> = {}
+</pre></div>
       
       </div>
     
@@ -186,15 +186,17 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"No name given!"</span> <span class="hljs-keyword">unless</span> name?
-</div></div>
+        <div class="code"><pre class="wrapper">      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"No name given!"</span> <span class="hljs-keyword">unless</span> name?
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Config Getter</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Config Getter</strong>
+</span></p>
 <p>Retrieve config value from instance</p>
 <p>Parameters:</p>
 <ul>
@@ -205,20 +207,22 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">config</span> = <span class="hljs-params">(key)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">config</span> = <span class="hljs-params">(key)</span> -&gt;</span>
         config[key]
 
       config.url ||= <span class="hljs-string">'/'</span> + name.toLowerCase()
       config.baseUrl ||= globalConfig.baseUrl
       config.listUrl ||= config.url
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Make Detail URL from Pattern</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Make Detail URL from Pattern</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>entry</code> must be an Object.</strong><br/>(The entry to URL points to)</li>
@@ -230,10 +234,10 @@ Me.all()
         </div>
       
       
-        <div class="code"><div class="wrapper">      config.<span class="hljs-function"><span class="hljs-title">parseUrlPattern</span> = <span class="hljs-params">(entry, url)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      config.<span class="hljs-function"><span class="hljs-title">parseUrlPattern</span> = <span class="hljs-params">(entry, url)</span> -&gt;</span>
         substitutes = <span class="hljs-regexp">/\{([\w_.]*?)\}/g</span>
         entryUrl = url
-        _.each url.match<span class="hljs-function"><span class="hljs-params">(substitutes)</span>, <span class="hljs-params">(match)</span> -&gt;</span></div></div>
+        _.each url.match<span class="hljs-function"><span class="hljs-params">(substitutes)</span>, <span class="hljs-params">(match)</span> -&gt;</span></pre></div>
       
       </div>
     
@@ -246,7 +250,7 @@ using <code>item.id</code>)</p>
         </div>
       
       
-        <div class="code"><div class="wrapper">          keys = match.replace(<span class="hljs-string">'{'</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-string">'}'</span>, <span class="hljs-string">''</span>).split(<span class="hljs-string">'.'</span>)
+        <div class="code"><pre class="wrapper">          keys = match.replace(<span class="hljs-string">'{'</span>, <span class="hljs-string">''</span>).replace(<span class="hljs-string">'}'</span>, <span class="hljs-string">''</span>).split(<span class="hljs-string">'.'</span>)
           value = entry
           _.each keys, <span class="hljs-function"><span class="hljs-params">(key)</span> -&gt;</span>
             value = value[key]
@@ -282,7 +286,7 @@ using <code>item.id</code>)</p>
       config.transformResponse ||= _.identity
 
       config.matchingCriteria ||= <span class="hljs-function"><span class="hljs-params">(data)</span> -&gt;</span> <span class="hljs-attribute">id</span>: +data.id
-</div></div>
+</pre></div>
       
       </div>
     
@@ -312,7 +316,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      store = <span class="hljs-keyword">do</span><span class="hljs-function"> -&gt;</span>
+        <div class="code"><pre class="wrapper">      store = <span class="hljs-keyword">do</span><span class="hljs-function"> -&gt;</span>
         _store = {}
         impl = config.storage <span class="hljs-keyword">or</span> {}
 
@@ -322,46 +326,52 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           <span class="hljs-keyword">else</span> angular.noop
 
         _store
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section doc-section-private">
-          <div class="wrapper"><p><span class='doc-section-header'>Private</span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Private
+</span></p>
 <h3 id="in-memory-data"><a href="#in-memory-data" class="anchor"></a>In Memory Data</h3><p>The Single Source of Truth</p>
 </div>
         </div>
       
       
-        <div class="code"><div class="wrapper">      Data = {}
+        <div class="code"><pre class="wrapper">      Data = {}
 
       <span class="hljs-keyword">if</span> IS_SINGLETON <span class="hljs-comment"># Is single Model</span>
         _data =
           <span class="hljs-attribute">data</span>: store.getItem(<span class="hljs-string">"<span class="hljs-subst">#{name}</span>.data"</span>) || {}
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Get Data</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Get Data</strong>
+</span></p>
 <p><strong>Returns an Object</strong><br/>(data)</p>
 </div>
         </div>
       
       
-        <div class="code"><div class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">get</span> = -&gt;</span> _data.data
-</div></div>
+        <div class="code"><pre class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">get</span> = -&gt;</span> _data.data
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Replace Singleton Data</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Replace Singleton Data</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>data</code> must be an Object.</strong><br/>(New data)</li>
@@ -371,7 +381,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">replace</span> = <span class="hljs-params">(data)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">replace</span> = <span class="hljs-params">(data)</span> -&gt;</span>
           _data.data = _.extend(_data.data, data)
           store.setItem(<span class="hljs-string">"<span class="hljs-subst">#{name}</span>.data"</span>, _data.data)
           <span class="hljs-keyword">return</span> _data.data
@@ -379,28 +389,32 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
       <span class="hljs-keyword">else</span> <span class="hljs-comment"># is Model[]</span>
         _data =
           <span class="hljs-attribute">all</span>: store.getItem(<span class="hljs-string">"<span class="hljs-subst">#{name}</span>.all"</span>) || []
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Get Data</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Get Data</strong>
+</span></p>
 <p><strong>Returns an Array</strong><br/>(data)</p>
 </div>
         </div>
       
       
-        <div class="code"><div class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">get</span> = -&gt;</span> _data.all
-</div></div>
+        <div class="code"><pre class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">get</span> = -&gt;</span> _data.all
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Replace Complete Collection Data</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Replace Complete Collection Data</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>data</code> must be an Array.</strong><br/>(New data)</li>
@@ -410,19 +424,21 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">replace</span> = <span class="hljs-params">(data)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">replace</span> = <span class="hljs-params">(data)</span> -&gt;</span>
           _data.all.splice(<span class="hljs-number">0</span>, data.length)
           [].push.apply(_data.all, data)
           store.setItem(<span class="hljs-string">"<span class="hljs-subst">#{name}</span>.all"</span>, _data.all)
           <span class="hljs-keyword">return</span> _data.all
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Update Single Entry from Collection</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Update Single Entry from Collection</strong>
+</span></p>
 <p>This will also add an entry if no existing one matches
   the criteria</p>
 <p>Parameters:</p>
@@ -435,9 +451,9 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">updateEntry</span> = <span class="hljs-params">(data, criteria)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">updateEntry</span> = <span class="hljs-params">(data, criteria)</span> -&gt;</span>
           hit = _.findWhere(_data.all, criteria)
-          <span class="hljs-keyword">if</span> hit?</div></div>
+          <span class="hljs-keyword">if</span> hit?</pre></div>
       
       </div>
     
@@ -449,8 +465,8 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">            hit = _.extend(hit, data)
-          <span class="hljs-keyword">else</span></div></div>
+        <div class="code"><pre class="wrapper">            hit = _.extend(hit, data)
+          <span class="hljs-keyword">else</span></pre></div>
       
       </div>
     
@@ -462,19 +478,21 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">            _data.all.unshift(data)
+        <div class="code"><pre class="wrapper">            _data.all.unshift(data)
 
           store.setItem(<span class="hljs-string">"<span class="hljs-subst">#{name}</span>.all"</span>, _data.all)
 
           <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> hit? <span class="hljs-keyword">then</span> hit <span class="hljs-keyword">else</span> data
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Remove Single Entry from Collection</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Remove Single Entry from Collection</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>criteria</code> must be an Object.</strong><br/>(Used to find entry)</li>
@@ -484,7 +502,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">removeEntry</span> = <span class="hljs-params">(criteria)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">        Data.<span class="hljs-function"><span class="hljs-title">removeEntry</span> = <span class="hljs-params">(criteria)</span> -&gt;</span>
           hit = _.findWhere(_data.all, criteria)
           <span class="hljs-keyword">if</span> hit?
             _data.all.splice _data.all.indexOf(hit), <span class="hljs-number">1</span>
@@ -492,7 +510,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           <span class="hljs-keyword">return</span> hit?
 
       config.Data = <span class="hljs-built_in">exports</span>.Data = Data
-</div></div>
+</pre></div>
       
       </div>
     
@@ -508,7 +526,9 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Retrieve List</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Retrieve List</strong>
+</span></p>
 <p>Gotta catch &#39;em all!</p>
 <p>Parameters:</p>
 <ul>
@@ -519,7 +539,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetchAll</span> = <span class="hljs-params">(options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetchAll</span> = <span class="hljs-params">(options={})</span> -&gt;</span>
         httpOptions = _.defaults options,
           <span class="hljs-attribute">method</span>: <span class="hljs-string">"GET"</span>
           <span class="hljs-attribute">url</span>: <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.url}</span>"</span>
@@ -531,7 +551,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model: Expected array, got <span class="hljs-subst">#{<span class="hljs-keyword">typeof</span> response.data}</span>"</span>
 
           response.data = config.transformResponse(response.data, <span class="hljs-string">'array'</span>)
-</div></div>
+</pre></div>
       
       </div>
     
@@ -543,17 +563,19 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">          response.data = Data.replace(response.data)
+        <div class="code"><pre class="wrapper">          response.data = Data.replace(response.data)
 
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span>(response)
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Retrieve Singleton</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Retrieve Singleton</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>options</code> is optional and must be an Object.</strong><br/>(HTTP options)</li>
@@ -563,7 +585,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetch</span> = <span class="hljs-params">(options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetch</span> = <span class="hljs-params">(options={})</span> -&gt;</span>
         httpOptions = _.defaults options,
           <span class="hljs-attribute">method</span>: <span class="hljs-string">"GET"</span>
           <span class="hljs-attribute">url</span>: <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.url}</span>"</span>
@@ -577,14 +599,16 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           response.data = config.transformResponse(response.data, <span class="hljs-string">'one'</span>)
           response.data = Data.replace(response.data)
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span>(response)
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Retrieve One</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Retrieve One</strong>
+</span></p>
 <p>This also updates the internal data collection, of course.</p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
@@ -597,7 +621,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetchOne</span> = <span class="hljs-params">(query, options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">fetchOne</span> = <span class="hljs-params">(query, options={})</span> -&gt;</span>
         <span class="hljs-keyword">try</span>
           _url = config.getDetailUrl(query, config.listUrl, config.baseUrl)
         <span class="hljs-keyword">catch</span> e
@@ -616,14 +640,16 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           res.data = config.transformResponse(res.data, <span class="hljs-string">'one'</span>)
           res.data = Data.updateEntry res.data, config.matchingCriteria(res.data)
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span>(res)
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Destroy some Entry</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Destroy some Entry</strong>
+</span></p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
@@ -635,7 +661,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">destroy</span> = <span class="hljs-params">(query, options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">destroy</span> = <span class="hljs-params">(query, options={})</span> -&gt;</span>
         <span class="hljs-keyword">if</span> IS_SINGLETON
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model: Singleton doesn't have `destroy` method."</span>
 
@@ -652,14 +678,16 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
           data = config.transformResponse(data, <span class="hljs-string">'destroy'</span>)
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span> Data.removeEntry data, config.matchingCriteria(data)
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Save an Entry</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Save an Entry</strong>
+</span></p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
@@ -671,7 +699,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">save</span> = <span class="hljs-params">(entry, options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">save</span> = <span class="hljs-params">(entry, options={})</span> -&gt;</span>
         <span class="hljs-keyword">if</span> IS_SINGLETON
           _url = <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.listUrl}</span>"</span>
         <span class="hljs-keyword">else</span>
@@ -693,14 +721,16 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
             <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span> Data.replace(data)
           <span class="hljs-keyword">else</span>
             <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span> Data.updateEntry data, config.matchingCriteria(data)
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Create an Entry</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Create an Entry</strong>
+</span></p>
 <p>Similar to save, but has no ID initially.</p>
 <p>Parameters:</p>
 <ul>
@@ -712,7 +742,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">create</span> = <span class="hljs-params">(entry, options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">create</span> = <span class="hljs-params">(entry, options={})</span> -&gt;</span>
         <span class="hljs-keyword">if</span> IS_SINGLETON
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model: Singleton doesn't have `destroy` method."</span>
 
@@ -724,7 +754,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         <span class="hljs-keyword">return</span> $http(httpOptions)
         .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
           <span class="hljs-keyword">return</span> $q.<span class="hljs-keyword">when</span> Data.updateEntry data, config.matchingCriteria(data)
-</div></div>
+</pre></div>
       
       </div>
     
@@ -750,7 +780,9 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Get Collection</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Get Collection</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>options</code> is optional and must be an Object.</strong><br/>(HTTP options)</li>
@@ -760,7 +792,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">all</span> = <span class="hljs-params">(options)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">all</span> = <span class="hljs-params">(options)</span> -&gt;</span>
         local =
           <span class="hljs-attribute">$loading</span>: <span class="hljs-literal">true</span>
 
@@ -782,14 +814,16 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           $q.reject(err)
 
         <span class="hljs-keyword">return</span> local
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Query Collection</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Query Collection</strong>
+</span></p>
 <p>Parameters:</p>
 <ul>
 <li><strong><code>query</code> must be an Object.</strong><br/>(Query the collection á la <code>{name: &quot;Jim&quot;}</code>)</li>
@@ -799,16 +833,18 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">where</span> = <span class="hljs-params">(query)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">where</span> = <span class="hljs-params">(query)</span> -&gt;</span>
         _.where(_data.all, query)
-</div></div>
+</pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Get Single Collection Entry</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Get Single Collection Entry</strong>
+</span></p>
 <p>TODO: Customize ID query</p>
 <p>Parameters:</p>
 <ul>
@@ -820,7 +856,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">get</span> = <span class="hljs-params">(query, options)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>.<span class="hljs-function"><span class="hljs-title">get</span> = <span class="hljs-params">(query, options)</span> -&gt;</span>
         <span class="hljs-keyword">if</span> IS_SINGLETON
           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"<span class="hljs-subst">#{name}</span> Model: Singleton doesn't have `get` method."</span>
 
@@ -840,7 +876,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           $q.reject(err)
 
         <span class="hljs-keyword">return</span> local
-</div></div>
+</pre></div>
       
       </div>
     
@@ -851,7 +887,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-function"><span class="hljs-title">addExtraCall</span> = <span class="hljs-params">(key, val)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-function"><span class="hljs-title">addExtraCall</span> = <span class="hljs-params">(key, val)</span> -&gt;</span>
         <span class="hljs-keyword">unless</span> val.url
           val.url = <span class="hljs-string">"<span class="hljs-subst">#{config.baseUrl}</span><span class="hljs-subst">#{config.listUrl}</span>/<span class="hljs-subst">#{key}</span>"</span>
 
@@ -861,7 +897,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         <span class="hljs-keyword">if</span> _.isFunction val.onFail
           fail = _.bind(val.onFail, config)
           <span class="hljs-keyword">delete</span> val.onFail
-</div></div>
+</pre></div>
       
       </div>
     
@@ -873,7 +909,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        <span class="hljs-built_in">exports</span>[key] = <span class="hljs-function"><span class="hljs-params">(data, options={})</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">        <span class="hljs-built_in">exports</span>[key] = <span class="hljs-function"><span class="hljs-params">(data, options={})</span> -&gt;</span>
           <span class="hljs-keyword">if</span> !options.url
             <span class="hljs-keyword">if</span> _.isFunction(val.url)
               options.url = val.url(data, config.listUrl, config.detailUrl)
@@ -885,7 +921,7 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
           call.<span class="hljs-keyword">then</span>(<span class="hljs-literal">null</span>, fail) <span class="hljs-keyword">if</span> fail?
           <span class="hljs-keyword">return</span> call
 
-      _.each extras, <span class="hljs-function"><span class="hljs-params">(val, key)</span> -&gt;</span></div></div>
+      _.each extras, <span class="hljs-function"><span class="hljs-params">(val, key)</span> -&gt;</span></pre></div>
       
       </div>
     
@@ -897,8 +933,8 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        <span class="hljs-keyword">if</span> _.isFunction(val)
-          <span class="hljs-built_in">exports</span>[key] = _.bind(val, config)</div></div>
+        <div class="code"><pre class="wrapper">        <span class="hljs-keyword">if</span> _.isFunction(val)
+          <span class="hljs-built_in">exports</span>[key] = _.bind(val, config)</pre></div>
       
       </div>
     
@@ -910,10 +946,10 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> _.isObject(val)
+        <div class="code"><pre class="wrapper">        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> _.isObject(val)
           addExtraCall key, val
 
-</div></div>
+</pre></div>
       
       </div>
     
@@ -925,14 +961,14 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">      <span class="hljs-built_in">exports</span>
+        <div class="code"><pre class="wrapper">      <span class="hljs-built_in">exports</span>
 
     <span class="hljs-keyword">return</span> <span class="hljs-attribute">new</span>: constructor
 
   <span class="hljs-keyword">return</span>
 
 
-.factory <span class="hljs-string">"CollectionLocalStorage"</span>,<span class="hljs-function"> -&gt;</span></div></div>
+.factory <span class="hljs-string">"CollectionLocalStorage"</span>,<span class="hljs-function"> -&gt;</span></pre></div>
       
       </div>
     
@@ -943,9 +979,9 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">unless</span> <span class="hljs-built_in">window</span>.localStorage?
+        <div class="code"><pre class="wrapper">  <span class="hljs-keyword">return</span> <span class="hljs-keyword">unless</span> <span class="hljs-built_in">window</span>.localStorage?
 
-  <span class="hljs-keyword">return</span> {</div></div>
+  <span class="hljs-keyword">return</span> {</pre></div>
       
       </div>
     
@@ -961,10 +997,10 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">    <span class="hljs-attribute">getItem</span>: <span class="hljs-function"><span class="hljs-params">(key)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">    <span class="hljs-attribute">getItem</span>: <span class="hljs-function"><span class="hljs-params">(key)</span> -&gt;</span>
       value = <span class="hljs-built_in">window</span>.localStorage.getItem(key)
       value &amp;&amp; JSON.parse(value)
-</div></div>
+</pre></div>
       
       </div>
     
@@ -981,9 +1017,9 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">    <span class="hljs-attribute">setItem</span>: <span class="hljs-function"><span class="hljs-params">(key, value)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">    <span class="hljs-attribute">setItem</span>: <span class="hljs-function"><span class="hljs-params">(key, value)</span> -&gt;</span>
       <span class="hljs-built_in">window</span>.localStorage.setItem(key, angular.toJson(value))
-</div></div>
+</pre></div>
       
       </div>
     
@@ -998,10 +1034,10 @@ Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">'Peop
         </div>
       
       
-        <div class="code"><div class="wrapper">    <span class="hljs-attribute">removeItem</span>: <span class="hljs-function"><span class="hljs-params">(key)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">    <span class="hljs-attribute">removeItem</span>: <span class="hljs-function"><span class="hljs-params">(key)</span> -&gt;</span>
       <span class="hljs-built_in">window</span>.localStorage.removeItem(key)
   }
-</div></div>
+</pre></div>
       
       </div>
     

@@ -10,8 +10,6 @@
   <meta name="groc-relative-root" content="../../"/>
   <meta name="groc-document-path" content="test/unit/extras_spec.coffee"/>
   
-  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
-  
 </head>
 <body>
   <div id="file-area">
@@ -27,7 +25,7 @@
       <div class="segment">
       
       
-        <div class="code"><div class="wrapper">describe <span class="hljs-string">"Extras"</span>,<span class="hljs-function"> -&gt;</span>
+        <div class="code"><pre class="wrapper">describe <span class="hljs-string">"Extras"</span>,<span class="hljs-function"> -&gt;</span>
   angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
   beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
   beforeEach addHelpers()
@@ -64,7 +62,7 @@
       expect(Thingy.allYourBases()).to.eql specialBaseUrl
       expect(Thingy.whatsThisUrl()).to.eql specialUrl
 
-  describe <span class="hljs-string">'as HTTP calls'</span>,<span class="hljs-function"> -&gt;</span></div></div>
+  describe <span class="hljs-string">'as HTTP calls'</span>,<span class="hljs-function"> -&gt;</span></pre></div>
       
       </div>
     
@@ -76,7 +74,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">    beforeEach<span class="hljs-function"> -&gt;</span>
+        <div class="code"><pre class="wrapper">    beforeEach<span class="hljs-function"> -&gt;</span>
       _data = [
         {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Jim"</span>}
         {<span class="hljs-attribute">name</span>: <span class="hljs-string">"Some Dude"</span>}
@@ -180,7 +178,7 @@
     late  = <span class="hljs-number">20131224</span>
 
     errorCheck = <span class="hljs-string">"It failed."</span>
-</div></div>
+</pre></div>
       
       </div>
     
@@ -192,7 +190,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">    beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">    beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
       id = <span class="hljs-number">0</span>
       _data = [
         {<span class="hljs-attribute">id</span>: ++id, <span class="hljs-attribute">created</span>: early}
@@ -216,7 +214,7 @@
           [{<span class="hljs-attribute">id</span>: ++id, <span class="hljs-attribute">created</span>: late}]
           {}
         ]
-</div></div>
+</pre></div>
       
       </div>
     
@@ -228,18 +226,20 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">    beforeEach<span class="hljs-function"> -&gt;</span>
+        <div class="code"><pre class="wrapper">    beforeEach<span class="hljs-function"> -&gt;</span>
       Messages = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Messages"</span>, {},
         <span class="hljs-attribute">update</span>:
           <span class="hljs-attribute">method</span>: <span class="hljs-string">'GET'</span>
-          <span class="hljs-attribute">url</span>: <span class="hljs-string">"/messages"</span></div></div>
+          <span class="hljs-attribute">url</span>: <span class="hljs-string">"/messages"</span></pre></div>
       
       </div>
     
       <div class="segment">
       
         <div class="comments doc-section">
-          <div class="wrapper"><p><span class='doc-section-header'>Method: <code>Incremental Updates</code></span></p>
+          <div class="wrapper"><p><span class='doc-section-header'>
+Method <strong>Incremental Updates</strong>
+</span></p>
 <p>This is a great example on how to incremetally update
   date using callbacks, since they are bound to have <code>this</code> point
   to the Collection&#39;s <code>config</code> object!</p>
@@ -252,11 +252,11 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">          <span class="hljs-attribute">onSuccess</span>: <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">          <span class="hljs-attribute">onSuccess</span>: <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
             <span class="hljs-keyword">if</span> _.isArray response.data
               _.each response.data, <span class="hljs-function"><span class="hljs-params">(item)</span> =&gt;</span>
                 <span class="hljs-property">@Data</span>.updateEntry item, <span class="hljs-property">@matchingCriteria</span>(item)
-            <span class="hljs-keyword">return</span> response</div></div>
+            <span class="hljs-keyword">return</span> response</pre></div>
       
       </div>
     
@@ -268,7 +268,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">          <span class="hljs-attribute">onFail</span>: <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">          <span class="hljs-attribute">onFail</span>: <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span>
             response.data = errorCheck
             <span class="hljs-keyword">return</span> response
 
@@ -278,7 +278,7 @@
       .<span class="hljs-keyword">then</span><span class="hljs-function"> -&gt;</span>
         expect(messages.all).to.<span class="hljs-keyword">not</span>.contain late
         Messages.update {}, <span class="hljs-attribute">params</span>: <span class="hljs-attribute">since</span>: late
-      .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span></div></div>
+      .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">(response)</span> -&gt;</span></pre></div>
       
       </div>
     
@@ -290,7 +290,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">        expect(
+        <div class="code"><pre class="wrapper">        expect(
           _.pluck messages.all, <span class="hljs-string">'created'</span>
         ).to.contain late
 
@@ -310,7 +310,7 @@
 
       tick()
 
-</div></div>
+</pre></div>
       
       </div>
     

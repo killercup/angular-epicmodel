@@ -10,8 +10,6 @@
   <meta name="groc-relative-root" content="../../"/>
   <meta name="groc-document-path" content="test/unit/request_config_spec.coffee"/>
   
-  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
-  
 </head>
 <body>
   <div id="file-area">
@@ -36,7 +34,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">describe <span class="hljs-string">"Request Config"</span>,<span class="hljs-function"> -&gt;</span>
+        <div class="code"><pre class="wrapper">describe <span class="hljs-string">"Request Config"</span>,<span class="hljs-function"> -&gt;</span>
   angular.<span class="hljs-built_in">module</span> <span class="hljs-string">'Stuff'</span>, [<span class="hljs-string">'EpicModel'</span>]
   beforeEach <span class="hljs-built_in">module</span>(<span class="hljs-string">'Stuff'</span>)
   beforeEach addHelpers()
@@ -46,7 +44,7 @@
     Collection = _Collection_
 
   specialValue = <span class="hljs-string">'param'</span>
-</div></div>
+</pre></div>
       
       </div>
     
@@ -57,7 +55,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">  beforeEach inject <span class="hljs-function"><span class="hljs-params">($httpBackend)</span> -&gt;</span>
     _data = [<span class="hljs-number">1</span>, <span class="hljs-number">42</span>, <span class="hljs-number">13</span>]
 
     $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-string">'/items'</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
@@ -67,7 +65,7 @@
     $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(<span class="hljs-regexp">/\/items\?(\w*)/</span>)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data)</span> -&gt;</span>
       log <span class="hljs-string">"GET <span class="hljs-subst">#{url}</span>"</span>, data
       [<span class="hljs-number">200</span>, [specialValue], {}]
-</div></div>
+</pre></div>
       
       </div>
     
@@ -79,14 +77,14 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">    itemsDetailUrl = <span class="hljs-regexp">/^\/items\/(\d+)$/</span>
+        <div class="code"><pre class="wrapper">    itemsDetailUrl = <span class="hljs-regexp">/^\/items\/(\d+)$/</span>
 
     $httpBackend.whenGET<span class="hljs-function"><span class="hljs-params">(itemsDetailUrl)</span>.<span class="hljs-title">respond</span> <span class="hljs-params">(method, url, data, headers={})</span> -&gt;</span>
       <span class="hljs-keyword">if</span> headers.Authorization?
         [<span class="hljs-number">200</span>, {<span class="hljs-attribute">special</span>: specialValue}, {}]
       <span class="hljs-keyword">else</span>
         [<span class="hljs-number">403</span>, {<span class="hljs-attribute">err</span>: <span class="hljs-string">'no auth'</span>}, {}]
-</div></div>
+</pre></div>
       
       </div>
     
@@ -97,7 +95,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">  it <span class="hljs-string">"can set parameters for all()"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">  it <span class="hljs-string">"can set parameters for all()"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
     Items = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Items"</span>
 
     things = Items.all <span class="hljs-attribute">params</span>: {<span class="hljs-attribute">special</span>: <span class="hljs-literal">true</span>}
@@ -110,7 +108,7 @@
       done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
     tick()
-</div></div>
+</pre></div>
       
       </div>
     
@@ -121,7 +119,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">  it <span class="hljs-string">"can set headers"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
+        <div class="code"><pre class="wrapper">  it <span class="hljs-string">"can set headers"</span>, <span class="hljs-function"><span class="hljs-params">(done)</span> -&gt;</span>
     Items = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Items"</span>
     auth = <span class="hljs-attribute">Authorization</span>: <span class="hljs-string">"Token 1337"</span>
 
@@ -131,7 +129,7 @@
     .<span class="hljs-keyword">then</span> <span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-params">({status, data})</span> -&gt;</span>
       expect(status).to.eql <span class="hljs-number">403</span>
       expect(data).to.have.property(<span class="hljs-string">'err'</span>)
-</div></div>
+</pre></div>
       
       </div>
     
@@ -143,7 +141,7 @@
         </div>
       
       
-        <div class="code"><div class="wrapper">      thingy = Items.get {<span class="hljs-attribute">id</span>: <span class="hljs-number">1</span>}, <span class="hljs-attribute">headers</span>: auth
+        <div class="code"><pre class="wrapper">      thingy = Items.get {<span class="hljs-attribute">id</span>: <span class="hljs-number">1</span>}, <span class="hljs-attribute">headers</span>: auth
       thingy.$promise
     .<span class="hljs-keyword">then</span> <span class="hljs-function"><span class="hljs-params">({status})</span> -&gt;</span>
       expect(status).to.eql <span class="hljs-number">200</span>
@@ -153,7 +151,7 @@
       done <span class="hljs-keyword">new</span> Error JSON.stringify err
 
     tick()
-</div></div>
+</pre></div>
       
       </div>
     

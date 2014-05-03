@@ -13,8 +13,8 @@ window.files = [
     },
     {
       "level": 2,
-      "slug": "install",
-      "title": "Install"
+      "slug": "installation",
+      "title": "Installation"
     },
     {
       "level": 3,
@@ -27,9 +27,49 @@ window.files = [
       "title": "Usage"
     },
     {
+      "level": 3,
+      "slug": "creating-a-collection-instance",
+      "title": "Creating a Collection Instance"
+    },
+    {
+      "level": 4,
+      "slug": "collection-options",
+      "title": "Collection Options"
+    },
+    {
+      "level": 3,
+      "slug": "using-api-data",
+      "title": "Using API Data"
+    },
+    {
+      "level": 3,
+      "slug": "adding-additional-api-methods-to-a-collection",
+      "title": "Adding Additional API Methods to a Collection"
+    },
+    {
+      "level": 4,
+      "slug": "add-a-static-method",
+      "title": "Add a Static Method"
+    },
+    {
+      "level": 4,
+      "slug": "add-a-new-http-call",
+      "title": "Add a New HTTP Call"
+    },
+    {
+      "level": 3,
+      "slug": "url-formatting",
+      "title": "URL Formatting"
+    },
+    {
+      "level": 3,
+      "slug": "global-configuration",
+      "title": "Global Configuration"
+    },
+    {
       "level": 2,
-      "slug": "features",
-      "title": "Features"
+      "slug": "license",
+      "title": "License"
     }
   ]
 },

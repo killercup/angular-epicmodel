@@ -10,8 +10,6 @@
   <meta name="groc-relative-root" content=""/>
   <meta name="groc-document-path" content="README.md"/>
   
-  <meta name="groc-repository-url" content="https://github.com/killercup/angular-epicmodel"/>
-  
 </head>
 <body>
   <div id="file-area">
@@ -27,34 +25,148 @@
       <div class="segment">
       
         <div class="comments ">
-          <div class="wrapper"><h1 id="epicmodel"><a href="#epicmodel" class="anchor"></a>EpicModel</h1><p>A model/collection service for Angular.js</p>
-<p>Inspired by <a href="http://docs.angularjs.org/api/ngResource.$resource">$resource</a>, I wanted to create a service that can manage the data retrieved from an API and always return the same objects, so Angular will automatically update all your views.</p>
-<pre><code class="lang-coffeescript">Messages = Collection.<span class="hljs-keyword">new</span> <span class="hljs-string">"Messages"</span>, <span class="hljs-attribute">url</span>: <span class="hljs-string">"/messages"</span>
+          <div class="wrapper"><h1 id="epicmodel"><a href="#epicmodel" class="anchor"></a>EpicModel</h1><p>Easily query and update your JSON API using <code>angular.js</code>.</p>
+<p>Inspired by <a href="http://docs.angularjs.org/api/ngResource.$resource">ngResource</a>, I wanted to create a service that can manage the data retrieved from an API and always return the same objects, so Angular will automatically update all your views.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> Messages = Collection.new(<span class="hljs-string">"Messages"</span>, {url: <span class="hljs-string">"/messages"</span>});
 
 Messages.all()
-<span class="hljs-comment"># =&gt; {all: Array(), $promise: {then, finally, catch}}</span>
+<span class="hljs-comment">// =&gt; {Array all, $promise: {Function then}, ...}</span>
 
-Messages.get(<span class="hljs-attribute">id</span>: <span class="hljs-number">42</span>)
-<span class="hljs-comment"># =&gt; {data: Object(), $promise: {then, finally, catch}}</span>
+Messages.get({id: <span class="hljs-number">42</span>})
+<span class="hljs-comment">// =&gt; {Object data, $promise: {Function then}, ...}</span>
 </code></pre>
-<p><a href="https://travis-ci.org/killercup/angular-epicmodel"><img src="https://travis-ci.org/killercup/angular-epicmodel.png?branch=master" alt="Build Status"></a></p>
-<h2 id="install"><a href="#install" class="anchor"></a>Install</h2><p>For now, just make sure the <code>src/model.coffee</code> is somewhere in your build process so you can require <code>EpicModel</code> in your modules.</p>
+<p><a href="https://travis-ci.org/killercup/angular-epicmodel"><img src="https://travis-ci.org/killercup/angular-epicmodel.svg?branch=master" alt="Build Status"></a></p>
+<h2 id="installation"><a href="#installation" class="anchor"></a>Installation</h2><p>Grab the source code, e.g. by using <a href="http://bower.io/">bower</a>, which will fetch the latest release tag and all dependencies:</p>
+<pre><code class="lang-sh">$ bower install killercup/angular-epicmodel
+</code></pre>
+<p>Include all dependencies and EpicModel in your build process or HTML file. (Choose one of <code>dist/model.js</code>, <code>dist/model.min.js</code> or <code>src/model.coffee</code>.)</p>
+<p>Add EpicModel as a dependency to the angular modules that use it:</p>
+<pre><code class="lang-js">angular.module(<span class="hljs-string">'DemoApp'</span>, [<span class="hljs-string">'EpicModel'</span>])
+.run(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Collection)</span> {</span>
+  console.log(<span class="hljs-string">"Did we load EpicModel?"</span>, !!Collection);
+});
+</code></pre>
 <h3 id="dependencies"><a href="#dependencies" class="anchor"></a>Dependencies</h3><ul>
-<li>Underscore/Lodash</li>
+<li>Angular.js (~1.2)</li>
+<li><a href="http://lodash.com/">Lodash</a> (~2.4)</li>
 </ul>
-<h2 id="usage"><a href="#usage" class="anchor"></a>Usage</h2><p>You should read the inline documentation for <code>src/model.coffee</code>. It&#39;s quite comprehensive and full of examples.</p>
-<h2 id="features"><a href="#features" class="anchor"></a>Features</h2><ul>
-<li><input type="checkbox" checked disabled/> Retrieve single object resource (e.g. <code>/users/me</code>)</li>
-<li><input type="checkbox" checked disabled/> Retrieve list resources and manage them in an array structure</li>
-<li><input type="checkbox" checked disabled/> Update list resources after retrieving matching single resource</li>
-<li><input type="checkbox" checked disabled/> Add custom sub-resources (e.g. <code>/users/$id/follow</code> as <code>User.follow(id)</code>)</li>
-<li><input type="checkbox" checked disabled/> Incremental updates (á la <code>/messages?since=1386150532</code>, see <code>extras_spec</code>)</li>
-<li><input type="checkbox" disabled/> Transform requests</li>
-<li><input type="checkbox" checked disabled/> Transform response</li>
-<li><input type="checkbox" checked disabled/> Customizable URL patterns (always uses <code>$url/$id</code> for now, but should also offer stuff like <code>/item/{item._id}/property/{_id}</code>)</li>
-<li><input type="checkbox" checked disabled/> Persistent storage wrapper (save to storage, retrieve when initializing)</li>
-<li><input type="checkbox" checked disabled/> Implemented <code>localStorage</code> wrapper</li>
+<h2 id="usage"><a href="#usage" class="anchor"></a>Usage</h2><p>I&#39;ll try to document as much of the Collection API as possible, but if you want to know what <em>really</em> happens, you should read the (well-documented) source code in <code>src/model.coffee</code>. Additionally, the tests may give you a nice overview of some the possibilities.</p>
+<ol>
+<li><a href="#creating-a-collection-instance">Creating a Collection Instance</a><ol>
+<li><a href="#collection-options">Collection Options</a></li>
+</ol>
+</li>
+<li><a href="#using-api-data">Using API Data</a></li>
+<li><a href="#adding-additional-api-methods-to-a-collection">Adding Additional API Methods to a Collection</a><ol>
+<li><a href="#add-a-static-method">Add a Method</a></li>
+<li><a href="#add-a-new-http-call">Add a HTTP Call</a></li>
+</ol>
+</li>
+<li><a href="#url-formatting">URL Formatting</a></li>
+<li><a href="#global-configuration">Global Configuration</a></li>
+</ol>
+<h3 id="creating-a-collection-instance"><a href="#creating-a-collection-instance" class="anchor"></a>Creating a Collection Instance</h3><p>To describe an API endpoint, you instantiate a new instance of a <code>Collection</code> using the <code>new</code> method. (Please note, that you might want to call it using <code>Collection[&#39;new&#39;]</code> if you need to support ECMAScript 3 in old browsers.)</p>
+<p>Options:</p>
+<ul>
+<li><em>name</em> (string) for the collection. The URL may be derived from this (e.g. a collection called &quot;Users&quot; has the default URL &quot;/users&quot;).</li>
+<li>A <em>config</em> object with options like <code>url</code>, <code>detailUrl</code> and <em>is_singleton</em> (more info <a href="#collection-options">see below</a>)</li>
+<li>An <em>extras</em> object for additional API methods (for more info <a href="#adding-additional-api-methods-to-a-collection">see below</a>)</li>
 </ul>
+<h4 id="collection-options"><a href="#collection-options" class="anchor"></a>Collection Options</h4><p>This option can be set when creating a collection:</p>
+<ul>
+<li><em>url</em> (string or function): The URL for the list resources (e.g. <code>/users</code>)</li>
+<li><em>detailUrl</em> (string or function): The URL for the detail resources (e.g. <code>/users/42</code>). Default is <code>[list_url]/[entry.id]</code>. See <a href="#url-formatting">URL Formatting</a> for information on how to change this.</li>
+<li><em>baseUrl</em> (string) to overwrite the global API base URL</li>
+<li><em>is_singleton</em> (boolean): Set to true when the resource is not a list of entries, but just a single data point, e.g. &quot;/me&quot; (as an alias for requesting the current user).</li>
+<li><em>matchingCriteria</em> (function): Specify how to match entries (e.g. to update an old representation). The default is to use <code>entry.id</code>. If you specify you own function, it should return an object that can be used in lodash&#39;s <a href="http://lodash.com/docs#where"><code>where</code></a> method.
+E.g., to use MongoDB&#39;s <code>_id</code> field as an identifier, use this a a matching function: <code>function (item) {return {_id: item._id};}</code></li>
+</ul>
+<h3 id="using-api-data"><a href="#using-api-data" class="anchor"></a>Using API Data</h3><p>Each Collection instance has the default CRUD methods available as <code>all()</code>, <code>get({id})</code>, <code>create(data)</code>, <code>update({id}, data)</code> and <code>destroy({id})</code>.</p>
+<p>Whereas <code>create</code>, <code>update</code> and <code>destroy</code> return promises, <code>all</code> and <code>get</code> return objects with special keys so they can be used directly in your view.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> Posts = Collection.new(<span class="hljs-string">"Posts"</span>);
+
+<span class="hljs-keyword">var</span> posts = Posts.all();
+<span class="hljs-comment">// =&gt; {</span>
+<span class="hljs-comment">//   all: undefined,</span>
+<span class="hljs-comment">//   $promise: {then()},</span>
+<span class="hljs-comment">//   $loading: true,</span>
+<span class="hljs-comment">//   $resolved: false,</span>
+<span class="hljs-comment">//   $error: false</span>
+<span class="hljs-comment">// }</span>
+</code></pre>
+<p>As you can see, the actual data is stored in the <code>all</code> property (or <code>data</code> for <code>get</code> and other calls). Your typical view would look like this:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">ng-show</span>=<span class="hljs-value">"posts.$loading"</span>&gt;</span>Loading<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">ng-show</span>=<span class="hljs-value">"posts.$error"</span>&gt;</span>Oh noes!<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">ul</span> <span class="hljs-attribute">ng-repeat</span>=<span class="hljs-value">"post in posts.all"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-title">li</span>&gt;</span>{{post.title}}<span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
+</code></pre>
+<p>When API response is received, it will be used to update that object&#39;s properties, so that angular&#39;s dirty checking can detect a change and update your view automatically.</p>
+<p>This has several advantages. Since EpicModel stores all API data in an internal cache, it can set the <code>posts.all</code> value to all the posts it has already cached initially. When the new list of posts is received, it can then update the internal cache, adding new entries and updating existing ones. These updates will immediately be reflected in your view.</p>
+<p>Even better: Since the objects themselves are always the same ones, even if you have several views displayed each showing a filtered list of posts from this Collection, they will all be updated. You don&#39;t even have to use <a href="https://docs.angularjs.org/api/ng/directive/ngRepeat"><code>track by</code></a> in your <code>ng-repeat</code>!</p>
+<h3 id="adding-additional-api-methods-to-a-collection"><a href="#adding-additional-api-methods-to-a-collection" class="anchor"></a>Adding Additional API Methods to a Collection</h3><p>To add more methods to your collection, specify them as keys of the <em>extras</em> object when creating the collection. Their values can either be functions or objects.</p>
+<p>Below, three different variants will be shown. For more information (e.g. <code>onSuccess</code> or <code>onFail</code> transforms), have a look at the <a href="https://github.com/killercup/angular-epicmodel/blob/e85647d287610b7529f1bd7180ba54dacf7255bc/test/unit/extras_spec.coffee">extras tests</a> or the <a href="https://github.com/killercup/angular-epicmodel/blob/e85647d287610b7529f1bd7180ba54dacf7255bc/src/model.coffee#L552">extras implementation</a>.</p>
+<h4 id="add-a-static-method"><a href="#add-a-static-method" class="anchor"></a>Add a Static Method</h4><p>The easiest case: Each extras property that is a function will become static method of your collection.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> options = {};
+<span class="hljs-keyword">var</span> extras = {
+  isNew: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(msg)</span> {</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  }
+};
+
+<span class="hljs-keyword">var</span> messages = Collection.new(<span class="hljs-string">"Messages"</span>, options, extras);
+
+messages.isNew({id: <span class="hljs-number">21</span>})
+<span class="hljs-comment">// =&gt; true</span>
+</code></pre>
+<p>To make methods more powerful, they are bound to the collection configuration, i.e. <code>this</code> in your method will be the object with all configuration options set during the collection creation.</p>
+<p>Please note that some helpful methods not documented in the configuration section above are also part of this object, e.g. <code>config.getDetailUrl(entry)</code> and <code>config.Data = {get(), replace(), updateEntry(), removeEntry()}</code>.</p>
+<h4 id="add-a-new-http-call"><a href="#add-a-new-http-call" class="anchor"></a>Add a New HTTP Call</h4><p>You could use static methods to make HTTP calls, but EpicModel offers an easier alternative: Just specify an object with HTTP options.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> options = {};
+<span class="hljs-keyword">var</span> extras = {
+  markUnread: {
+    method: <span class="hljs-string">'PUT'</span>,
+    url: <span class="hljs-string">'/messages/{id}/mark_unread'</span>,
+    params: {
+      skip_return: <span class="hljs-literal">true</span>
+    },
+    data: {
+      <span class="hljs-string">'read'</span>: <span class="hljs-literal">false</span>
+    }
+  }
+};
+
+<span class="hljs-keyword">var</span> messages = Collection.new(<span class="hljs-string">"Messages"</span>, options, extras);
+
+<span class="hljs-keyword">var</span> message = {id: <span class="hljs-number">42</span>};
+<span class="hljs-keyword">var</span> httpCall = messages.markUnread(message);
+<span class="hljs-comment">// =&gt; PUT /messages/42/mark_unread?skip_return=true</span>
+
+httpCall
+.then(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(response)</span> {</span>
+  console.log(response.data.read);
+  <span class="hljs-comment">// =&gt; false</span>
+})
+.then(<span class="hljs-literal">null</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(error)</span> {</span>
+  console.log(error.status);
+  <span class="hljs-comment">// =&gt; e.g. 404</span>
+})
+</code></pre>
+<p>The only option you need to set is the HTTP method using <code>method</code>. If the URL cannot be guessed from the property key, you can overwrite it using <code>url</code> (cf. <a href="#url-formatting">URL Formatting</a>). Additionally, you can specify all the options <a href="https://docs.angularjs.org/api/ng/service/$http#usage">$http</a> can process.</p>
+<p>Calling a method specified like this will return a promise that settles with the HTTP response, just like using <a href="https://docs.angularjs.org/api/ng/service/$http#usage">$http</a>.</p>
+<h3 id="url-formatting"><a href="#url-formatting" class="anchor"></a>URL Formatting</h3><p>One of the clever things in EpicModel is how it allows you to set detail URLs.</p>
+<p>When you specify a URL as a string, you can use curly braces to include some values from the entry you are requesting, e.g. <code>/users/{id}-{name.first}_{name.last}</code>.</p>
+<p>When you specify a function, it will be called with the information about the entry you are requesting, the API&#39;s base URL and the list URL (from <code>config.url</code>). It should return string.</p>
+<h3 id="global-configuration"><a href="#global-configuration" class="anchor"></a>Global Configuration</h3><p>You can inject the <code>CollectionProvider</code> into your module&#39;s <code>config</code> to set the following options:</p>
+<ul>
+<li>API Base URL (string)</li>
+</ul>
+<pre><code class="lang-js">angular.module(<span class="hljs-string">'app'</span>, [<span class="hljs-string">'EpicModel'</span>])
+.config(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(CollectionProvider)</span> {</span>
+  CollectionProvider.setBaseUrl(<span class="hljs-string">"http://localhost:3000"</span>);
+});
+</code></pre>
+<h2 id="license"><a href="#license" class="anchor"></a>License</h2><p>MIT</p>
 </div>
         </div>
       
