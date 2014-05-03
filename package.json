@@ -36,7 +36,7 @@
   },
   "dependecies": {},
   "devDependencies": {
-    "grock": "~0.2.5",
+    "grock": "~0.3.3",
     "bower": "~1.2.7",
     "karma": "~0.10.6",
     "karma-mocha": "~0.1.1",
