@@ -47,9 +47,9 @@ I'll try to document as much of the Collection API as possible, but if you want 
 1. [Creating a Collection Instance](#creating-a-collection-instance)
   1. [Collection Options](#collection-options)
 2. [Using API Data](#using-api-data)
-3. [Adding Additional API Methods to a Collection](#adding-additional-a-p-i-methods-to-a-collection)
+3. [Adding Additional API Methods to a Collection](#adding-additional-api-methods-to-a-collection)
   1. [Add a Method](#add-a-static-method)
-  2. [Add a HTTP Call](#add-a-new-h-t-t-p-call)
+  2. [Add a HTTP Call](#add-a-new-http-call)
 4. [URL Formatting](#url-formatting)
 5. [Global Configuration](#global-configuration)
 
@@ -61,7 +61,7 @@ Options:
 
 - _name_ (string) for the collection. The URL may be derived from this (e.g. a collection called "Users" has the default URL "/users").
 - A _config_ object with options like `url`, `detailUrl` and _is_singleton_ (more info [see below](#collection-options))
-- An _extras_ object for additional API methods (for more info [see below](#adding-additional-a-p-i-methods-to-a-collection))
+- An _extras_ object for additional API methods (for more info [see below](#adding-additional-api-methods-to-a-collection))
 
 #### Collection Options
 
@@ -117,7 +117,7 @@ To add more methods to your collection, specify them as keys of the _extras_ obj
 
 Below, three different variants will be shown. For more information (e.g. `onSuccess` or `onFail` transforms), have a look at the [extras tests] or the [extras implementation].
 
-[extras test]: https://github.com/killercup/angular-epicmodel/blob/e85647d287610b7529f1bd7180ba54dacf7255bc/test/unit/extras_spec.coffee
+[extras tests]: https://github.com/killercup/angular-epicmodel/blob/e85647d287610b7529f1bd7180ba54dacf7255bc/test/unit/extras_spec.coffee
 [extras implementation]: https://github.com/killercup/angular-epicmodel/blob/e85647d287610b7529f1bd7180ba54dacf7255bc/src/model.coffee#L552
 
 #### Add a Static Method
