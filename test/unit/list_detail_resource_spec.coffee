@@ -62,6 +62,7 @@ describe "List Resource", ->
       log "DELETE /messages/#{id}"
       message = _.findWhere messages, id: id
       recover = _.cloneDeep(message)
+      recover.thisIsATriumph = "truthy"
       delete messages[messages.indexOf(message)]
       [200, recover, {}]
 
@@ -215,8 +216,18 @@ describe "List Resource", ->
 
     # ### DELETE /messages/2
     it 'should delete an entry', (done) ->
-      query = id: 2
-      Messages.destroy(query)
+      query = null
+
+      Messages.create(
+        subject: subject = "Fresh Start"
+        body: body = "Brand new message"
+      )
+      .then (msg) ->
+        expect(msg.id).to.be.a('number')
+        query = id: msg.id
+        expect(Messages.where(query)).to.have.length(1)
+
+        Messages.destroy(query)
       .then ->
         messages = Messages.where query
         expect(messages).to.be.an('array')

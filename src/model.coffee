@@ -419,7 +419,7 @@ angular.module('EpicModel', [
         $http(httpOptions)
         .then ({status, data}) ->
           data = config.transformResponse(data, 'destroy')
-          return $q.when Data.removeEntry data, config.matchingCriteria(data)
+          return $q.when Data.removeEntry config.matchingCriteria(data)
 
       ###
       # @method Save an Entry
