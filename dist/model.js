@@ -2,7 +2,7 @@
 * angular-epicmodel
 *
 * @author [Pascal Hertleif](https://github.com/killercup)
-* @version 0.4.2
+* @version 0.4.3
 * @license MIT
 */
 (function () {
@@ -244,7 +244,7 @@
               var data, status;
               status = _arg.status, data = _arg.data;
               data = config.transformResponse(data, 'destroy');
-              return $q.when(Data.removeEntry(data, config.matchingCriteria(data)));
+              return $q.when(Data.removeEntry(config.matchingCriteria(data)));
             });
           };
           exports.save = function (entry, options) {
